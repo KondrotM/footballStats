@@ -19,6 +19,10 @@ public class Team {
         teamPlayers.add(player);
     }
 
+    public String getTeamName(){
+        return teamName;
+    }
+
     public ArrayList getTeamPlayers() {
         //Returns array of team player names
         return teamPlayers;
