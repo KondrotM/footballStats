@@ -6,6 +6,7 @@ import java.util.Scanner;
 class main {
     //private static AbstractCollection<Tournament> tournamentList;
     public static ArrayList<Tournament> tournamentList = new ArrayList<Tournament>();
+    public static Tournament activeTournament;
 
     public static String getInput(String prompt){
         if (prompt != null) {
@@ -21,14 +22,33 @@ class main {
         System.out.println("1. Create Tournament");
         System.out.println("2. Create Team");
         System.out.println("3. Create Player");
+        System.out.println("4. Select Tournament");
+    }
+
+    public static void selectTournament(){
+        System.out.println("Current active tournament: " + activeTournament.getTournamentName());
+        for (int i = 0; i < tournamentList.size(); i++) {
+            Tournament currTournament = tournamentList.get(i);
+            System.out.println(i+1 + ". " + currTournament.getTournamentName());
+        }
+        String currTournament = getInput("Select team number");
+        int tournamentNumber = Integer.parseInt(currTournament);
+        activeTournament = tournamentList.get(tournamentNumber-1);
     }
 
     public static void createPlayer(){
+        ArrayList currTeams = activeTournament.getTournamentTeams();
+        for (int i = 0; i < currTeams.size(); i++) {
+            Team currTeam = (Team) currTeams.get(i);
+            System.out.println(i+1 + ". " + currTeam.getTeamName());
+        }
+        String teamTempNo = getInput("Enter team number");
+        int teamNo = Integer.parseInt(teamTempNo);
+
         String playerName = getInput("Enter player name");
         String playerDoB = getInput("Enter player DoB");
         Player player1 = new Player(playerName, playerDoB);
-        Tournament currTournament = tournamentList.get(0);
-        Team currTeam = currTournament.getTeam(0);
+        Team currTeam = activeTournament.getTeam(teamNo-1);
         currTeam.addPlayer(player1);
         System.out.println(player1.getPlayerName());
     }
@@ -36,17 +56,16 @@ class main {
     public static void createTeam(){
         String teamName = getInput("Enter team name");
         Team team1 = new Team(teamName);
-        Tournament currTournament = tournamentList.get(0);
-        currTournament.addTeam(team1);
+        activeTournament.addTeam(team1);
     }
 
     public static void createTournament(){
         String tournamentName = getInput("Enter tournament name");
         Tournament tournament1 = new Tournament(tournamentName);
         tournamentList.add(tournament1);
-
-        Tournament currTournament = (Tournament) tournamentList.get(0);
-        System.out.println(currTournament.getTournamentName());
+        if(tournamentList.size()==1) {
+            activeTournament = tournamentList.get(0);
+        }
     }
 
 
@@ -60,6 +79,8 @@ class main {
                 createTeam();
             } else if (choice.equals("3")) {
                 createPlayer();
+            } else if (choice.equals("4")) {
+                selectTournament();
             }
             //System.out.println(getInput(null));
         }

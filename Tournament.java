@@ -18,6 +18,8 @@ public class Tournament {
         return tournamentName;
     }
 
+    public ArrayList getTournamentTeams() { return tournamentTeams; }
+
     public Team getTeam(int teamNo){
         Team currTeam = (Team) tournamentTeams.get(teamNo);
         return currTeam;
