@@ -32,45 +32,106 @@ class main {
         System.out.println("2. Create Team");
         System.out.println("3. Create Player");
         System.out.println("4. Select Tournament");
+        System.out.println("5. Select Teams");
+
+        String choice = getInput(null);
+        if (choice.equals("1")){
+            createTournament();
+        } else if (choice.equals("2")) {
+            createTeam();
+        } else if (choice.equals("3")) {
+            createPlayer();
+        } else if (choice.equals("4")) {
+            selectTournament();
+        } else if (choice.equals("5")) {
+            selectTeams();
+        }
     }
 
     // selects active tournament
     public static void selectTournament(){
         System.out.println("Current active tournament: " + activeTournament.getTournamentName());
         // lists all available tournaments
+        System.out.println("0. Back");
         for (int i = 0; i < tournamentList.size(); i++) {
             Tournament currTournament = tournamentList.get(i);
             System.out.println(i+1 + ". " + currTournament.getTournamentName());
         }
         // gets user input and sets it as active tournament
         String currTournament = getInput("Select team number");
-        int tournamentNumber = Integer.parseInt(currTournament);
-        activeTournament = tournamentList.get(tournamentNumber-1);
+        if (currTournament.equals("0")){
+            getMainMenu();
+        } else {
+            int tournamentNumber = Integer.parseInt(currTournament);
+            activeTournament = tournamentList.get(tournamentNumber - 1);
+        }
+    }
+
+    public static void selectTeams(){
+        // lists all available teams in a tournament
+        System.out.println("Teams");
+        System.out.println("0. Back");
+        activeTournament.viewTeams();
+        // gets input
+        String currTeam = getInput(null);
+        if (currTeam.equals("0")){
+            getMainMenu();
+        } else {
+            int teamNo = Integer.parseInt(currTeam);
+            Team activeTeam = activeTournament.getTeam(teamNo-1);
+            selectPlayers(activeTeam);
+
+        }
+    }
+
+    public static void selectPlayers(Team activeTeam){
+        //lists all available players in a team
+        System.out.println("Players for "+activeTeam.getTeamName());
+        System.out.println("0. Back");
+        activeTeam.viewPlayers();
+        String currPlayer = getInput(null);
+        if (currPlayer.equals("0")){
+            selectTeams();
+        } else {
+            Player player = activeTeam.getPlayer(Integer.parseInt(currPlayer)-1);
+            System.out.println("Name: " + player.getPlayerName());
+            System.out.println("Date of Birth: " +player.getPlayerDoB());
+            selectTeams();
+        }
     }
 
     // creates player and assigns them to a team
     public static void createPlayer(){
         // lists all teams within selected tournament
         ArrayList currTeams = activeTournament.getTournamentTeams();
+
         for (int i = 0; i < currTeams.size(); i++) {
             Team currTeam = (Team) currTeams.get(i);
             System.out.println(i+1 + ". " + currTeam.getTeamName());
         }
         // asks user for selected team number
-        String teamTempNo = getInput("Enter team number");
-        int teamNo = Integer.parseInt(teamTempNo);
+        System.out.println("Teams");
+        System.out.println("0. Back");
+        activeTournament.viewTeams();
+//        selectTeam();
+        String teamTempNo = getInput(null);
+        if (teamTempNo.equals("0")){
+            getMainMenu();
+        } else {
+            int teamNo = Integer.parseInt(teamTempNo);
+            // asks user for player information
+            String playerName = getInput("Enter player name");
+            String playerDoB = getInput("Enter player DoB");
+            Player player1 = new Player(playerName, playerDoB);
 
-        // asks user for player information
-        String playerName = getInput("Enter player name");
-        String playerDoB = getInput("Enter player DoB");
-        Player player1 = new Player(playerName, playerDoB);
+            // gets selected team from active tournament
+            Team currTeam = activeTournament.getTeam(teamNo-1);
 
-        // gets selected team from active tournament
-        Team currTeam = activeTournament.getTeam(teamNo-1);
+            // assigns player to selected team
+            currTeam.addPlayer(player1);
+            System.out.println(player1.getPlayerName());
+        }
 
-        // assigns player to selected team
-        currTeam.addPlayer(player1);
-        System.out.println(player1.getPlayerName());
     }
 
         // creates team within active tournament
@@ -96,16 +157,6 @@ class main {
     public static void main(String args[]) {
         while(true){
             getMainMenu();
-            String choice = getInput(null);
-            if (choice.equals("1")){
-                createTournament();
-            } else if (choice.equals("2")) {
-                createTeam();
-            } else if (choice.equals("3")) {
-                createPlayer();
-            } else if (choice.equals("4")) {
-                selectTournament();
-            }
             //System.out.println(getInput(null));
         }
 

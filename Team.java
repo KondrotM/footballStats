@@ -28,8 +28,15 @@ public class Team {
         return teamPlayers;
     }
 
-    public static void main(String[] args) {
+    public void viewPlayers(){
+        for (int i = 0; i < teamPlayers.size(); i++){
+            Player currPlayer = (Player) teamPlayers.get(i);
+            System.out.println(i+1 + ". " + currPlayer.getPlayerName());
+        }
+    }
 
-
+    public Player getPlayer(int playerNo){
+        Player currPlayer = (Player) teamPlayers.get(playerNo);
+        return currPlayer;
     }
 }

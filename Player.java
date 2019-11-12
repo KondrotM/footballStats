@@ -9,11 +9,11 @@ public class Player {
 
 
     //Creates a Player object which can then be used to assign new players
-    public Player(String tempFName, String tempRole){
+    public Player(String tempFName, String tempDoB){
         playerForename = tempFName;
 //        playerSurname = tempSName;
-        playerRole = tempRole;
-//        playerDoB = tempDoB;
+//        playerRole = tempRole;
+        playerDoB = tempDoB;
     }
 
     public String getPlayerName(){
@@ -23,7 +23,7 @@ public class Player {
     public String getPlayerRole(){
         return playerRole;
     }
-    public String getPlayerAge(){
+    public String getPlayerDoB(){
         return playerDoB;
     }
     public String getPlayerTeam() {return "";}
