@@ -4,7 +4,7 @@ package uk.ac.glos.ct5025.s1804317.footballStats;
 
 import java.util.ArrayList;
 
-public class Team {
+public class Team extends Item{
     private String teamName;
     private ArrayList teamPlayers;
 
