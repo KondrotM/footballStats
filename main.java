@@ -99,14 +99,14 @@ class main {
     public static void selectTournament(){
         System.out.println("Current active tournament: " + activeTournament.getTournamentName());
         // lists all available tournaments
-        System.out.println("0. Back");
+        System.out.println(".. Back");
         for (int i = 0; i < tournamentList.size(); i++) {
             Tournament currTournament = tournamentList.get(i);
             System.out.println(i+1 + ". " + currTournament.getTournamentName());
         }
         // gets user input and sets it as active tournament
         String currTournament = getInput("Select team number");
-        if (currTournament.equals("0")){
+        if (currTournament.equals("..")){
             getMainMenu();
         } else {
             int tournamentNumber = Integer.parseInt(currTournament);
@@ -119,10 +119,10 @@ class main {
     public static void selectPlayers(Team activeTeam){
         //lists all available players in a team
         System.out.println("Players for "+activeTeam.getTeamName());
-        System.out.println("0. Back");
+        System.out.println(".. Back");
         activeTeam.viewPlayers();
         String currPlayer = getInput(null);
-        if (currPlayer.equals("0")){
+        if (currPlayer.equals("..")){
             browseTeams();
         } else {
             Player player = activeTeam.getPlayer(Integer.parseInt(currPlayer)-1);
@@ -145,11 +145,11 @@ class main {
             }
             // asks user for selected team number
             System.out.println("Teams");
-            System.out.println("0. Back");
+            System.out.println(".. Back");
             activeTournament.viewTeams();
     //        selectTeam();
             String teamTempNo = getInput(null);
-            if (teamTempNo.equals("0")){
+            if (teamTempNo.equals("..")){
                 getMainMenu();
             } else {
                 int teamNo = Integer.parseInt(teamTempNo);
