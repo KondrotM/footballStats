@@ -15,6 +15,8 @@ public class Tournament {
         tournamentTeams.add(team);
     }
 
+    public void addGame(Game game) { tournamentGameList.add(game);}
+
     public String getTournamentName(){
         return tournamentName;
     }
@@ -30,6 +32,16 @@ public class Tournament {
         for (int i = 0; i < tournamentTeams.size(); i++) {
             Team currTeam = (Team) tournamentTeams.get(i);
             System.out.println(i + 1 + ". " + currTeam.getTeamName());
+        }
+    }
+
+    public void viewGames(){
+        for (int i = 0; i < tournamentGameList.size(); i++) {
+            Game currGame = (Game) tournamentGameList.get(i);
+            System.out.println(i+1 + ". " + currGame.getGameTitle());
+            Team homeTeam = currGame.getHomeTeam();
+            Team awayTeam = currGame.getAwayTeam();
+            System.out.println(homeTeam.getGoalsScored()+" - " + awayTeam.getGoalsScored());
         }
     }
 

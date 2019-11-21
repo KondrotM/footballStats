@@ -12,4 +12,8 @@ public class Item {
     }
 
     public int getGoalsScored() { return goalsScored; }
+
+    public void init(){
+        goalsScored = 0;
+    }
 }

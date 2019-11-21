@@ -1,9 +1,12 @@
 package uk.ac.glos.ct5025.s1804317.footballStats;
 
 // ArrayList necessary for declaring arrays
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 // Scanner necessary for getting user input
+import java.util.HashSet;
 import java.util.Scanner;
+import java.util.Set;
 
 // main class to allow user interface interaction
 class main {
@@ -34,6 +37,7 @@ class main {
         System.out.println("4. Select Tournament");
         System.out.println("5. Browse Teams");
         System.out.println("6. Start Game");
+        System.out.println("7. Browse Games");
 
         String choice = getInput(null);
         if (choice.equals("1")){
@@ -48,6 +52,17 @@ class main {
             browseTeams();
         } else if (choice.equals("6")) {
             getGame();
+        } else if (choice.equals("7")) {
+            browseGames();
+        }
+    }
+
+    public static void browseGames(){
+        System.out.println(".. Back");
+        activeTournament.viewGames();
+        String currGame = getInput(null);
+        if (currGame.equals("..")){
+            return;
         }
     }
 
@@ -91,8 +106,44 @@ class main {
                 System.out.println("Teams selected cannot be the same");
             }
         }
-        Game currGame = new Game(homeTeam,awayTeam);
-        currGame.startGame();
+
+        // creates unique set so players can't be added twice
+        ArrayList tempHomeTeamPlayers = new ArrayList();
+        ArrayList tempAwayTeamPlayers = new ArrayList();
+
+
+        if (homeTeam.getTeamPlayers().size() > 11) {
+            while(tempHomeTeamPlayers.size() < 11) {
+                System.out.println("Choose which players will play");
+                homeTeam.viewPlayers();
+                String currPlayer = getInput(null);
+                int playerNumber = Integer.parseInt(currPlayer);
+                tempHomeTeamPlayers.add(homeTeam.getPlayer(playerNumber));
+            }
+        } else {
+            tempHomeTeamPlayers = homeTeam.getTeamPlayers();
+        }
+        if (awayTeam.getTeamPlayers().size() > 11) {
+            // creates unique set so players can't be added twice
+            while(tempAwayTeamPlayers.size() < 11) {
+                System.out.println("Choose which players will play");
+                awayTeam.viewPlayers();
+                String currPlayer = getInput(null);
+                int playerNumber = Integer.parseInt(currPlayer);
+                tempAwayTeamPlayers.add(awayTeam.getPlayer(playerNumber));
+            }
+        } else {
+            tempAwayTeamPlayers = awayTeam.getTeamPlayers();
+        }
+
+
+
+        // declares new game
+        Game currGame = new Game(homeTeam,awayTeam,tempHomeTeamPlayers,tempAwayTeamPlayers);
+        // sets the currGame variable to be the completed game
+        currGame = currGame.startGame();
+        // appends to tournamentGameList
+        activeTournament.addGame(currGame);
     }
 
     // selects active tournament
