@@ -57,9 +57,13 @@ class main {
         }
     }
 
-    public static void browseGames(){
+    public static void browseGames() throws NullPointerException{
         System.out.println(".. Back");
-        activeTournament.viewGames();
+        try {
+            activeTournament.viewGames();
+        } catch(NullPointerException e){
+            System.out.println("No tournament to show");
+        }
         String currGame = getInput(null);
         if (currGame.equals("..")){
             return;

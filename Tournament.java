@@ -1,8 +1,15 @@
 package uk.ac.glos.ct5025.s1804317.footballStats;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
-public class Tournament {
+public class Tournament extends csv {
     private String tournamentName;
     private ArrayList tournamentTeams = new ArrayList();
     private ArrayList tournamentGameList = new ArrayList();
@@ -35,14 +42,29 @@ public class Tournament {
         }
     }
 
-    public void viewGames(){
-        for (int i = 0; i < tournamentGameList.size(); i++) {
-            Game currGame = (Game) tournamentGameList.get(i);
-            System.out.println(i+1 + ". " + currGame.getGameTitle());
-            Team homeTeam = currGame.getHomeTeam();
-            Team awayTeam = currGame.getAwayTeam();
-            System.out.println(homeTeam.getGoalsScored()+" - " + awayTeam.getGoalsScored());
-        }
-    }
+// https://www.mkyong.com/java/java-how-to-list-all-files-in-a-directory/
+    public void viewGames() {
 
+        File file = new File(filePath);
+        for(String fileNames : file.list()) {
+            // changes characters which cannot be encoded into a filename
+            fileNames = fileNames.replace("_"," ");
+            fileNames = fileNames.replace("%", "/");
+            fileNames = fileNames.replace(";",":");
+            // removes .csv extension
+            fileNames = fileNames.substring(0, fileNames.length() - 4);
+
+            System.out.println(fileNames);
+        }
+
+//        try (Stream<Path> walk = Files.walk(Paths.get(Game.getFilePath()))) {
+//            ArrayList<String> results = (ArrayList<String>) walk.filter(Files::isDirectory)
+//                    .map(x -> x.toString()).collect(Collectors.toList());
+//
+//            results.forEach(System.out::println);
+//
+//         } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+    }
 }
