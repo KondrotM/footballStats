@@ -78,7 +78,7 @@ public class Game extends csv {
     }
 
     public void writeGame() throws IOException {
-        String title = new String(homeTeam.getGoalsScored() + "_-_" + awayTeam.getGoalsScored() + "_-_" + homeTeam.getTeamName() + "_vs_" + awayTeam.getTeamName() + "_-_" + gameDate +".csv");
+        String title = new String(gameDate + "_-_" + homeTeam.getGoalsScored() + "_-_" + awayTeam.getGoalsScored() + "_-_" + homeTeam.getTeamName() + "_vs_" + awayTeam.getTeamName() + ".csv");
         title = title.replace(":",";");
         title = title.replace("/","%");
         title = filePath.concat(title);
