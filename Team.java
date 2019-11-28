@@ -9,7 +9,7 @@ public class Team extends Item{
     private ArrayList teamPlayers;
 
     public Team(String tempName) {
-        teamName = tempName;
+        super(tempName);
         //declares an Array to store the team's players
         teamPlayers = new ArrayList();
     }
@@ -36,10 +36,6 @@ public class Team extends Item{
         teamPlayers.add(player);
     }
 
-    public String getTeamName(){
-        return teamName;
-    }
-
     public ArrayList getTeamPlayers() {
         //Returns array of team player names
         return teamPlayers;
@@ -48,7 +44,7 @@ public class Team extends Item{
     public void viewPlayers(){
         for (int i = 0; i < teamPlayers.size(); i++){
             Player currPlayer = (Player) teamPlayers.get(i);
-            System.out.println(i+1 + ". " + currPlayer.getPlayerName());
+            System.out.println(i+1 + ". " + currPlayer.getName());
         }
     }
 
@@ -59,7 +55,7 @@ public class Team extends Item{
 
     public void selectPlayers(){
         //lists all available players in team
-        System.out.println("Players for "+ getTeamName());
+        System.out.println("Players for "+ getName());
         System.out.println(".. Back");
         viewPlayers();
         String currPlayer = main.getInput(null);
@@ -67,7 +63,7 @@ public class Team extends Item{
             return;
         } else {
             Player player = getPlayer(Integer.parseInt(currPlayer)-1);
-            System.out.println("Name: " + player.getPlayerName());
+            System.out.println("Name: " + player.getName());
             System.out.println("Date of Birth: " +player.getPlayerDoB());
         }
     }

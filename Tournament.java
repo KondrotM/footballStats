@@ -78,7 +78,7 @@ public class Tournament extends csv {
     public void viewTeams() {
         for (int i = 0; i < tournamentTeams.size(); i++) {
             Team currTeam = (Team) tournamentTeams.get(i);
-            System.out.println(i + 1 + ". " + currTeam.getTeamName());
+            System.out.println(i + 1 + ". " + currTeam.getName());
         }
     }
 
@@ -131,60 +131,6 @@ public class Tournament extends csv {
 
     }
 
-    public void getGame(){
-        Team homeTeam = null;
-        Team awayTeam = null;
-
-        while (homeTeam == awayTeam) {
-            System.out.println("Choose Home Team");
-            homeTeam = selectTeam();
-            if (homeTeam == null){ return; }
-            System.out.println("Choose Away Team");
-            awayTeam = selectTeam();
-            if (awayTeam == null){ return; }
-            if (homeTeam == awayTeam) {
-                System.out.println("Teams selected cannot be the same");
-            }
-        }
-
-        // creates unique set so players can't be added twice
-        ArrayList tempHomeTeamPlayers = new ArrayList();
-        ArrayList tempAwayTeamPlayers = new ArrayList();
-
-
-        if (homeTeam.getTeamPlayers().size() > 11) {
-            while(tempHomeTeamPlayers.size() < 11) {
-                System.out.println("Choose which players will play");
-                homeTeam.viewPlayers();
-                String currPlayer = main.getInput(null);
-                int playerNumber = Integer.parseInt(currPlayer);
-                tempHomeTeamPlayers.add(homeTeam.getPlayer(playerNumber));
-            }
-        } else {
-            tempHomeTeamPlayers = homeTeam.getTeamPlayers();
-        }
-        if (awayTeam.getTeamPlayers().size() > 11) {
-            // creates unique set so players can't be added twice
-            while(tempAwayTeamPlayers.size() < 11) {
-                System.out.println("Choose which players will play");
-                awayTeam.viewPlayers();
-                String currPlayer = main.getInput(null);
-                int playerNumber = Integer.parseInt(currPlayer);
-                tempAwayTeamPlayers.add(awayTeam.getPlayer(playerNumber));
-            }
-        } else {
-            tempAwayTeamPlayers = awayTeam.getTeamPlayers();
-        }
-
-
-
-        // declares new game
-        Game currGame = new Game(homeTeam,awayTeam,tempHomeTeamPlayers,tempAwayTeamPlayers);
-        // sets the currGame variable to be the completed game
-        currGame = currGame.startGame();
-        // appends to tournamentGameList
-        addGame(currGame);
-    }
 
     public void browseGames() {
         System.out.println("..Back");

@@ -44,7 +44,7 @@ class main {
         } else if (choice.equals("5")) {
             Tournament.activeTournament.browse();
         } else if (choice.equals("6")) {
-            Tournament.activeTournament.getGame();
+            Game.getGame();
         } else if (choice.equals("7")) {
             Tournament.activeTournament.browseGames();
         }

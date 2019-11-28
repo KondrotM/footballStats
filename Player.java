@@ -2,33 +2,20 @@ package uk.ac.glos.ct5025.s1804317.footballStats;
 
 import java.util.ArrayList;
 
-public class Player {
+public class Player extends Item {
 
-    private String playerForename;
-    private String playerSurname;
     private String playerDoB;
-    private String playerRole;
 
 
     //Creates a Player object which can then be used to assign new players
     public Player(String tempFName, String tempDoB){
-        playerForename = tempFName;
-//        playerSurname = tempSName;
-//        playerRole = tempRole;
+        super(tempFName);
         playerDoB = tempDoB;
     }
 
-    public String getPlayerName(){
-        return playerForename;
-    }
-    public String getPlayerSurname() { return playerSurname; }
-    public String getPlayerRole(){
-        return playerRole;
-    }
     public String getPlayerDoB(){
         return playerDoB;
     }
-    public String getPlayerTeam() {return "";}
 
     // creates player and assigns them to a team
     public static void createPlayer(){
@@ -39,7 +26,7 @@ public class Player {
 
             for (int i = 0; i < currTeams.size(); i++) {
                 Team currTeam = (Team) currTeams.get(i);
-                System.out.println(i+1 + ". " + currTeam.getTeamName());
+                System.out.println(i+1 + ". " + currTeam.getName());
             }
             // asks user for selected team number
             System.out.println("Teams");
@@ -61,7 +48,7 @@ public class Player {
 
                 // assigns player to selected team
                 currTeam.addPlayer(player1);
-                System.out.println(player1.getPlayerName());
+                System.out.println(player1.getName());
             }
         } catch (NullPointerException ex){
             System.out.println("There are no teams to add a player into.");

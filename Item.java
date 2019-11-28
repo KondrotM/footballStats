@@ -1,19 +1,43 @@
 package uk.ac.glos.ct5025.s1804317.footballStats;
 
-public class Item {
-    private int goalsScored;
+import java.util.ArrayList;
 
-    public Item(){
-        goalsScored = 0;
+public class Item {
+    private int goals;
+    private String name;
+
+    public Item(String tempName){
+        name = tempName;
+        goals = 0;
     }
 
     public void scoreGoal() {
-        goalsScored++;
+        goals++;
     }
 
-    public int getGoalsScored() { return goalsScored; }
+    public String getName() { return name; }
+
+    public int getGoals() { return goals; }
 
     public void init(){
-        goalsScored = 0;
+        goals = 0;
     }
+
+    public static Item getItemFromList(ArrayList itemList){
+        System.out.println(".. Back");
+        Item currItem;
+        for (int i = 0; i < itemList.size(); i++) {
+            currItem = (Item) itemList.get(i);
+            System.out.println(i+1 + ". " + currItem.getName());
+        }
+        String choice = main.getInput(null);
+        if (choice.equals("..")){
+            return null;
+        } else {
+            int itemNo = Integer.parseInt(choice);
+            currItem = (Item) itemList.get(itemNo-1);
+            return currItem;
+        }
+    }
+
 }
