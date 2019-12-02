@@ -4,16 +4,111 @@ package uk.ac.glos.ct5025.s1804317.footballStats;
 
 import java.util.ArrayList;
 
-public class Team extends Item{
-    private String teamName;
+public class Team extends Element {
     private ArrayList teamPlayers;
+    private ArrayList activePlayers;
+
+    private int goalsAgainst;
+    private int points;
+
 
     public Team(String tempName) {
         super(tempName);
+
         //declares an Array to store the team's players
         teamPlayers = new ArrayList();
+        // declares an Array to store active players for future games
+        activePlayers = new ArrayList();
+
+        goalsFor = 0;
+        goalsAgainst = 0;
+        points = 0;
     }
 
+    @Override
+    public void gameWon(){
+        gamesWon++;
+        points += 3;
+        Player currPlayer;
+        for (int i = 0; i < getActivePlayers().size(); i++){
+            currPlayer = (Player) getActivePlayers().get(i);
+            currPlayer.gameWon();
+        }
+    }
+
+    @Override
+    public void gameDrawn(){
+        gamesDrawn++;
+        points ++;
+        Player currPlayer;
+        for (int i = 0; i < getActivePlayers().size(); i++){
+            currPlayer = (Player) getActivePlayers().get(i);
+            currPlayer.gameDrawn();
+        }
+    }
+
+    @Override
+    public void gameLost(){
+        gamesLost++;
+        Player currPlayer;
+        for (int i = 0; i < getActivePlayers().size(); i++){
+            currPlayer = (Player) getActivePlayers().get(i);
+            currPlayer.gameLost();
+        }
+    }
+
+    public int getGoalsFor() {
+        return goalsFor;
+    }
+
+    public int getGoalsAgainst() {
+        return goalsAgainst;
+    }
+
+    public int getGoalsDifference() {
+        int goalsDifference = goalsFor - goalsAgainst;
+        return goalsDifference;
+    }
+
+    public int getPoints() {
+        return points;
+    }
+
+    public void updateGoals(int gf, int ga){
+        goalsFor += gf;
+        goalsAgainst += ga;
+    }
+
+//    public void gameWon() {
+//        gamesWon++;
+//        points += 3;
+//    }
+
+//    public void gameDrawn(){
+//        gamesDrawn++;
+//        points ++;
+//    }
+
+    public ArrayList getTeamPlayers() {
+        //Returns array of team player names
+        return teamPlayers;
+    }
+
+    public ArrayList getActivePlayers(){
+        return activePlayers;
+    }
+
+    public void resetActivePlayers(){
+        activePlayers = new ArrayList();
+    }
+
+    public void addActivePlayer(Player player){
+        activePlayers.add(player);
+    }
+
+    public void addActivePlayers(ArrayList playerList){
+        activePlayers = playerList;
+    }
     // creates team within active tournament
     public static void createTeam(){
         System.out.println(".. Back");
@@ -36,10 +131,6 @@ public class Team extends Item{
         teamPlayers.add(player);
     }
 
-    public ArrayList getTeamPlayers() {
-        //Returns array of team player names
-        return teamPlayers;
-    }
 
     public void viewPlayers(){
         for (int i = 0; i < teamPlayers.size(); i++){

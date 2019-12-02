@@ -11,8 +11,8 @@ import java.util.stream.Stream;
 
 public class Tournament extends csv {
     private String tournamentName;
-    private ArrayList tournamentTeams = new ArrayList();
-    private ArrayList tournamentGameList = new ArrayList();
+    private ArrayList tournamentTeams;
+    private ArrayList tournamentGameList;
 
     // list of tournaments declared and initialised. all tournaments, teams and players are declared in regards to the tournament list
     public static ArrayList<Tournament> tournamentList = new ArrayList<Tournament>();
@@ -21,6 +21,8 @@ public class Tournament extends csv {
 
     public Tournament(String tempName){
         tournamentName = tempName;
+        tournamentTeams = new ArrayList();
+        tournamentGameList = new ArrayList();
     }
 
     public void addTeam(Team team){
@@ -29,7 +31,7 @@ public class Tournament extends csv {
 
     public void addGame(Game game) { tournamentGameList.add(game);}
 
-    public String getTournamentName(){
+    private String getTournamentName(){
         return tournamentName;
     }
 
@@ -82,7 +84,7 @@ public class Tournament extends csv {
         }
     }
 
-    public void browseTeams(){
+    private void browseTeams(){
         while (true) {
             // gets active team to browse
             Team activeTeam = selectTeam();
@@ -103,18 +105,43 @@ public class Tournament extends csv {
             System.out.println(".. Back");
             System.out.println("1. Games");
             System.out.println("2. Teams");
+            System.out.println("3. Tournament");
             choice = main.getInput(null);
 
-            if (choice.equals("..")){
-                return;
-            } else if (choice.equals("1")){
-                browseGames();
-            } else if (choice.equals("2")){
-                browseTeams();
+            switch (choice) {
+                case "..":
+                    return;
+                case "1":
+                    browseGames();
+                    break;
+                case "2":
+                    browseTeams();
+                    break;
+                case "3":
+                    browseTournament();
+                    break;
             }
         }
     }
 
+    private void browseTournament(){
+        System.out.println("Tournament " + activeTournament.getTournamentName());
+        System.out.println("Name, GP W D L GF GA GD Pts");
+        Team currTeam;
+        for (int i = 0; i < activeTournament.getTournamentTeams().size(); i++){
+            currTeam = (Team) activeTournament.getTournamentTeams().get(i);
+            System.out.println(currTeam.getName() + " "
+                    + currTeam.getGamesPlayed() + " "
+                    + currTeam.getGamesWon() + " "
+                    + currTeam.getGamesLost() + " "
+                    + currTeam.getGamesDrawn() + " "
+                    + currTeam.getGoalsFor() + " "
+                    + currTeam.getGoalsAgainst() + " "
+                    + currTeam.getGoalsDifference() + " "
+                    + currTeam.getPoints());
+        }
+        main.getInput("Press enter to continue");
+    }
     // lists all available teams in tournament
     public Team selectTeam() {
         System.out.println(".. Back");
@@ -131,8 +158,7 @@ public class Tournament extends csv {
 
     }
 
-
-    public void browseGames() {
+    private void browseGames() {
         System.out.println("..Back");
 //        try {
         viewGames();
@@ -144,7 +170,7 @@ public class Tournament extends csv {
     }
 
 // https://www.mkyong.com/java/java-how-to-list-all-files-in-a-directory/
-    public void viewGames() {
+    private void viewGames() throws NullPointerException {
 
         File file = new File(filePath);
         for(String fileNames : file.list()) {

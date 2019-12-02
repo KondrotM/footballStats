@@ -30,23 +30,27 @@ class main {
         System.out.println("4. Select Tournament");
         System.out.println("5. Browse..");
         System.out.println("6. Start Game");
-        System.out.println("7. Browse Games");
 
         String choice = getInput(null);
-        if (choice.equals("1")){
-            Tournament.createTournament();
-        } else if (choice.equals("2")) {
-            Team.createTeam();
-        } else if (choice.equals("3")) {
-            Player.createPlayer();
-        } else if (choice.equals("4")) {
-            Tournament.selectTournament();
-        } else if (choice.equals("5")) {
-            Tournament.activeTournament.browse();
-        } else if (choice.equals("6")) {
-            Game.getGame();
-        } else if (choice.equals("7")) {
-            Tournament.activeTournament.browseGames();
+        switch (choice) {
+            case "1":
+                Tournament.createTournament();
+                break;
+            case "2":
+                Team.createTeam();
+                break;
+            case "3":
+                Player.createPlayer();
+                break;
+            case "4":
+                Tournament.selectTournament();
+                break;
+            case "5":
+                Tournament.activeTournament.browse();
+                break;
+            case "6":
+                Game.getGame();
+                break;
         }
     }
 
