@@ -2,11 +2,8 @@ package uk.ac.glos.ct5025.s1804317.footballStats;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionListener;
 
 public class Menu extends JDialog {
-
-    private UI main;
 
     public JPanel layoutMainMenu(){
         JPanel btnPanel = new JPanel();
