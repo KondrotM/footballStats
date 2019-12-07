@@ -7,6 +7,8 @@ public class CardLayoutWindow {
     private BrowseWindow browseWindow;
     private MainWindow mainWindow;
     private CreateWindow createWindow;
+    private CreateTournamentWindow createTournamentWindow;
+    private SelectTournamentWindow selectTournamentWindow;
 
 
     public void displayGUI() {
@@ -23,10 +25,14 @@ public class CardLayoutWindow {
         browseWindow = new BrowseWindow(contentPane,this);
         mainWindow = new MainWindow(contentPane,this);
         createWindow = new CreateWindow(contentPane, this);
+        createTournamentWindow = new CreateTournamentWindow(contentPane,this);
+        selectTournamentWindow = new SelectTournamentWindow(contentPane,this);
 
         contentPane.add(mainWindow,"NAV_MAIN");
         contentPane.add(browseWindow,"NAV_BROWSE");
         contentPane.add(createWindow, "NAV_CREATE");
+        contentPane.add(createTournamentWindow,"NAV_CREATE_TOURNAMENT");
+        contentPane.add(selectTournamentWindow,"NAV_SELECT_TOURNAMENT");
 
         frame.getContentPane().add(contentPane);
 //        frame.pack();

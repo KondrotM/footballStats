@@ -24,10 +24,10 @@ public class CreateWindow extends MyWindow implements ActionListener {
         JLabel menuLabel = new JLabel("CREATE");
 
         // Creates identical buttons with a title and a command to be executed when the button is clicked
-        JComponent buttonBack = createButtonPane("..","NAV_MAIN");
-        JComponent buttonCreateTournament = createButtonPane("Tournament", "NAV_CREATE_TOURNAMENT");
-        JComponent buttonCreateTeam = createButtonPane("Team","NAV_CREATE_TEAM");
-        JComponent buttonCreatePlayer = createButtonPane("Player","NAV_CREATE_PLAYER");
+        JComponent buttonBack = factoryButtonPane("..","NAV_MAIN");
+        JComponent buttonCreateTournament = factoryButtonPane("Tournament", "NAV_CREATE_TOURNAMENT");
+        JComponent buttonCreateTeam = factoryButtonPane("Team","NAV_CREATE_TEAM");
+        JComponent buttonCreatePlayer = factoryButtonPane("Player","NAV_CREATE_PLAYER");
 
         // Creates a new panel to append buttons to
         JPanel panel = new JPanel();

@@ -21,10 +21,10 @@ public class MainWindow extends MyWindow implements ActionListener {
     public JComponent createMainMenu(){
         JLabel menuLabel = new JLabel("FOOTBALL STATS");
 
-        JComponent buttonSelectTournament = createButtonPane("Select Tournament", "NAV_SELECT_TOURNAMENT");
-        JComponent buttonCreate = createButtonPane("Create..", "NAV_CREATE");
-        JComponent buttonBrowse = createButtonPane("Browse..", "NAV_BROWSE");
-        JComponent buttonStartGame = createButtonPane("Start Game","NAV_START_GAME");
+        JComponent buttonSelectTournament = factoryButtonPane("Select Tournament", "NAV_SELECT_TOURNAMENT");
+        JComponent buttonCreate = factoryButtonPane("Create..", "NAV_CREATE");
+        JComponent buttonBrowse = factoryButtonPane("Browse..", "NAV_BROWSE");
+        JComponent buttonStartGame = factoryButtonPane("Start Game","NAV_START_GAME");
 
         JPanel panel = new JPanel();
 

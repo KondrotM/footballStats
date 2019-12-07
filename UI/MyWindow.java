@@ -1,14 +1,18 @@
 package uk.ac.glos.ct5025.s1804317.footballStats.UI;
 
+import uk.ac.glos.ct5025.s1804317.footballStats.Tournament;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class MyWindow extends JPanel implements ActionListener {
     private static int sizeX;
     private static int sizeY;
 
+    protected RepaintManager repaintManager;
     protected JPanel contentPane;
 
     public MyWindow(JPanel panel, CardLayoutWindow clw) {
@@ -19,6 +23,11 @@ public class MyWindow extends JPanel implements ActionListener {
         sizeY = (int) Math.round(screenSize.height * .75);
     }
 
+    public JPanel getContentPane(){
+        //contentpane is the panel with cardLayout
+        return contentPane;
+    }
+
     public static int getSizeX() {
         return sizeX;
     }
@@ -27,7 +36,22 @@ public class MyWindow extends JPanel implements ActionListener {
         return sizeY;
     }
 
-    protected JComponent createButtonPane(String title, String command) {
+    protected JComponent factoryList(JList list){
+        JScrollPane scrollPane = new JScrollPane();
+        scrollPane.setPreferredSize(new Dimension(150,200));
+        scrollPane.setViewportView(list);
+        return scrollPane;
+    }
+
+    protected JTextField factoryTextField(String title){
+        JTextField textField = new JTextField();
+        new TextPrompt(title, textField, TextPrompt.Show.FOCUS_LOST);
+        textField.setPreferredSize(new Dimension(150,25));
+        textField.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
+        return textField;
+    }
+
+    protected JComponent factoryButtonPane(String title, String command) {
         JButton button = new JButton(title);
         button.setPreferredSize(new Dimension(150, 25));
         button.setActionCommand(command);
@@ -40,18 +64,10 @@ public class MyWindow extends JPanel implements ActionListener {
         return pane;
     }
 
-    protected void changeWindow(MyWindow window) {
-
-
-    }
-
-
-
-
-
-
     @Override
-    public void actionPerformed(ActionEvent actionEvent) {
-
+    public void actionPerformed(ActionEvent e) {
+        String command = e.getActionCommand();
+        CardLayout cardLayout = (CardLayout) contentPane.getLayout();
+        cardLayout.show(contentPane, command);
     }
 }

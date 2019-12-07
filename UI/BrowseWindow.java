@@ -19,12 +19,12 @@ public class BrowseWindow extends MyWindow implements ActionListener {
     }
 
     public JComponent createBrowseSection() {
-        JLabel menuLabel = new JLabel("BROWSE..");
+        JLabel menuLabel = new JLabel("BROWSE");
 
-        JComponent buttonBack = createButtonPane("..", "NAV_MAIN");
-        JComponent buttonBrowseGames = createButtonPane("Games", "NAV_GAMES");
-        JComponent buttonBrowseTeams = createButtonPane("Teams", "NAV_TEAMS");
-        JComponent buttonBrowseTournament = createButtonPane("Tournament", "NAV_TOURNAMENT");
+        JComponent buttonBack = factoryButtonPane("..", "NAV_MAIN");
+        JComponent buttonBrowseGames = factoryButtonPane("Games", "NAV_GAMES");
+        JComponent buttonBrowseTeams = factoryButtonPane("Teams", "NAV_TEAMS");
+        JComponent buttonBrowseTournament = factoryButtonPane("Tournament", "NAV_TOURNAMENT");
 
         JPanel panel = new JPanel();
 
@@ -53,12 +53,5 @@ public class BrowseWindow extends MyWindow implements ActionListener {
         return panel;
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        String command = e.getActionCommand();
 
-        CardLayout cardLayout = (CardLayout) contentPane.getLayout();
-        cardLayout.show(contentPane, command);
-
-    }
 }

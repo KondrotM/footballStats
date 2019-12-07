@@ -1,5 +1,7 @@
 package uk.ac.glos.ct5025.s1804317.footballStats;
 
+import uk.ac.glos.ct5025.s1804317.footballStats.UI.SelectTournamentWindow;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -31,45 +33,71 @@ public class Tournament extends csv {
 
     public void addGame(Game game) { tournamentGameList.add(game);}
 
-    private String getTournamentName(){
-        return tournamentName;
+    public String getTournamentName(){
+        try{
+            return tournamentName;
+        } catch (NullPointerException e) {
+            return "No tournament selected";
+        }
     }
 
-    public ArrayList getTournamentTeams() { return tournamentTeams; }
+    public static ArrayList getTournamentList(){
+        return tournamentList;
+    }
+
+    public ArrayList getTournamentTeams(){
+        return tournamentTeams;
+    }
+
+
+    public static String[] getTournamentTeamsString() {
+        String[] nameList = new String[tournamentList.size()];
+        Tournament currTournament;
+        for (int i = 0; i < tournamentList.size(); i++){
+            currTournament = tournamentList.get(i);
+            nameList[i] = currTournament.getTournamentName();
+        }
+        return nameList;
+    }
 
     // creates new tournament
-    public static void createTournament(){
-        System.out.println(".. Back");
-        String tournamentName = main.getInput("Enter tournament name");
-        if (tournamentName.equals("..")) {
-            return;
+    public static Tournament factoryTournament(String tournamentName){
+        Tournament tournament = null;
+        if (tournamentName != ""){
+            // creates new tournament and appends it to the tournament list
+            tournament = new Tournament(tournamentName);
+            tournamentList.add(tournament);
+            // if there is only one tournament, it is set as the active one
+            if(tournamentList.size()==1) {
+                selectTournament(0);
+            }
+
         }
-        // creates new tournament and appends it to the tournament list
-        Tournament tournament1 = new Tournament(tournamentName);
-        tournamentList.add(tournament1);
-        // if there is only one tournament, it is set as the active one
-        if(tournamentList.size()==1) {
-            activeTournament = tournamentList.get(0);
-        }
+        return tournament;
     }
 
     // selects active tournament
-    public static void selectTournament(){
-        System.out.println("Current active tournament: " + activeTournament.getTournamentName());
-        // lists all available tournaments
-        System.out.println(".. Back");
-        for (int i = 0; i < tournamentList.size(); i++) {
-            Tournament currTournament = tournamentList.get(i);
-            System.out.println(i+1 + ". " + currTournament.getTournamentName());
-        }
-        // gets user input and sets it as active tournament
-        String currTournament = main.getInput("Select team number");
-        if (currTournament.equals("..")){
-            return;
-        } else {
-            int tournamentNumber = Integer.parseInt(currTournament);
-            activeTournament = tournamentList.get(tournamentNumber - 1);
-        }
+    public static void selectTournament(int tournamentNumber){
+//        System.out.println("Current active tournament: " + activeTournament.getTournamentName());
+//        // lists all available tournaments
+//        System.out.println(".. Back");
+//        for (int i = 0; i < tournamentList.size(); i++) {
+//            Tournament currTournament = tournamentList.get(i);
+//            System.out.println(i+1 + ". " + currTournament.getTournamentName());
+//        }
+//        // gets user input and sets it as active tournament
+//        String currTournament = main.getInput("Select team number");
+//        if (currTournament.equals("..")){
+//            return;
+//        } else {
+//            int tournamentNumber = Integer.parseInt(currTournament);
+//            activeTournament = tournamentList.get(tournamentNumber - 1);
+//        }
+        activeTournament = tournamentList.get(tournamentNumber);
+        SelectTournamentWindow.getCurrTournament().setText("ACTIVE TOURNAMENT: " + activeTournament.getTournamentName());
+        SelectTournamentWindow.getCurrTournament().repaint();
+        SelectTournamentWindow.getCurrTournament().revalidate();
+
     }
 
     public Team getTeam(int teamNo){

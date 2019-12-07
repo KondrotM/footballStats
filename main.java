@@ -34,7 +34,7 @@ class main {
         String choice = getInput(null);
         switch (choice) {
             case "1":
-                Tournament.createTournament();
+                Tournament.factoryTournament("TournamentName");
                 break;
             case "2":
                 Team.createTeam();
@@ -43,7 +43,7 @@ class main {
                 Player.createPlayer();
                 break;
             case "4":
-                Tournament.selectTournament();
+                Tournament.selectTournament(0);
                 break;
             case "5":
                 Tournament.activeTournament.browse();
