@@ -2,6 +2,7 @@ package uk.ac.glos.ct5025.s1804317.footballStats;
 
 import uk.ac.glos.ct5025.s1804317.footballStats.UI.SelectTournamentWindow;
 
+import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -15,6 +16,13 @@ public class Tournament extends csv {
     private String tournamentName;
     private ArrayList tournamentTeams;
     private ArrayList tournamentGameList;
+
+    // Holds all teams within the tournament
+    private DefaultListModel tournamentTeamsModel = new DefaultListModel();
+
+    public DefaultListModel getTournamentTeamsModel(){
+        return tournamentTeamsModel;
+    }
 
     // list of tournaments declared and initialised. all tournaments, teams and players are declared in regards to the tournament list
     public static ArrayList<Tournament> tournamentList = new ArrayList<Tournament>();

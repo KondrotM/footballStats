@@ -37,6 +37,8 @@ public class SelectTournamentWindow extends MyWindow implements ActionListener, 
         return tournamentModel;
     }
 
+
+
     public JComponent factorySelectTournamentWindow(){
         JLabel menuLabel = new JLabel("SELECT TOURNAMENT");
 

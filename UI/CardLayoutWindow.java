@@ -9,7 +9,10 @@ public class CardLayoutWindow {
     private CreateWindow createWindow;
     private CreateTournamentWindow createTournamentWindow;
     private SelectTournamentWindow selectTournamentWindow;
+    private CreateTeamWindow createTeamWindow;
+    private BrowseTeamsWindow browseTeamsWindow;
 
+    public static CardLayoutWindow cardLayoutWindow = new CardLayoutWindow();
 
     public void displayGUI() {
         JFrame frame = new JFrame("Football Stats");
@@ -22,17 +25,21 @@ public class CardLayoutWindow {
         contentPane.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         contentPane.setLayout(new CardLayout());
 
-        browseWindow = new BrowseWindow(contentPane,this);
-        mainWindow = new MainWindow(contentPane,this);
-        createWindow = new CreateWindow(contentPane, this);
-        createTournamentWindow = new CreateTournamentWindow(contentPane,this);
-        selectTournamentWindow = new SelectTournamentWindow(contentPane,this);
+        browseWindow = new BrowseWindow(contentPane,cardLayoutWindow);
+        mainWindow = new MainWindow(contentPane,cardLayoutWindow);
+        createWindow = new CreateWindow(contentPane, cardLayoutWindow);
+        createTournamentWindow = new CreateTournamentWindow(contentPane,cardLayoutWindow);
+        selectTournamentWindow = new SelectTournamentWindow(contentPane,cardLayoutWindow);
+        createTeamWindow = new CreateTeamWindow(contentPane, cardLayoutWindow);
+//        browseTeamsWindow = new BrowseTeamsWindow(contentPane,cardLayoutWindow);
 
         contentPane.add(mainWindow,"NAV_MAIN");
         contentPane.add(browseWindow,"NAV_BROWSE");
         contentPane.add(createWindow, "NAV_CREATE");
         contentPane.add(createTournamentWindow,"NAV_CREATE_TOURNAMENT");
         contentPane.add(selectTournamentWindow,"NAV_SELECT_TOURNAMENT");
+        contentPane.add(createTeamWindow,"NAV_CREATE_TEAM");
+//        contentPane.add(browseTeamsWindow,"NAV_BROWSE_TEAMS");
 
         frame.getContentPane().add(contentPane);
 //        frame.pack();

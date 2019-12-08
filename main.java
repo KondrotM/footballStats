@@ -37,7 +37,7 @@ class main {
                 Tournament.factoryTournament("TournamentName");
                 break;
             case "2":
-                Team.createTeam();
+                Team.createTeam("Heyo");
                 break;
             case "3":
                 Player.createPlayer();

@@ -11,6 +11,7 @@ import java.util.ArrayList;
 public class MyWindow extends JPanel implements ActionListener {
     private static int sizeX;
     private static int sizeY;
+    private static JLabel errorMessage = new JLabel();
 
     protected RepaintManager repaintManager;
     protected JPanel contentPane;
@@ -30,6 +31,10 @@ public class MyWindow extends JPanel implements ActionListener {
 
     public static int getSizeX() {
         return sizeX;
+    }
+
+    public static JLabel getErrorMessage(){
+        return errorMessage;
     }
 
     public static int getSizeY() {

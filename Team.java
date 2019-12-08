@@ -2,6 +2,9 @@
 
 package uk.ac.glos.ct5025.s1804317.footballStats;
 
+import uk.ac.glos.ct5025.s1804317.footballStats.UI.CreateTeamWindow;
+
+import javax.swing.*;
 import java.util.ArrayList;
 
 public class Team extends Element {
@@ -110,19 +113,15 @@ public class Team extends Element {
         activePlayers = playerList;
     }
     // creates team within active tournament
-    public static void createTeam(){
-        System.out.println(".. Back");
-        String teamName = main.getInput("Enter team name");
-        if (teamName.equals("..")){
-            return;
-        }
-        Team team1 = new Team(teamName);
+    public static Team createTeam(String teamName){
+        Team team = new Team(teamName);
         try {
-            Tournament.activeTournament.addTeam(team1);
+            Tournament.activeTournament.addTeam(team);
+            return team;
         } catch (NullPointerException ex) {
-            System.out.println("There is no tournament for the team to be created into");
-            System.out.println("Please create a tournament first");
-            main.getInput("Press enter to continue");
+            JLabel msg = CreateTeamWindow.getErrorMessage();
+            msg.setText("<html><center>There is no tournament for the team to be created into<br/>Please create a tournament first</center></html>");
+            return null;
         }
     }
 

@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class BrowseWindow extends MyWindow implements ActionListener {
 
@@ -22,9 +23,9 @@ public class BrowseWindow extends MyWindow implements ActionListener {
         JLabel menuLabel = new JLabel("BROWSE");
 
         JComponent buttonBack = factoryButtonPane("..", "NAV_MAIN");
-        JComponent buttonBrowseGames = factoryButtonPane("Games", "NAV_GAMES");
-        JComponent buttonBrowseTeams = factoryButtonPane("Teams", "NAV_TEAMS");
-        JComponent buttonBrowseTournament = factoryButtonPane("Tournament", "NAV_TOURNAMENT");
+        JComponent buttonBrowseGames = factoryButtonPane("Games", "NAV_BROWSE_GAMES");
+        JComponent buttonBrowseTeams = factoryButtonPane("Teams", "MKE_BROWSE_TEAMS");
+        JComponent buttonBrowseTournament = factoryButtonPane("Tournament", "NAV_BROWSE_TOURNAMENT");
 
         JPanel panel = new JPanel();
 
@@ -53,5 +54,25 @@ public class BrowseWindow extends MyWindow implements ActionListener {
         return panel;
     }
 
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        String command = e.getActionCommand();
+        if (command.contains("NAV_")) {
+            CardLayout cardLayout = (CardLayout) contentPane.getLayout();
+            cardLayout.show(contentPane, command);
+        } else if (command.equals("MKE_BROWSE_TEAMS")){
+            CardLayout cardLayout = (CardLayout) contentPane.getLayout();
+            BrowseTeamsWindow browseTeamsWindow = new BrowseTeamsWindow(contentPane,CardLayoutWindow.cardLayoutWindow);
+            contentPane.add(browseTeamsWindow,"MKE_BROWSE_TEAMS");
+            cardLayout.show(contentPane,command);
+            Component[] ar = (contentPane.getComponents());
+            int i = 0;
+            for(Component component : ar){
+                System.out.println(component.getName() + i);
+                i++;
+            }
+
+        }
+    }
 
 }
