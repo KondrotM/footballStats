@@ -27,7 +27,7 @@ public class CreateWindow extends MyWindow implements ActionListener {
         JComponent buttonBack = factoryButtonPane("..","NAV_MAIN");
         JComponent buttonCreateTournament = factoryButtonPane("Tournament", "NAV_CREATE_TOURNAMENT");
         JComponent buttonCreateTeam = factoryButtonPane("Team","NAV_CREATE_TEAM");
-        JComponent buttonCreatePlayer = factoryButtonPane("Player","NAV_CREATE_PLAYER");
+        JComponent buttonCreatePlayer = factoryButtonPane("Player","MKE_PLAYER_SELECT_TEAM");
 
         // Creates a new panel to append buttons to
         JPanel panel = new JPanel();
@@ -60,8 +60,14 @@ public class CreateWindow extends MyWindow implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e){
         String command = e.getActionCommand();
-
         CardLayout cardLayout = (CardLayout) contentPane.getLayout();
-        cardLayout.show(contentPane, command);
+
+        if (command.contains("NAV_")) {
+            cardLayout.show(contentPane, command);
+        } else if (command.equals("MKE_PLAYER_SELECT_TEAM")) {
+            BrowseTeamsSelectWindow browseTeamsSelectWindow = new BrowseTeamsSelectWindow(contentPane,CardLayoutWindow.cardLayoutWindow,"CREATE");
+            contentPane.add(browseTeamsSelectWindow, command);
+            cardLayout.show(contentPane,command);
+        }
     }
 }

@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 
 public class BrowseWindow extends MyWindow implements ActionListener {
@@ -24,8 +25,11 @@ public class BrowseWindow extends MyWindow implements ActionListener {
 
         JComponent buttonBack = factoryButtonPane("..", "NAV_MAIN");
         JComponent buttonBrowseGames = factoryButtonPane("Games", "NAV_BROWSE_GAMES");
-        JComponent buttonBrowseTeams = factoryButtonPane("Teams", "MKE_BROWSE_TEAMS");
+        JComponent buttonBrowsePlayers = factoryButtonPane("Players","MKE_TEAMS_SELECT");
+        JComponent buttonBrowseTeams = factoryButtonPane("Teams", "MKE_TEAMS_BROWSE");
         JComponent buttonBrowseTournament = factoryButtonPane("Tournament", "NAV_BROWSE_TOURNAMENT");
+
+
 
         JPanel panel = new JPanel();
 
@@ -49,6 +53,9 @@ public class BrowseWindow extends MyWindow implements ActionListener {
         panel.add(buttonBrowseTeams,gbc);
 
         gbc.gridy++;
+        panel.add(buttonBrowsePlayers,gbc);
+
+        gbc.gridy++;
         panel.add(buttonBrowseGames,gbc);
 
         return panel;
@@ -60,20 +67,26 @@ public class BrowseWindow extends MyWindow implements ActionListener {
         if (command.contains("NAV_")) {
             CardLayout cardLayout = (CardLayout) contentPane.getLayout();
             cardLayout.show(contentPane, command);
-        } else if (command.equals("MKE_BROWSE_TEAMS")){
+        } else if (command.contains("MKE_TEAMS")){
             CardLayout cardLayout = (CardLayout) contentPane.getLayout();
             // Creates new window to show teams for current
-            BrowseTeamsSelectWindow browseTeamsSelectWindow = new BrowseTeamsSelectWindow(contentPane,CardLayoutWindow.cardLayoutWindow);
-            contentPane.add(browseTeamsSelectWindow,"MKE_BROWSE_TEAMS");
-            cardLayout.show(contentPane,command);
-            Component[] ar = (contentPane.getComponents());
-            int i = 0;
-            for(Component component : ar){
-                System.out.println(component.getName() + i);
-                i++;
+            BrowseTeamsWindow browseTeamsWindow;
+            if(command.contains("SELECT")){
+                browseTeamsWindow = new BrowseTeamsSelectWindow(contentPane,CardLayoutWindow.cardLayoutWindow,"BROWSE");
+            } else { // if(command.contains("BROWSE")){
+                browseTeamsWindow = new BrowseTeamsWindow(contentPane,CardLayoutWindow.cardLayoutWindow);
             }
-
+            contentPane.add(browseTeamsWindow,command);
+            cardLayout.show(contentPane,command);
         }
     }
 
 }
+
+
+//    Component[] ar = (contentPane.getComponents());
+//            int i = 0;
+//            for(Component component : ar){
+//                System.out.println(component.getName() + i);
+//                i++;
+//            }

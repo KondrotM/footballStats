@@ -10,8 +10,12 @@ import java.awt.event.ActionListener;
 
 public class BrowseTeamsSelectWindow extends BrowseTeamsWindow implements ActionListener {
 
-    public BrowseTeamsSelectWindow(JPanel panel, CardLayoutWindow clw) {
+    private String mode;
+
+    public BrowseTeamsSelectWindow(JPanel panel, CardLayoutWindow clw, String switchMode) {
         super(panel, clw);
+        mode = switchMode;
+
     }
 
     @Override
@@ -32,9 +36,15 @@ public class BrowseTeamsSelectWindow extends BrowseTeamsWindow implements Action
             CardLayout cardLayout = (CardLayout) contentPane.getLayout();
             int teamIndex = teamsList.getSelectedIndex();
             Team team = Tournament.activeTournament.getTeam(teamIndex);
-            BrowsePlayersWindow browsePlayersWindow = new BrowsePlayersWindow(contentPane,CardLayoutWindow.cardLayoutWindow,team);
-            contentPane.add(browsePlayersWindow,"MKE_BROWSE_PLAYERS");
-            cardLayout.show(contentPane,"MKE_BROWSE_PLAYERS");
+            if (mode.equals("BROWSE")) {
+                BrowsePlayersWindow browsePlayersWindow = new BrowsePlayersWindow(contentPane, CardLayoutWindow.cardLayoutWindow, team);
+                contentPane.add(browsePlayersWindow, "MKE_BROWSE_PLAYERS");
+                cardLayout.show(contentPane, "MKE_BROWSE_PLAYERS");
+            } else if(mode.equals("CREATE")){
+                CreatePlayerWindow createPlayerWindow = new CreatePlayerWindow(contentPane, CardLayoutWindow.cardLayoutWindow, team);
+                contentPane.add(createPlayerWindow,"MKE_CREATE_PLAYER");
+                cardLayout.show(contentPane, "MKE_CREATE_PLAYER");
+            }
             // Calls static function to set the selected tournament as active
 //            Tournament.selectTournament(tournamentList.getSelectedIndex());
         }

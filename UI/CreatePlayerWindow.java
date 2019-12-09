@@ -1,5 +1,6 @@
 package uk.ac.glos.ct5025.s1804317.footballStats.UI;
 
+import uk.ac.glos.ct5025.s1804317.footballStats.Player;
 import uk.ac.glos.ct5025.s1804317.footballStats.Team;
 import uk.ac.glos.ct5025.s1804317.footballStats.Tournament;
 
@@ -8,25 +9,29 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class CreateTeamWindow extends MyWindow implements ActionListener {
+public class CreatePlayerWindow extends MyWindow implements ActionListener {
 
-    private JComponent createTeamWindow;
-    private JTextField textFieldTeam;
+    private JComponent createPlayerWindow;
+    private JTextField textFieldPlayerName;
+    private Team currTeam;
 
-    public CreateTeamWindow(JPanel panel, CardLayoutWindow clw) {
+    public CreatePlayerWindow(JPanel panel, CardLayoutWindow clw, Team team) {
         super(panel, clw);
+
         setOpaque(true);
 
-        createTeamWindow = factoryTeamCreateWindow();
-        add(createTeamWindow);
+        currTeam = team;
+
+        createPlayerWindow = factoryPlayerCreateWindow();
+        add(createPlayerWindow);
     }
 
-    public JComponent factoryTeamCreateWindow(){
+    public JComponent factoryPlayerCreateWindow(){
         JLabel menuLabel = new JLabel("CREATE TEAM");
 
         JComponent buttonBack = factoryButtonPane("..", "NAV_CREATE");
         JComponent buttonCreate = factoryButtonPane("Create", "ACT_CREATE_TEAM");
-        textFieldTeam = factoryTextField("Team Name");
+        textFieldPlayerName = factoryTextField("Player Name");
 
         JPanel panel = new JPanel();
 
@@ -43,7 +48,7 @@ public class CreateTeamWindow extends MyWindow implements ActionListener {
         panel.add(buttonBack, gbc);
 
         gbc.gridy++;
-        panel.add(textFieldTeam, gbc);
+        panel.add(textFieldPlayerName, gbc);
 
         gbc.gridy++;
         panel.add(buttonCreate, gbc);
@@ -62,12 +67,13 @@ public class CreateTeamWindow extends MyWindow implements ActionListener {
             CardLayout cardLayout = (CardLayout) contentPane.getLayout();
             cardLayout.show(contentPane, command);
         } else if (command.equals("ACT_CREATE_TEAM")){
-            if(!textFieldTeam.getText().equals("")) {
-                System.out.println(textFieldTeam.getText());
-                Team team = Team.createTeam(textFieldTeam.getText());
-                textFieldTeam.setText(null);
-                DefaultListModel model = Tournament.activeTournament.getTournamentTeamsModel();
-                model.add(model.getSize(),team.getName());
+            if(!textFieldPlayerName.getText().equals("")) {
+                System.out.println(textFieldPlayerName.getText());
+                Player player = new Player(textFieldPlayerName.getText(),"",currTeam);
+                player.addToTeam();
+                textFieldPlayerName.setText(null);
+                DefaultListModel model = currTeam.getTeamPlayersModel();
+                model.add(model.getSize(),player.getName());
 //                System.out.println(Tournament.activeTournament.getTournamentName());
 //                textFieldTournament.setText(null);
 

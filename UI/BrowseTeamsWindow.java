@@ -79,15 +79,13 @@ public class BrowseTeamsWindow extends MyWindow implements ActionListener, ListS
             CardLayout cardLayout = (CardLayout) contentPane.getLayout();
             cardLayout.show(contentPane, command);
         } else if (command.equals("MKE_SELECT")){
-            CardLayout cardLayout = (CardLayout) contentPane.getLayout();
-            int teamIndex = teamsList.getSelectedIndex();
-            Team team = Tournament.activeTournament.getTeam(teamIndex);
-            BrowsePlayersWindow browsePlayersWindow = new BrowsePlayersWindow(contentPane,CardLayoutWindow.cardLayoutWindow,team);
-            contentPane.add(browsePlayersWindow,"MKE_BROWSE_PLAYERS");
-            cardLayout.show(contentPane,"MKE_BROWSE_PLAYERS");
-            // Calls static function to set the selected tournament as active
-//            Tournament.selectTournament(tournamentList.getSelectedIndex());
-        }
+//            CardLayout cardLayout = (CardLayout) contentPane.getLayout();
+            Team team = Tournament.activeTournament.getTeam(teamsList.getSelectedIndex());
+            displayFrame(team);
+//            BrowsePlayersWindow browsePlayersWindow = new BrowsePlayersWindow(contentPane,CardLayoutWindow.cardLayoutWindow,team);
+//            contentPane.add(browsePlayersWindow,"MKE_BROWSE_PLAYERS");
+//            cardLayout.show(contentPane,"MKE_BROWSE_PLAYERS");
+            }
 
     }
 }

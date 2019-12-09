@@ -1,5 +1,6 @@
 package uk.ac.glos.ct5025.s1804317.footballStats.UI;
 
+import uk.ac.glos.ct5025.s1804317.footballStats.Player;
 import uk.ac.glos.ct5025.s1804317.footballStats.Team;
 import uk.ac.glos.ct5025.s1804317.footballStats.Tournament;
 
@@ -85,7 +86,7 @@ public class BrowsePlayersWindow extends MyWindow implements ActionListener, Lis
             CardLayout cardLayout = (CardLayout) contentPane.getLayout();
             contentPane.remove(contentPane.getComponents().length-1);
 
-            cardLayout.show(contentPane,"MKE_BROWSE_TEAMS");
+            cardLayout.show(contentPane,"MKE_TEAMS_SELECT");
             Component[] ar = (contentPane.getComponents());
             int i = 0;
             for(Component component : ar){
@@ -93,6 +94,8 @@ public class BrowsePlayersWindow extends MyWindow implements ActionListener, Lis
                 i++;
             }
         } else if (command.equals("ACT_SELECT_PLAYER")){
+            Player player = currTeam.getPlayer(playersList.getSelectedIndex());
+            displayFrame(player);
 //            // Calls static function to set the selected tournament as active
 //            Tournament.selectTournament(tournamentList.getSelectedIndex());
         }

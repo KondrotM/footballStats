@@ -1,5 +1,6 @@
 package uk.ac.glos.ct5025.s1804317.footballStats.UI;
 
+import uk.ac.glos.ct5025.s1804317.footballStats.Element;
 import uk.ac.glos.ct5025.s1804317.footballStats.Tournament;
 
 import javax.swing.*;
@@ -12,6 +13,9 @@ public class MyWindow extends JPanel implements ActionListener {
     private static int sizeX;
     private static int sizeY;
     private static JLabel errorMessage = new JLabel();
+
+    // Last location to allow new windows not to overlap
+    private Point lastLocation = null;
 
     protected RepaintManager repaintManager;
     protected JPanel contentPane;
@@ -67,6 +71,58 @@ public class MyWindow extends JPanel implements ActionListener {
         pane.add(button);
 
         return pane;
+    }
+
+    public void displayFrame (Element element){
+        JFrame frame = new JFrame(element.getName());
+        frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+
+        //Set window location.
+        if (lastLocation != null) {
+            //Move the window over and down 40 pixels.
+            lastLocation.translate(40, 40);
+            if ((lastLocation.x > sizeX) || (lastLocation.y > sizeY)) {
+                lastLocation.setLocation(0, 0);
+            }
+            frame.setLocation(lastLocation);
+        } else {
+            lastLocation = frame.getLocation();
+        }
+
+        JPanel panel = new JPanel();
+        panel.setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+
+        gbc.insets = new Insets(3,3,3,3);
+        gbc.anchor = GridBagConstraints.FIRST_LINE_START;
+
+        gbc.gridx = 0; gbc.gridy = 0;
+        panel.add(new JLabel(element.getName()),gbc);
+
+        gbc.gridx++;
+        panel.add(new JLabel("Games Won: " + element.getGamesWon()),gbc);
+
+        gbc.gridy++;
+        panel.add(new JLabel("Games Lost: " + element.getGamesLost()),gbc);
+
+        gbc.gridy++;
+        panel.add(new JLabel("Games Drawn: " + element.getGamesDrawn()),gbc);
+
+        gbc.gridy++;
+        panel.add(new JLabel("Goals Scored: " + element.getGoalsFor()),gbc);
+
+
+        frame.setLayout(new GridBagLayout());
+        GridBagConstraints gbc2 = new GridBagConstraints();
+        gbc2.anchor = GridBagConstraints.FIRST_LINE_START;
+
+        frame.add(panel,gbc2);
+
+
+        frame.pack();
+//        frame.setSize(new Dimension(350,200));
+        frame.setVisible(true);
+
     }
 
     @Override

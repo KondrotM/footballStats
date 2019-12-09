@@ -6,6 +6,8 @@ public class Player extends Element {
 
     private String playerDoB;
 
+
+
     // shows which team player belongs to
     private Team playerTeam;
 
@@ -14,6 +16,10 @@ public class Player extends Element {
         super(tempFName);
         playerDoB = tempDoB;
         playerTeam = team;
+    }
+
+    public void addToTeam(){
+        playerTeam.addPlayer(this);
     }
 
     public String getPlayerDoB(){

@@ -31,6 +31,10 @@ public class Element {
 
     public String getName() { return name; }
 
+    public int getGoalsFor() {
+        return goalsFor;
+    }
+
     public int getGoals() { return goals; }
 
     public int getGamesWon(){
