@@ -62,8 +62,9 @@ public class BrowseWindow extends MyWindow implements ActionListener {
             cardLayout.show(contentPane, command);
         } else if (command.equals("MKE_BROWSE_TEAMS")){
             CardLayout cardLayout = (CardLayout) contentPane.getLayout();
-            BrowseTeamsWindow browseTeamsWindow = new BrowseTeamsWindow(contentPane,CardLayoutWindow.cardLayoutWindow);
-            contentPane.add(browseTeamsWindow,"MKE_BROWSE_TEAMS");
+            // Creates new window to show teams for current
+            BrowseTeamsSelectWindow browseTeamsSelectWindow = new BrowseTeamsSelectWindow(contentPane,CardLayoutWindow.cardLayoutWindow);
+            contentPane.add(browseTeamsSelectWindow,"MKE_BROWSE_TEAMS");
             cardLayout.show(contentPane,command);
             Component[] ar = (contentPane.getComponents());
             int i = 0;

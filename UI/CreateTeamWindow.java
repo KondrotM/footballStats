@@ -22,7 +22,7 @@ public class CreateTeamWindow extends MyWindow implements ActionListener {
     }
 
     public JComponent factoryTeamCreateWindow(){
-        JLabel menuLabel = new JLabel("CREATE TOURNAMENT");
+        JLabel menuLabel = new JLabel("CREATE TEAM");
 
         JComponent buttonBack = factoryButtonPane("..", "NAV_CREATE");
         JComponent buttonCreate = factoryButtonPane("Create", "ACT_CREATE_TEAM");

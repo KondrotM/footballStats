@@ -4,64 +4,14 @@ import uk.ac.glos.ct5025.s1804317.footballStats.Team;
 import uk.ac.glos.ct5025.s1804317.footballStats.Tournament;
 
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class BrowseTeamsWindow extends MyWindow implements ActionListener, ListSelectionListener {
+public class BrowseTeamsSelectWindow extends BrowseTeamsWindow implements ActionListener {
 
-    private JComponent browseTeamsWindow;
-    JList teamsList;
-
-    public BrowseTeamsWindow(JPanel panel, CardLayoutWindow clw) {
+    public BrowseTeamsSelectWindow(JPanel panel, CardLayoutWindow clw) {
         super(panel, clw);
-        contentPane = panel;
-        setOpaque(true);
-
-        browseTeamsWindow = factoryBrowseTeamsWindow();
-        add(browseTeamsWindow);
-    }
-
-    public JComponent factoryBrowseTeamsWindow(){
-        JLabel menuLabel = new JLabel("SELECT TEAM");
-
-        teamsList = new JList(Tournament.activeTournament.getTournamentTeamsModel());
-
-        JComponent teamsScrollList = factoryList(teamsList);
-
-        JComponent buttonBack = factoryButtonPane("..","NAV_BROWSE");
-        JComponent buttonSelectTeam = factoryButtonPane("Select","MKE_SELECT");
-
-        // Creates GridBagLayout panel
-        JPanel panel = new JPanel();
-        panel.setLayout(new GridBagLayout());
-        GridBagConstraints gbc = new GridBagConstraints();
-
-        // Sets the padding
-        gbc.insets = new Insets(3,3,3,3);
-
-        // Adds components
-        gbc.gridx = 0; gbc.gridy = 0;
-        panel.add(menuLabel,gbc);
-
-        // Increments Y grid
-        gbc.gridy++;
-        panel.add(buttonBack,gbc);
-
-        gbc.gridy++;
-        panel.add(teamsScrollList,gbc);
-
-        gbc.gridy++;
-        panel.add(buttonSelectTeam,gbc);
-
-        return panel;
-    }
-
-    @Override
-    public void valueChanged(ListSelectionEvent listSelectionEvent) {
-
     }
 
     @Override

@@ -11,6 +11,13 @@ public class Team extends Element {
     private ArrayList teamPlayers;
     private ArrayList activePlayers;
 
+    // Holds all players to show within UI
+    private DefaultListModel teamPlayersModel = new DefaultListModel();
+
+    public DefaultListModel getTeamPlayersModel() {
+        return teamPlayersModel;
+    }
+
     private int goalsAgainst;
     private int points;
 
