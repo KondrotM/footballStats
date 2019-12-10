@@ -27,7 +27,7 @@ public class BrowseWindow extends MyWindow implements ActionListener {
         JComponent buttonBrowseGames = factoryButtonPane("Games", "NAV_BROWSE_GAMES");
         JComponent buttonBrowsePlayers = factoryButtonPane("Players","MKE_TEAMS_SELECT");
         JComponent buttonBrowseTeams = factoryButtonPane("Teams", "MKE_TEAMS_BROWSE");
-        JComponent buttonBrowseTournament = factoryButtonPane("Tournament", "NAV_BROWSE_TOURNAMENT");
+        JComponent buttonBrowseTournament = factoryButtonPane("Tournament", "MKE_BROWSE_TOURNAMENT");
 
 
 
@@ -78,6 +78,9 @@ public class BrowseWindow extends MyWindow implements ActionListener {
             }
             contentPane.add(browseTeamsWindow,command);
             cardLayout.show(contentPane,command);
+        } else if (command.equals("MKE_BROWSE_TOURNAMENT")){
+            BrowseTournamentWindow browseTournamentWindow = new BrowseTournamentWindow(contentPane,CardLayoutWindow.cardLayoutWindow);
+            browseTournamentWindow.displayBrowseTournamentWindow();
         }
     }
 
