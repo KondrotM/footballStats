@@ -1,0 +1,94 @@
+@startuml
+
+class Game {
+- String gameTitle
+- Team homeTeam
+- Team awayTeam
+- DateFormat dateFormat =
+{field}new SimpleDateFormat
+("yyyy/MM/DD HH:mm:ss")
+- String gameDate
+- boolean gameFinished = false
+--
++ {static} void getGame()
+- Game startGame()
+- void getGameMenu()
+- void choosePlayer(Team)
+- void writeGame()
+}
+
+class Item {
+- int goals
+- String name
+--
++ String getName()
++ int getGoals()
++ void ScoreGoal()
+}
+class main {
++ {static} String getInput(String)
++ {static} void getMainMenu()
++ {static} void main()
+}
+class Player {
+- String playerDoB
+--
++ String getPlayerDoB()
++ {static} void createPlayer()
+}
+class Team {
+- ArrayList teamPlayers
+- ArrayList activePlayers
+--
++ ArrayList getTeamPlayers()
++ ArrayList getActivePlayers()
++ {static} void createTeam()
++ void resetActivePlayers()
++ void addActivePlayer()
++ void addActivePlayers()
++ void addPlayer()
+}
+
+class Tournament {
+    - String tournamentName
+    - ArrayList tournamentTeams
+    - ArrayList tournamentGameList
+    + {static} ArrayList<Tournament> tournamentList
+    + {static} Tournament activeTournament
+    --
+    + void addTeam(Team)
+    + void addGame(Game)
+    - String getTournamentName()
+    + {static} void factoryTournament()
+    + {static} void selectTournament()
+    + Team getTeam(int)
+    + Team selectTeam()
+    + void viewTeams()
+    - void browseTeams()
+    - void browseGames()
+}
+
+'abstract class AbstractList
+'abstract AbstractCollection
+'interface List
+'interface Collection
+'
+'List <|-- AbstractList
+'Collection <|-- AbstractCollection
+'
+'Collection <- List
+'AbstractCollection <|- AbstractList
+'AbstractList <|-- ArrayList
+'
+'class ArrayList {
+'Object[] elementData
+'size()
+'}
+'
+'enum TimeUnit {
+'DAYS
+'HOURS
+'MINUTES
+'}
+
+@enduml
