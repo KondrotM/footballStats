@@ -17,13 +17,15 @@ public class BrowsePlayersWindow extends MyWindow implements ActionListener, Lis
     private JComponent browsePlayersWindow;
     private JList playersList;
     private Team currTeam;
+    private String mode;
 
-    public BrowsePlayersWindow(JPanel panel, CardLayoutWindow clw, Team team) {
+    public BrowsePlayersWindow(JPanel panel, CardLayoutWindow clw, Team team, String switchMode) {
         super(panel, clw);
         contentPane = panel;
 
         // Gets which team to show the players of
         currTeam = team;
+        mode = switchMode;
 
         browsePlayersWindow = factoryBrowseTournamentWindow();
         add(browsePlayersWindow);
@@ -41,6 +43,7 @@ public class BrowsePlayersWindow extends MyWindow implements ActionListener, Lis
         // Makes playerList scrollable
         JComponent playerScrollList = factoryList(playersList);
 
+        // select up to 11 players if mode is home or away
         JComponent buttonBack = factoryButtonPane("src/test","NAV_CLOSE");
         JComponent buttonSelectPlayer = factoryButtonPane("Select","ACT_SELECT_PLAYER");
 

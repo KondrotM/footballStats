@@ -7,6 +7,7 @@ import uk.ac.glos.ct5025.s1804317.footballStats.Timeline;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -15,6 +16,17 @@ public class PlayGameWindow extends MyWindow {
     private GameTimer gt = new GameTimer();
 
     private JLabel timeLabel;
+
+    ActionListener changeTime = new ActionListener() {
+        public void actionPerformed(ActionEvent env) {
+            timeLabel.setText(gt.getWatchTime());
+        }
+    };
+
+
+
+
+
 
     private JList homePlayersList;
     private JList awayPlayersList;
@@ -37,6 +49,7 @@ public class PlayGameWindow extends MyWindow {
 
     public void displayGameWindow(){
 
+        new Timer(1000,changeTime).start();
 
         homeTeam.addActivePlayers(new ArrayList(Arrays.asList(player1,player2,player3)));
         awayTeam.addActivePlayers(new ArrayList(Arrays.asList(player4,player5,player6)));
@@ -120,7 +133,12 @@ public class PlayGameWindow extends MyWindow {
 
         frame.pack();
         frame.setVisible(true);
+
+
+
     }
+
+
 
     @Override
     public void actionPerformed(ActionEvent e) {

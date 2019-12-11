@@ -39,13 +39,21 @@ public class BrowseTeamsSelectWindow extends BrowseTeamsWindow implements Action
             int teamIndex = teamsList.getSelectedIndex();
             Team team = Tournament.activeTournament.getTeam(teamIndex);
             if (mode.equals("BROWSE")) {
-                BrowsePlayersWindow browsePlayersWindow = new BrowsePlayersWindow(contentPane, CardLayoutWindow.cardLayoutWindow, team);
+                BrowsePlayersWindow browsePlayersWindow = new BrowsePlayersWindow(contentPane, CardLayoutWindow.cardLayoutWindow, team,"BROWSE");
                 contentPane.add(browsePlayersWindow, "MKE_BROWSE_PLAYERS");
                 cardLayout.show(contentPane, "MKE_BROWSE_PLAYERS");
             } else if(mode.equals("CREATE")){
                 CreatePlayerWindow createPlayerWindow = new CreatePlayerWindow(contentPane, CardLayoutWindow.cardLayoutWindow, team);
                 contentPane.add(createPlayerWindow,"MKE_CREATE_PLAYER");
                 cardLayout.show(contentPane, "MKE_CREATE_PLAYER");
+            } else if(mode.equals("HOME")){
+                BrowsePlayersWindow browsePlayersWindow = new BrowsePlayersWindow(contentPane, CardLayoutWindow.cardLayoutWindow,team,"HOME");
+                contentPane.add(browsePlayersWindow,"MKE_BROWSE_PLAYERS");
+                cardLayout.show(contentPane,"MKE_BROWSE_PLAYERS");
+            } else if(mode.equals("AWAY")){
+                BrowsePlayersWindow browsePlayersWindow = new BrowsePlayersWindow(contentPane, CardLayoutWindow.cardLayoutWindow,team,"AWAY");
+                contentPane.add(browsePlayersWindow,"MKE_BROWSE_PLAYERS");
+                cardLayout.show(contentPane,"MKE_BROWSE_PLAYERS");
             }
             // Calls static function to set the selected tournament as active
 //            Tournament.selectTournament(tournamentList.getSelectedIndex());
