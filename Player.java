@@ -2,7 +2,7 @@ package uk.ac.glos.ct5025.s1804317.footballStats;
 
 import java.util.ArrayList;
 
-public class Player extends Element {
+public class Player extends Item {
 
     private String playerDoB;
 

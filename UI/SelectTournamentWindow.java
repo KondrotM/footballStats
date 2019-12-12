@@ -51,6 +51,8 @@ public class SelectTournamentWindow extends MyWindow implements ActionListener, 
         // Creates buttons within panes
         JComponent buttonBack = factoryButtonPane("..","NAV_MAIN");
         JComponent buttonSelectTournament = factoryButtonPane("Select","ACT_SELECT_TOURNAMENT");
+        JComponent buttonExportTournament = factoryButtonPane("Export Tournament","ACT_EXPORT_TOURNAMENT");
+
 
         // Creates GridBagLayout panel
         JPanel panel = new JPanel();
@@ -77,6 +79,9 @@ public class SelectTournamentWindow extends MyWindow implements ActionListener, 
         gbc.gridy++;
         panel.add(buttonSelectTournament,gbc);
 
+        gbc.gridy++;
+        panel.add(buttonExportTournament,gbc);
+
         return panel;
     }
 
@@ -96,6 +101,9 @@ public class SelectTournamentWindow extends MyWindow implements ActionListener, 
         } else if (command.equals("ACT_SELECT_TOURNAMENT")){
             // Calls static function to set the selected tournament as active
             Tournament.selectTournament(tournamentList.getSelectedIndex());
+        } else if (command.equals("ACT_EXPORT_TOURNAMENT")){
+            Tournament tournament = Tournament.getTournamentList().get(tournamentList.getSelectedIndex());
+            Tournament.exportTournament(tournament);
         }
 
     }

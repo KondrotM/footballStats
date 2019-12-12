@@ -7,9 +7,9 @@ import uk.ac.glos.ct5025.s1804317.footballStats.UI.Create.CreateTeamWindow;
 import javax.swing.*;
 import java.util.ArrayList;
 
-public class Team extends Element {
-    private ArrayList teamPlayers;
-    private ArrayList activePlayers;
+public class Team extends Item {
+    private ArrayList<Player> teamPlayers;
+    private ArrayList<Player> activePlayers;
 
     // Holds all players to show within UI
     private DefaultListModel teamPlayersModel;
@@ -114,7 +114,7 @@ public class Team extends Element {
         return teamPlayers;
     }
 
-    public ArrayList getActivePlayers(){
+    public ArrayList<Player> getActivePlayers(){
         return activePlayers;
     }
 

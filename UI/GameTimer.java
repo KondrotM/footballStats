@@ -13,8 +13,12 @@ public class GameTimer {
         stopWatch.start();
     }
 
-    public long getStopWatch() {
+    public long getStopWatchTime() {
         return stopWatch.getTime(TimeUnit.SECONDS);
+    }
+
+    public StopWatch getStopWatch(){
+        return stopWatch;
     }
 
     public String getWatchTime(){

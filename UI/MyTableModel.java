@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 public class MyTableModel extends AbstractTableModel {
 
+
     // Creates a String Array of column names
     private String[] columnNames = {"Team Name",
             "GP","W","L","D","GF","GA","GD","Pts"};

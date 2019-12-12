@@ -1,6 +1,6 @@
 package uk.ac.glos.ct5025.s1804317.footballStats.UI;
 
-import uk.ac.glos.ct5025.s1804317.footballStats.Element;
+import uk.ac.glos.ct5025.s1804317.footballStats.Item;
 
 import javax.swing.*;
 import java.awt.*;
@@ -71,8 +71,8 @@ public class MyWindow extends JPanel implements ActionListener {
         return pane;
     }
 
-    public void displayFrame (Element element){
-        JFrame frame = new JFrame(element.getName());
+    public void displayFrame (Item item){
+        JFrame frame = new JFrame(item.getName());
         frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
         //Set window location.
@@ -95,19 +95,19 @@ public class MyWindow extends JPanel implements ActionListener {
         gbc.anchor = GridBagConstraints.FIRST_LINE_START;
 
         gbc.gridx = 0; gbc.gridy = 0;
-        panel.add(new JLabel(element.getName()),gbc);
+        panel.add(new JLabel(item.getName()),gbc);
 
         gbc.gridx++;
-        panel.add(new JLabel("Games Won: " + element.getGamesWon()),gbc);
+        panel.add(new JLabel("Games Won: " + item.getGamesWon()),gbc);
 
         gbc.gridy++;
-        panel.add(new JLabel("Games Lost: " + element.getGamesLost()),gbc);
+        panel.add(new JLabel("Games Lost: " + item.getGamesLost()),gbc);
 
         gbc.gridy++;
-        panel.add(new JLabel("Games Drawn: " + element.getGamesDrawn()),gbc);
+        panel.add(new JLabel("Games Drawn: " + item.getGamesDrawn()),gbc);
 
         gbc.gridy++;
-        panel.add(new JLabel("Goals Scored: " + element.getGoalsFor()),gbc);
+        panel.add(new JLabel("Goals Scored: " + item.getGoalsFor()),gbc);
 
 
         frame.setLayout(new GridBagLayout());

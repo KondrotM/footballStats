@@ -1,14 +1,26 @@
 package uk.ac.glos.ct5025.s1804317.footballStats;
 
+import org.w3c.dom.Attr;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import uk.ac.glos.ct5025.s1804317.footballStats.UI.SelectTournamentWindow;
 
 import javax.swing.*;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 import java.io.File;
 import java.util.ArrayList;
 
 public class Tournament extends csv {
     private String tournamentName;
-    private ArrayList tournamentTeams;
+    private ArrayList<Team> tournamentTeams;
     private ArrayList tournamentGameList;
 
     // Holds all teams within the tournament
@@ -33,7 +45,7 @@ public class Tournament extends csv {
         tournamentTeams.add(team);
     }
 
-    public void addGame(Game game) { tournamentGameList.add(game);}
+    public void addGame(StaticGame game) { tournamentGameList.add(game);}
 
     public String getTournamentName(){
         try{
@@ -43,11 +55,11 @@ public class Tournament extends csv {
         }
     }
 
-    public static ArrayList getTournamentList(){
+    public static ArrayList<Tournament> getTournamentList(){
         return tournamentList;
     }
 
-    public ArrayList getTournamentTeams(){
+    public ArrayList<Team> getTournamentTeams(){
         return tournamentTeams;
     }
 
@@ -219,5 +231,116 @@ public class Tournament extends csv {
 //         } catch (IOException e) {
 //            e.printStackTrace();
 //        }
+
+    }
+
+    public static void exportTournament(Tournament tournament){
+        String path = xmlFilePath + tournament.getTournamentName() + ".xml";
+        try {
+            DocumentBuilderFactory documentFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder documentBuilder = documentFactory.newDocumentBuilder();
+            Document document = documentBuilder.newDocument();
+
+            Element root = document.createElement("tournament");
+            document.appendChild(root);
+            root.setAttribute("name",tournament.getTournamentName());
+
+
+            Element teams = document.createElement("teams");
+            root.appendChild(teams);
+
+            Element team;
+            int teamID = 0;
+
+            // Constructs XML format for each team with corresponding data
+            for (Team currTeam : tournament.getTournamentTeams()){
+                team = document.createElement("team");
+                teams.appendChild(team);
+
+                team.setAttribute("id",Integer.toString(teamID));
+
+                Element name = document.createElement("name");
+                name.appendChild(document.createTextNode(currTeam.getName()));
+                team.appendChild(name);
+
+                Element gamesWon = document.createElement("gameswon");
+                gamesWon.appendChild(document.createTextNode(Integer.toString(currTeam.getGamesWon())));
+                team.appendChild(gamesWon);
+
+                Element gamesLost = document.createElement("gameslost");
+                gamesLost.appendChild(document.createTextNode(Integer.toString(currTeam.getGamesLost())));
+                team.appendChild(gamesLost);
+
+                Element gamesDrawn = document.createElement("gamesdrawn");
+                gamesDrawn.appendChild(document.createTextNode(Integer.toString(currTeam.getGamesLost())));
+                team.appendChild(gamesDrawn);
+
+                Element goalsFor = document.createElement("goalsfor");
+                goalsFor.appendChild(document.createTextNode(Integer.toString(currTeam.getGoalsFor())));
+                team.appendChild(goalsFor);
+
+                Element goalsAgainst = document.createElement("goalsagainst");
+                goalsAgainst.appendChild(document.createTextNode(Integer.toString(currTeam.getGoalsAgainst())));
+                team.appendChild(goalsAgainst);
+
+                Element teamPoints = document.createElement("teampoints");
+                teamPoints.appendChild(document.createTextNode(Integer.toString(currTeam.getPoints())));
+                team.appendChild(teamPoints);
+
+                Element teamPlayers = document.createElement("players");
+                team.appendChild(teamPlayers);
+
+                int playerID = 0;
+                Element player;
+
+                // Constructs XML format for each player within a team with corresponding data
+                for (Player currPlayer : currTeam.getActivePlayers()){
+                    player = document.createElement("player");
+                    teamPlayers.appendChild(player);
+
+                    player.setAttribute("id",Integer.toString(playerID));
+
+                    name = document.createElement("name");
+                    name.appendChild(document.createTextNode(currTeam.getName()));
+                    team.appendChild(name);
+
+                    gamesWon = document.createElement("gameswon");
+                    gamesWon.appendChild(document.createTextNode(Integer.toString(currTeam.getGamesWon())));
+                    team.appendChild(gamesWon);
+
+                    gamesLost = document.createElement("gameslost");
+                    gamesLost.appendChild(document.createTextNode(Integer.toString(currTeam.getGamesLost())));
+                    team.appendChild(gamesLost);
+
+                    gamesDrawn = document.createElement("gamesdrawn");
+                    gamesDrawn.appendChild(document.createTextNode(Integer.toString(currTeam.getGamesLost())));
+                    team.appendChild(gamesDrawn);
+
+                    goalsFor = document.createElement("goalsfor");
+                    goalsFor.appendChild(document.createTextNode(Integer.toString(currTeam.getGoalsFor())));
+                    team.appendChild(goalsFor);
+
+                    playerID++;
+                }
+
+                teamID++;
+            }
+
+            Element games = document.createElement("games");
+            root.appendChild(games);
+
+
+            TransformerFactory transformerFactory = TransformerFactory.newInstance();
+            Transformer transformer = transformerFactory.newTransformer();
+            DOMSource domSource = new DOMSource(document);
+            StreamResult streamResult = new StreamResult(new File(xmlFilePath));
+
+            transformer.transform(domSource,streamResult);
+
+        } catch (ParserConfigurationException e) {
+            e.printStackTrace();
+        } catch (TransformerException tfe) {
+            tfe.printStackTrace();
+        }
     }
 }

@@ -2,7 +2,7 @@ package uk.ac.glos.ct5025.s1804317.footballStats;
 
 import java.util.ArrayList;
 
-public class Element {
+public class Item {
     protected int goals;
     private String name;
 
@@ -13,7 +13,7 @@ public class Element {
     protected int gamesLost;
 
 
-    public Element(String tempName) {
+    public Item(String tempName) {
         name = tempName;
         goals = 0;
 
@@ -70,20 +70,20 @@ public class Element {
         goals = 0;
     }
 
-    public Element getElement(ArrayList elementList){
+    public Item getElement(ArrayList elementList){
         System.out.println(".. Back");
-        Element currElement;
+        Item currItem;
         for (int i = 0; i < elementList.size(); i++) {
-            currElement = (Element) elementList.get(i);
-            System.out.println(i+1 + ". " + currElement.getName());
+            currItem = (Item) elementList.get(i);
+            System.out.println(i+1 + ". " + currItem.getName());
         }
         String choice = main.getInput(null);
         if (choice.equals("..")){
             return null;
         } else {
             int elementNo = Integer.parseInt(choice);
-            currElement = (Element) elementList.get(elementNo-1);
-            return currElement;
+            currItem = (Item) elementList.get(elementNo-1);
+            return currItem;
         }
     }
 }

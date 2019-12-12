@@ -1,9 +1,6 @@
 package uk.ac.glos.ct5025.s1804317.footballStats.UI;
 
-import uk.ac.glos.ct5025.s1804317.footballStats.Game;
-import uk.ac.glos.ct5025.s1804317.footballStats.Player;
-import uk.ac.glos.ct5025.s1804317.footballStats.Team;
-import uk.ac.glos.ct5025.s1804317.footballStats.Timeline;
+import uk.ac.glos.ct5025.s1804317.footballStats.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -24,9 +21,8 @@ public class PlayGameWindow extends MyWindow {
     ActionListener changeTime = new ActionListener() {
         public void actionPerformed(ActionEvent env) {
             timeLabel.setText(game.getGameTimer().getWatchTime());
-            if( game.getGameTimer().getStopWatch() > 5400 ){
-                game.finishGame();
-                frame.dispose();
+            if( game.getGameTimer().getStopWatchTime() > 5400 ){
+                finishGame();
             }
         }
     };
@@ -36,7 +32,14 @@ public class PlayGameWindow extends MyWindow {
     JLabel errorMsg = new JLabel();
 
 
+    public void finishGame(){
+        game.finishGame();
+        game.getGameTimer().getStopWatch().stop();
+        StaticGame currGame = new StaticGame(game);
+        Tournament.activeTournament.addGame(currGame);
+        frame.dispose();
 
+    }
 
     private JList homePlayersList;
     private JList awayPlayersList;
@@ -229,8 +232,7 @@ public class PlayGameWindow extends MyWindow {
                 errorMsg.setText("Select player");
             }
         } if( command.contains("ACT_END_GAME") ){
-            game.finishGame();
-            frame.dispose();
+            finishGame();
         }
     }
 

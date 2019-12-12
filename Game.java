@@ -104,7 +104,6 @@ public class Game extends csv {
         // sets the currGame variable to be the completed game
         currGame = currGame.startGame();
         // appends to tournamentGameList
-        Tournament.activeTournament.addGame(currGame);
     }
 
     private Game startGame() {
