@@ -33,7 +33,7 @@ public class BrowseTeamsWindow extends MyWindow implements ActionListener, ListS
 
         JComponent teamsScrollList = factoryList(teamsList);
 
-        JComponent buttonBack = factoryButtonPane("src/test","NAV_BROWSE");
+        JComponent buttonBack = factoryButtonPane("..","NAV_BROWSE");
         JComponent buttonSelectTeam = factoryButtonPane("Select","MKE_SELECT");
 
         // Creates GridBagLayout panel

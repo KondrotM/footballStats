@@ -30,7 +30,7 @@ public class CreatePlayerWindow extends MyWindow implements ActionListener {
     public JComponent factoryPlayerCreateWindow(){
         JLabel menuLabel = new JLabel("CREATE TEAM");
 
-        JComponent buttonBack = factoryButtonPane("src/test", "NAV_CREATE");
+        JComponent buttonBack = factoryButtonPane("..", "NAV_CREATE");
         JComponent buttonCreate = factoryButtonPane("Create", "ACT_CREATE_TEAM");
         textFieldPlayerName = factoryTextField("Player Name");
 

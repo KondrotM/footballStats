@@ -4,6 +4,7 @@ import uk.ac.glos.ct5025.s1804317.footballStats.Player;
 import uk.ac.glos.ct5025.s1804317.footballStats.Team;
 import uk.ac.glos.ct5025.s1804317.footballStats.UI.CardLayoutWindow;
 import uk.ac.glos.ct5025.s1804317.footballStats.UI.MyWindow;
+import uk.ac.glos.ct5025.s1804317.footballStats.UI.PlayGameWindow;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -11,13 +12,20 @@ import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class BrowsePlayersWindow extends MyWindow implements ActionListener, ListSelectionListener {
 
     private JComponent browsePlayersWindow;
     private JList playersList;
+    private JList activePlayersList;
     private Team currTeam;
     private String mode;
+    private static Team homeTeam;
+
+    public static Team getHomeTeam(){
+        return homeTeam;
+    }
 
     public BrowsePlayersWindow(JPanel panel, CardLayoutWindow clw, Team team, String switchMode) {
         super(panel, clw);
@@ -40,11 +48,18 @@ public class BrowsePlayersWindow extends MyWindow implements ActionListener, Lis
         // Initialises playerList with with model of players within the team
         playersList = new JList(currTeam.getTeamPlayersModel());
 
+        if (mode.equals("HOME") || mode.equals("AWAY")){
+            playersList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        }
+
+        activePlayersList = new JList(currTeam.getTeamActivePlayersModel());
+
+
         // Makes playerList scrollable
         JComponent playerScrollList = factoryList(playersList);
 
         // select up to 11 players if mode is home or away
-        JComponent buttonBack = factoryButtonPane("src/test","NAV_CLOSE");
+        JComponent buttonBack = factoryButtonPane("..","NAV_CLOSE");
         JComponent buttonSelectPlayer = factoryButtonPane("Select","ACT_SELECT_PLAYER");
 
         // Creates GridBagLayout panel
@@ -85,24 +100,48 @@ public class BrowsePlayersWindow extends MyWindow implements ActionListener, Lis
     @Override
     public void actionPerformed(ActionEvent e) {
         String command = e.getActionCommand();
+        CardLayout cardLayout = (CardLayout) contentPane.getLayout();
+
 
         if (command.equals("NAV_CLOSE")){
-            CardLayout cardLayout = (CardLayout) contentPane.getLayout();
             contentPane.remove(contentPane.getComponents().length-1);
-
             cardLayout.show(contentPane,"MKE_TEAMS_SELECT");
-            Component[] ar = (contentPane.getComponents());
-            int i = 0;
-            for(Component component : ar){
-                System.out.println(component.getName() + i);
-                i++;
-            }
+
         } else if (command.equals("ACT_SELECT_PLAYER")){
-            Player player = currTeam.getPlayer(playersList.getSelectedIndex());
-            displayFrame(player);
+            if(mode.equals("BROWSE")){
+                Player player = currTeam.getPlayer(playersList.getSelectedIndex());
+                displayFrame(player);
+            } else if(mode.equals("HOME")){
+                int[] players = playersList.getSelectedIndices();
+                for (int i : players){
+                    currTeam.addActivePlayer(i);
+                }
+                homeTeam = currTeam;
+                BrowseTeamsSelectWindow browseTeamsSelectWindow = new BrowseTeamsSelectWindow(contentPane,CardLayoutWindow.cardLayoutWindow,"AWAY");
+                contentPane.add(browseTeamsSelectWindow,command);
+                cardLayout.show(contentPane,command);
+
+            } else if(mode.equals("AWAY")){
+                int[] players = playersList.getSelectedIndices();
+                for (int i : players){
+                    currTeam.addActivePlayer(i);
+                }
+                PlayGameWindow playGameWindow = new PlayGameWindow(contentPane,CardLayoutWindow.cardLayoutWindow,BrowsePlayersWindow.getHomeTeam(),currTeam);
+                playGameWindow.displayGameWindow();
+            }
+
 //            // Calls static function to set the selected tournament as active
 //            Tournament.selectTournament(tournamentList.getSelectedIndex());
         }
 
     }
 }
+
+
+
+//    Component[] ar = (contentPane.getComponents());
+//    int i = 0;
+//            for(Component component : ar){
+//                    System.out.println(component.getName() + i);
+//                    i++;
+//                    }

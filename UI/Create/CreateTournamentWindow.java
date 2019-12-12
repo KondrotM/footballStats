@@ -27,7 +27,7 @@ public class CreateTournamentWindow extends MyWindow implements ActionListener {
     public JComponent factoryTournamentCreateWindow() {
         JLabel menuLabel = new JLabel("CREATE TOURNAMENT");
 
-        JComponent buttonBack = factoryButtonPane("src/test", "NAV_CREATE");
+        JComponent buttonBack = factoryButtonPane("..", "NAV_CREATE");
         JComponent buttonCreate = factoryButtonPane("Create", "ACT_CREATE_TOURNAMENT");
         textFieldTournament = factoryTextField("Tournament Name");
 

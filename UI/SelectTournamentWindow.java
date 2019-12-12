@@ -49,7 +49,7 @@ public class SelectTournamentWindow extends MyWindow implements ActionListener, 
         JComponent tournamentScrollList = factoryList(tournamentList);
 
         // Creates buttons within panes
-        JComponent buttonBack = factoryButtonPane("src/test","NAV_MAIN");
+        JComponent buttonBack = factoryButtonPane("..","NAV_MAIN");
         JComponent buttonSelectTournament = factoryButtonPane("Select","ACT_SELECT_TOURNAMENT");
 
         // Creates GridBagLayout panel

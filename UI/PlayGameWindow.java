@@ -23,7 +23,7 @@ public class PlayGameWindow extends MyWindow {
         }
     };
 
-
+    private JLabel scoreLabel;
 
 
 
@@ -35,37 +35,52 @@ public class PlayGameWindow extends MyWindow {
     private Team homeTeam = new Team("Hull");
     private Team awayTeam = new Team("Chelsea");
 
-    private Player player1 = new Player("Harry","",homeTeam);
-    private Player player2 = new Player("Steve","",homeTeam);
-    private Player player3 = new Player("Jones","",homeTeam);
-    private Player player4 = new Player("Nick","",awayTeam);
-    private Player player5 = new Player("Sebastian","",awayTeam);
-    private Player player6 = new Player("Earl","",awayTeam);
+//    private Player player1 = new Player("Harry","",homeTeam);
+//    private Player player2 = new Player("Steve","",homeTeam);
+//    private Player player3 = new Player("Jones","",homeTeam);
+//    private Player player4 = new Player("Nick","",awayTeam);
+//    private Player player5 = new Player("Sebastian","",awayTeam);
+//    private Player player6 = new Player("Earl","",awayTeam);
 
 
-    public PlayGameWindow(JPanel panel, CardLayoutWindow clw) {
+    public PlayGameWindow(JPanel panel, CardLayoutWindow clw, Team homeTeamTemp, Team awayTeamTemp) {
         super(panel, clw);
+        homeTeam = homeTeamTemp;
+        awayTeam = awayTeamTemp;
     }
 
     public void displayGameWindow(){
 
         new Timer(1000,changeTime).start();
 
-        homeTeam.addActivePlayers(new ArrayList(Arrays.asList(player1,player2,player3)));
-        awayTeam.addActivePlayers(new ArrayList(Arrays.asList(player4,player5,player6)));
-
+//        homeTeam.addActivePlayers(new ArrayList(Arrays.asList(player1,player2,player3)));
+//        awayTeam.addActivePlayers(new ArrayList(Arrays.asList(player4,player5,player6)));
+//
         DefaultListModel homeModel = homeTeam.getTeamActivePlayersModel();
-        homeModel.add(0,player1.getName());
-        homeModel.add(1,player2.getName());
-        homeModel.add(2,player3.getName());
-
         DefaultListModel awayModel = awayTeam.getTeamActivePlayersModel();
-        awayModel.add(0,player4.getName());
-        awayModel.add(1,player5.getName());
-        awayModel.add(2,player6.getName());
 
-        homePlayersList = new JList(homeModel);
-        awayPlayersList = new JList(awayModel);
+        Player currPlayer;
+        for(int i = 0; i < homeTeam.getActivePlayers().size(); i++){
+            currPlayer = homeTeam.getActivePlayer(i);
+            homeModel.add(homeModel.size(),currPlayer.getName());
+        }
+        for(int i = 0; i < awayTeam.getActivePlayers().size(); i++){
+            currPlayer = awayTeam.getActivePlayer(i);
+            awayModel.add(awayModel.size(),currPlayer.getName());
+        }
+
+
+//        homeModel.add(0,player1.getName());
+//        homeModel.add(1,player2.getName());
+//        homeModel.add(2,player3.getName());
+//
+//        DefaultListModel awayModel = awayTeam.getTeamActivePlayersModel();
+//        awayModel.add(0,player4.getName());
+//        awayModel.add(1,player5.getName());
+//        awayModel.add(2,player6.getName());
+
+        homePlayersList = new JList(homeTeam.teamActivePlayersModel);
+        awayPlayersList = new JList(awayTeam.teamActivePlayersModel);
 
         JComponent homeTeamScrollList = factoryList(homePlayersList);
         JComponent awayTeamScrollList = factoryList(awayPlayersList);
@@ -85,9 +100,14 @@ public class PlayGameWindow extends MyWindow {
             lastLocation = frame.getLocation();
         }
 
-        JLabel scoreLabel = new JLabel(homeTeam.getName() + " " + homeTeam.getGoals()
-                + " "+ "--" + " "
-                + awayTeam.getGoals() + " " + awayTeam.getName());
+//        JLabel scoreLabel = new JLabel(homeTeam.getName() + " " + homeTeam.getGoals()
+//                + " "+ "--" + " "
+//                + awayTeam.getGoals() + " " + awayTeam.getName());
+
+        JLabel homeTeamName = new JLabel(homeTeam.getName());
+        JLabel awayTeamName = new JLabel(awayTeam.getName());
+
+        scoreLabel = new JLabel(homeTeam.getGoals() + " - " + awayTeam.getGoals());
 
         timeLabel = new JLabel("00:00");
 
@@ -104,6 +124,15 @@ public class PlayGameWindow extends MyWindow {
         Insets defaultInsets = new Insets(5,5,5,5);
 
         gbc.insets = defaultInsets;
+
+        gbc.gridx = 0; gbc.gridy = 0;
+        panel.add(homeTeamName,gbc);
+
+        gbc.gridx++;
+        panel.add(scoreLabel,gbc);
+
+        gbc.gridx++;
+        panel.add(awayTeamName,gbc);
 
         gbc.gridx = 1; gbc.gridy = 0;
         panel.add(scoreLabel,gbc);
@@ -146,22 +175,26 @@ public class PlayGameWindow extends MyWindow {
         if (command.contains("SCR_GOAL")) {
             if (command.contains("HOME")){
                 Player currPlayer = homeTeam.getActivePlayer(homePlayersList.getSelectedIndex());
+                currPlayer.scoreGoal();
                 Timeline.addToTimeline(gt.getWatchTime(),currPlayer.getName());
+                scoreLabel.setText(homeTeam.getGoals() + " - " + awayTeam.getGoals());
             } else if (command.contains("AWAY")){
                 Player currPlayer = awayTeam.getActivePlayer(awayPlayersList.getSelectedIndex());
+                currPlayer.scoreGoal();
                 Timeline.addToTimeline(gt.getWatchTime(),currPlayer.getName());
+                scoreLabel.setText(homeTeam.getGoals() + " - " + awayTeam.getGoals());
             }
             Timeline.printTimeline();
         }
     }
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            //    @Override is not allowed when implementing interface method
-            public void run() {
-                new PlayGameWindow(null,null).displayGameWindow();
-            }
-        });
-    }
+//    public static void main(String[] args) {
+//        SwingUtilities.invokeLater(new Runnable() {
+//            //    @Override is not allowed when implementing interface method
+//            public void run() {
+//                new PlayGameWindow(null,null).displayGameWindow();
+//            }
+//        });
+//    }
 
 }

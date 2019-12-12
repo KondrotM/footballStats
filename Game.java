@@ -66,11 +66,11 @@ public class Game extends csv {
                 System.out.println("Choose which players will play");
                 homeTeam.viewPlayers();
                 String currPlayer = main.getInput(null);
-                if (currPlayer.equals("src/test")){
+                if (currPlayer.equals("..")){
                     return;
                 }
                 int playerNumber = Integer.parseInt(currPlayer);
-                homeTeam.addActivePlayer(homeTeam.getPlayer(playerNumber));
+                homeTeam.addActivePlayer(playerNumber);
             }
         } else {
             homeTeam.addActivePlayers(homeTeam.getTeamPlayers());
@@ -85,7 +85,7 @@ public class Game extends csv {
                     return;
                 }
                 int playerNumber = Integer.parseInt(currPlayer);
-                awayTeam.addActivePlayer(awayTeam.getPlayer(playerNumber));
+                awayTeam.addActivePlayer(playerNumber);
             }
         } else {
             awayTeam.addActivePlayers(awayTeam.getTeamPlayers());

@@ -138,7 +138,7 @@ public class Tournament extends csv {
             System.out.println("3. Tournament");
             choice = main.getInput(null);
 
-            if ("src/test".equals(choice)) {
+            if ("..".equals(choice)) {
                 return;
             } else if ("1".equals(choice)) {
                 browseGames();
@@ -173,7 +173,7 @@ public class Tournament extends csv {
         System.out.println(".. Back");
         viewTeams();
         String currTeam = main.getInput(null);
-        if (currTeam.equals("src/test")){
+        if (currTeam.equals("..")){
             return null;
         } else {
             int teamNo = Integer.parseInt(currTeam);
@@ -189,7 +189,7 @@ public class Tournament extends csv {
 //        try {
         viewGames();
         String currGame = main.getInput(null);
-        if (currGame.equals("src/test")){
+        if (currGame.equals("..")){
             return;
         }
 //        }

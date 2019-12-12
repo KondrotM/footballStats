@@ -122,7 +122,8 @@ public class Team extends Element {
         activePlayers = new ArrayList();
     }
 
-    public void addActivePlayer(Player player){
+    public void addActivePlayer(int playerNo){
+        Player player = getPlayer(playerNo);
         activePlayers.add(player);
     }
 
@@ -171,7 +172,7 @@ public class Team extends Element {
         System.out.println(".. Back");
         viewPlayers();
         String currPlayer = main.getInput(null);
-        if (currPlayer.equals("src/test")){
+        if (currPlayer.equals("..")){
             return;
         } else {
             Player player = getPlayer(Integer.parseInt(currPlayer)-1);

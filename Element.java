@@ -63,6 +63,7 @@ public class Element {
 
     public void scoreGoal() {
         goals++;
+        goalsFor++;
     }
 
     public void init(){
@@ -77,7 +78,7 @@ public class Element {
             System.out.println(i+1 + ". " + currElement.getName());
         }
         String choice = main.getInput(null);
-        if (choice.equals("src/test")){
+        if (choice.equals("..")){
             return null;
         } else {
             int elementNo = Integer.parseInt(choice);

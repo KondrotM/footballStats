@@ -1,5 +1,7 @@
 package uk.ac.glos.ct5025.s1804317.footballStats.UI;
 
+import uk.ac.glos.ct5025.s1804317.footballStats.UI.Browse.BrowseTeamsSelectWindow;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -24,7 +26,7 @@ public class MainWindow extends MyWindow implements ActionListener {
         JComponent buttonSelectTournament = factoryButtonPane("Select Tournament", "NAV_SELECT_TOURNAMENT");
         JComponent buttonCreate = factoryButtonPane("Create..", "NAV_CREATE");
         JComponent buttonBrowse = factoryButtonPane("Browse..", "NAV_BROWSE");
-        JComponent buttonStartGame = factoryButtonPane("Start Game","NAV_START_GAME");
+        JComponent buttonStartGame = factoryButtonPane("Start Game","MKE_SELECT_HOME");
 
         JPanel panel = new JPanel();
 
@@ -57,10 +59,15 @@ public class MainWindow extends MyWindow implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         String command = e.getActionCommand();
-
-        CardLayout cardLayout = (CardLayout) contentPane.getLayout();
-        cardLayout.show(contentPane, command);
-
+        if (command.contains("NAV_")) {
+            CardLayout cardLayout = (CardLayout) contentPane.getLayout();
+            cardLayout.show(contentPane, command);
+        } else if(command.equals("MKE_SELECT_HOME")){
+            CardLayout cardLayout = (CardLayout) contentPane.getLayout();
+            BrowseTeamsSelectWindow browseTeamsSelectWindow = new BrowseTeamsSelectWindow(contentPane,CardLayoutWindow.cardLayoutWindow,"HOME");
+            contentPane.add(browseTeamsSelectWindow,command);
+            cardLayout.show(contentPane,command);
+        }
     }
 
 

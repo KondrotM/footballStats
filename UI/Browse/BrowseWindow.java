@@ -24,7 +24,7 @@ public class BrowseWindow extends MyWindow implements ActionListener {
     public JComponent createBrowseSection() {
         JLabel menuLabel = new JLabel("BROWSE");
 
-        JComponent buttonBack = factoryButtonPane("src/test", "NAV_MAIN");
+        JComponent buttonBack = factoryButtonPane("..", "NAV_MAIN");
         JComponent buttonBrowseGames = factoryButtonPane("Games", "NAV_BROWSE_GAMES");
         JComponent buttonBrowsePlayers = factoryButtonPane("Players","MKE_TEAMS_SELECT");
         JComponent buttonBrowseTeams = factoryButtonPane("Teams", "MKE_TEAMS_BROWSE");

@@ -43,7 +43,7 @@ public class Player extends Element {
             Tournament.activeTournament.viewTeams();
             //        selectTeam();
             String teamTempNo = main.getInput(null);
-            if (teamTempNo.equals("src/test")){
+            if (teamTempNo.equals("..")){
                 return;
             } else {
                 int teamNo = Integer.parseInt(teamTempNo);
@@ -70,6 +70,7 @@ public class Player extends Element {
 
     @Override
     public void scoreGoal(){
+        playerTeam.scoreGoal();
         goals++;
         goalsFor++;
     }

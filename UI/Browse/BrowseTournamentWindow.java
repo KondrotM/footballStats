@@ -38,7 +38,7 @@ public class BrowseTournamentWindow extends MyWindow implements ActionListener {
 
         JLabel menuLabel = new JLabel(Tournament.activeTournament.getTournamentName());
 
-        JComponent buttonBack = factoryButtonPane("src/test", "NAV_CLOSE");
+        JComponent buttonBack = factoryButtonPane("..", "NAV_CLOSE");
 
         JTable tournamentTable = new JTable(new MyTableModel());
 
