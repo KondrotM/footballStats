@@ -13,6 +13,10 @@ public class GameTimer {
         stopWatch.start();
     }
 
+    public long getStopWatch() {
+        return stopWatch.getTime(TimeUnit.SECONDS);
+    }
+
     public String getWatchTime(){
         long time = stopWatch.getTime(TimeUnit.SECONDS);
         long mintime = time/60;

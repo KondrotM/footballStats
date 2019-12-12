@@ -1,5 +1,7 @@
 package uk.ac.glos.ct5025.s1804317.footballStats;
 
+import uk.ac.glos.ct5025.s1804317.footballStats.UI.GameTimer;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -14,9 +16,15 @@ public class Game extends csv {
     private Team awayTeam;
     private DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 
+    private GameTimer gt = new GameTimer();
+
     private String gameDate;
 
     private boolean gameFinished = false;
+
+    public GameTimer getGameTimer(){
+        return gt;
+    }
 
 
     public Game (Team tempHomeTeam, Team tempAwayTeam){
@@ -111,13 +119,12 @@ public class Game extends csv {
 
         writeGame();
         finishGame();
-        homeTeam.resetActivePlayers();
-        awayTeam.resetActivePlayers();
+
 
         return gameResult;
     }
 
-    private void finishGame(){
+    public void finishGame(){
         if (homeTeam.getGoals() > awayTeam.getGoals()){
             homeTeam.gameWon();
             awayTeam.gameLost();
@@ -130,6 +137,9 @@ public class Game extends csv {
         }
         homeTeam.updateGoals(homeTeam.getGoals(),awayTeam.getGoals());
         awayTeam.updateGoals(awayTeam.getGoals(), homeTeam.getGoals());
+
+        homeTeam.resetActivePlayers();
+        awayTeam.resetActivePlayers();
     }
 
     private void getGameMenu() {
@@ -214,10 +224,8 @@ public class Game extends csv {
         }
     }
 
-    private void initialiseGame(){
-        // sets title
-        gameTitle = homeTeam.getName() + " vs " + awayTeam.getName() + " --- " + gameDate;
-
+    public void initialiseGame(){
+        // Flushes out local player data
         Player player;
         homeTeam.init();
         for (int i = 0; i < homeTeam.getActivePlayers().size(); i++){
@@ -229,6 +237,7 @@ public class Game extends csv {
             player = (Player) awayTeam.getActivePlayers().get(i);
             player.init();
         }
+
     }
 
 

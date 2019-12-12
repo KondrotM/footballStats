@@ -1,5 +1,6 @@
 package uk.ac.glos.ct5025.s1804317.footballStats.UI.Browse;
 
+import uk.ac.glos.ct5025.s1804317.footballStats.Game;
 import uk.ac.glos.ct5025.s1804317.footballStats.Player;
 import uk.ac.glos.ct5025.s1804317.footballStats.Team;
 import uk.ac.glos.ct5025.s1804317.footballStats.UI.CardLayoutWindow;
@@ -126,7 +127,9 @@ public class BrowsePlayersWindow extends MyWindow implements ActionListener, Lis
                 for (int i : players){
                     currTeam.addActivePlayer(i);
                 }
-                PlayGameWindow playGameWindow = new PlayGameWindow(contentPane,CardLayoutWindow.cardLayoutWindow,BrowsePlayersWindow.getHomeTeam(),currTeam);
+                Game game = new Game(BrowsePlayersWindow.getHomeTeam(),currTeam);
+                game.initialiseGame();
+                PlayGameWindow playGameWindow = new PlayGameWindow(contentPane,CardLayoutWindow.cardLayoutWindow,BrowsePlayersWindow.getHomeTeam(),currTeam,game);
                 playGameWindow.displayGameWindow();
             }
 
@@ -135,6 +138,7 @@ public class BrowsePlayersWindow extends MyWindow implements ActionListener, Lis
         }
 
     }
+
 }
 
 

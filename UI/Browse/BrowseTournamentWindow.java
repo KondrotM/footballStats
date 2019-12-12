@@ -41,6 +41,7 @@ public class BrowseTournamentWindow extends MyWindow implements ActionListener {
         JComponent buttonBack = factoryButtonPane("..", "NAV_CLOSE");
 
         JTable tournamentTable = new JTable(new MyTableModel());
+        tournamentTable.setAutoCreateRowSorter(true);
 
         ArrayList<Team> teamList = Tournament.activeTournament.getTournamentTeams();
         Object rowData[] = new Object[9];
