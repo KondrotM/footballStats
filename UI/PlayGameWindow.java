@@ -33,17 +33,20 @@ public class PlayGameWindow extends MyWindow {
 
 
     public void finishGame(){
-        game.finishGame();
         game.getGameTimer().getStopWatch().stop();
         StaticGame currGame = new StaticGame(game);
         Tournament.activeTournament.addGame(currGame);
+        game.finishGame();
+        homeModel.clear();
+        awayModel.clear();
         frame.dispose();
 
     }
 
     private JList homePlayersList;
     private JList awayPlayersList;
-
+    private DefaultListModel homeModel;
+    private DefaultListModel awayModel;
     private Point lastLocation = null;
     private Team homeTeam = new Team("Hull");
     private Team awayTeam = new Team("Chelsea");
@@ -60,6 +63,8 @@ public class PlayGameWindow extends MyWindow {
         super(panel, clw);
         homeTeam = homeTeamTemp;
         awayTeam = awayTeamTemp;
+        homeModel = homeTeam.getTeamActivePlayersModel();
+        awayModel = awayTeam.getTeamActivePlayersModel();
         game = tempGame;
     }
 
@@ -70,8 +75,7 @@ public class PlayGameWindow extends MyWindow {
 //        homeTeam.addActivePlayers(new ArrayList(Arrays.asList(player1,player2,player3)));
 //        awayTeam.addActivePlayers(new ArrayList(Arrays.asList(player4,player5,player6)));
 //
-        DefaultListModel homeModel = homeTeam.getTeamActivePlayersModel();
-        DefaultListModel awayModel = awayTeam.getTeamActivePlayersModel();
+
 
         Player currPlayer;
         for(int i = 0; i < homeTeam.getActivePlayers().size(); i++){

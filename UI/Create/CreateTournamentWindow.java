@@ -64,13 +64,9 @@ public class CreateTournamentWindow extends MyWindow implements ActionListener {
         } else if (command.equals("ACT_CREATE_TOURNAMENT")){
             if(!textFieldTournament.getText().equals("")) {
                 System.out.println(textFieldTournament.getText());
-                Tournament tournament = Tournament.factoryTournament(textFieldTournament.getText().toUpperCase());
+                Tournament.factoryTournament(textFieldTournament.getText().toUpperCase());
                 System.out.println(Tournament.activeTournament.getTournamentName());
                 textFieldTournament.setText(null);
-
-                // tournament list model and appends new tournament to it
-                DefaultListModel model = SelectTournamentWindow.getTournamentModel();
-                model.add(model.getSize(), tournament.getTournamentName());
             }
         }
 

@@ -77,6 +77,14 @@ public class Team extends Item {
         }
     }
 
+    public void setGoalsAgainst(int goalsAgainst) {
+        this.goalsAgainst = goalsAgainst;
+    }
+
+    public void setPoints(int points) {
+        this.points = points;
+    }
+
     public int getGoalsFor() {
         return goalsFor;
     }
@@ -109,7 +117,7 @@ public class Team extends Item {
 //        points ++;
 //    }
 
-    public ArrayList getTeamPlayers() {
+    public ArrayList<Player> getTeamPlayers() {
         //Returns array of team player names
         return teamPlayers;
     }

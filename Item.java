@@ -29,6 +29,26 @@ public class Item {
         return gamesPlayed;
     }
 
+    public void setGoals(int goals) {
+        this.goals = goals;
+    }
+
+    public void setGoalsFor(int goalsFor) {
+        this.goalsFor = goalsFor;
+    }
+
+    public void setGamesWon(int gamesWon) {
+        this.gamesWon = gamesWon;
+    }
+
+    public void setGamesDrawn(int gamesDrawn) {
+        this.gamesDrawn = gamesDrawn;
+    }
+
+    public void setGamesLost(int gamesLost) {
+        this.gamesLost = gamesLost;
+    }
+
     public String getName() { return name; }
 
     public int getGoalsFor() {
@@ -63,7 +83,6 @@ public class Item {
 
     public void scoreGoal() {
         goals++;
-        goalsFor++;
     }
 
     public void init(){

@@ -5,9 +5,12 @@ import uk.ac.glos.ct5025.s1804317.footballStats.Tournament;
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.filechooser.FileSystemView;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 
 public class SelectTournamentWindow extends MyWindow implements ActionListener, ListSelectionListener {
 
@@ -52,6 +55,7 @@ public class SelectTournamentWindow extends MyWindow implements ActionListener, 
         JComponent buttonBack = factoryButtonPane("..","NAV_MAIN");
         JComponent buttonSelectTournament = factoryButtonPane("Select","ACT_SELECT_TOURNAMENT");
         JComponent buttonExportTournament = factoryButtonPane("Export Tournament","ACT_EXPORT_TOURNAMENT");
+        JComponent buttonImportTournament = factoryButtonPane("Import Tournament", "ACT_IMPORT_TOURNAMENT");
 
 
         // Creates GridBagLayout panel
@@ -82,6 +86,9 @@ public class SelectTournamentWindow extends MyWindow implements ActionListener, 
         gbc.gridy++;
         panel.add(buttonExportTournament,gbc);
 
+        gbc.gridy++;
+        panel.add(buttonImportTournament,gbc);
+
         return panel;
     }
 
@@ -104,6 +111,22 @@ public class SelectTournamentWindow extends MyWindow implements ActionListener, 
         } else if (command.equals("ACT_EXPORT_TOURNAMENT")){
             Tournament tournament = Tournament.getTournamentList().get(tournamentList.getSelectedIndex());
             Tournament.exportTournament(tournament);
+        } else if (command.equals("ACT_IMPORT_TOURNAMENT")){
+
+            // Initialises a new file chooser
+            JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getDefaultDirectory());
+            jfc.setDialogTitle("CHOOSE TOURNAMENT");
+
+            // Only lets the user select XML files
+            jfc.setAcceptAllFileFilterUsed(false);
+            FileNameExtensionFilter filter = new FileNameExtensionFilter("XML Files","xml");
+            jfc.addChoosableFileFilter(filter);
+
+            int returnValue = jfc.showOpenDialog(null);
+            if (returnValue == JFileChooser.APPROVE_OPTION) {
+               File selectedFile = jfc.getSelectedFile();
+               Tournament.importTournament(selectedFile);
+            }
         }
 
     }

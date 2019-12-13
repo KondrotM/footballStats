@@ -34,8 +34,20 @@ public class StaticGame {
         }
     }
 
+    public StaticGame(String tempHomeTeam, String tempAwayTeam, int tempHomeTeamGoals, int tempAwayTeamGoals, String tempGameDate, String tempGameTime, ArrayList<String[]> tempHomePlayerData, ArrayList<String[]> tempAwayPlayerData){
+        homeTeam = tempHomeTeam;
+        awayTeam = tempAwayTeam;
+        homeTeamGoals = tempHomeTeamGoals;
+        awayTeamGoals = tempAwayTeamGoals;
+        gameDate = tempGameDate;
+        gameTime = tempGameTime;
+        homePlayerData = tempHomePlayerData;
+        awayPlayerData =  tempAwayPlayerData;
+    }
+
+
     public String getTitle(){
-        return homeTeam + " vs " + awayTeam;
+        return gameDate + " - " + homeTeam + " vs " + awayTeam;
     }
 
     public String getHomeTeam() {

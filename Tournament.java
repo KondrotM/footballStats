@@ -1,8 +1,7 @@
 package uk.ac.glos.ct5025.s1804317.footballStats;
 
-import org.w3c.dom.Attr;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
+import org.w3c.dom.*;
+import org.xml.sax.SAXException;
 import uk.ac.glos.ct5025.s1804317.footballStats.UI.SelectTournamentWindow;
 
 import javax.swing.*;
@@ -16,12 +15,13 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class Tournament extends csv {
     private String tournamentName;
     private ArrayList<Team> tournamentTeams;
-    private ArrayList tournamentGameList;
+    private ArrayList<StaticGame> tournamentGameList;
 
     // Holds all teams within the tournament
     private DefaultListModel tournamentTeamsModel = new DefaultListModel();
@@ -39,6 +39,10 @@ public class Tournament extends csv {
         tournamentName = tempName;
         tournamentTeams = new ArrayList();
         tournamentGameList = new ArrayList();
+    }
+
+    public ArrayList<StaticGame> getTournamentGameList(){
+        return tournamentGameList;
     }
 
     public void addTeam(Team team){
@@ -78,16 +82,26 @@ public class Tournament extends csv {
     public static Tournament factoryTournament(String tournamentName){
         Tournament tournament = null;
         if (tournamentName != ""){
-            // creates new tournament and appends it to the tournament list
+            // creates new tournament
             tournament = new Tournament(tournamentName);
-            tournamentList.add(tournament);
-            // if there is only one tournament, it is set as the active one
-            if(tournamentList.size()==1) {
-                selectTournament(0);
-            }
-
+            addTournament(tournament);
         }
         return tournament;
+    }
+
+    public static void addTournament(Tournament tournament){
+        // gets tournament list model and appends new tournament to it
+        DefaultListModel model = SelectTournamentWindow.getTournamentModel();
+        model.add(model.getSize(), tournament.getTournamentName());
+
+        // adds tournament to tournament list
+        tournamentList.add(tournament);
+        // if there is only one tournament, it is set as the active one
+        if(tournamentList.size()==1) {
+            selectTournament(0);
+        }
+
+
     }
 
     // selects active tournament
@@ -234,6 +248,142 @@ public class Tournament extends csv {
 
     }
 
+    public static void importTournament(File file){
+        try {
+            DocumentBuilderFactory documentFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder documentBuilder = documentFactory.newDocumentBuilder();
+            Document document = documentBuilder.parse(file);
+
+            // Normalises document so it's easier for the computer to read
+            document.getDocumentElement().normalize();
+
+            Tournament tournament = new Tournament(document.getDocumentElement().getAttribute("name"));
+
+            System.out.println("Root element: " + document.getDocumentElement().getNodeName());
+            Element teamsList = (Element) document.getElementsByTagName("teams").item(0);
+            NodeList teamsNodeList = teamsList.getElementsByTagName("team");
+
+            for(int i = 0; i < teamsNodeList.getLength(); i++){
+                Element teamElement = (Element) teamsNodeList.item(i);
+
+                Team team = new Team(teamElement.getElementsByTagName("name").item(0).getTextContent());
+                team.setGamesWon(Integer.parseInt(teamElement.getElementsByTagName("gameswon").item(0).getTextContent()));
+                team.setGamesLost(Integer.parseInt(teamElement.getElementsByTagName("gameslost").item(0).getTextContent()));
+                team.setGamesDrawn(Integer.parseInt(teamElement.getElementsByTagName("gamesdrawn").item(0).getTextContent()));
+                team.setGoalsFor(Integer.parseInt(teamElement.getElementsByTagName("goalsfor").item(0).getTextContent()));
+                team.setGoalsAgainst(Integer.parseInt(teamElement.getElementsByTagName("goalsagainst").item(0).getTextContent()));
+                team.setPoints(Integer.parseInt(teamElement.getElementsByTagName("teampoints").item(0).getTextContent()));
+                System.out.println(team.getName());
+
+                Element playersList = (Element) teamElement.getElementsByTagName("players").item(0);
+                NodeList playersNodeList = playersList.getElementsByTagName("player");
+                for(int j = 0; j < playersNodeList.getLength(); j++){
+                    Element playerElement = (Element) playersNodeList.item(j);
+
+                    Player player = new Player(playerElement.getElementsByTagName("name").item(0).getTextContent(),"",team);
+                    player.setGamesWon(Integer.parseInt(playerElement.getElementsByTagName("gameswon").item(0).getTextContent()));
+                    player.setGamesLost(Integer.parseInt(playerElement.getElementsByTagName("gameslost").item(0).getTextContent()));
+                    player.setGamesDrawn(Integer.parseInt(playerElement.getElementsByTagName("gamesdrawn").item(0).getTextContent()));
+                    player.setGoalsFor(Integer.parseInt(playerElement.getElementsByTagName("goalsfor").item(0).getTextContent()));
+
+                    team.addPlayer(player);
+                }
+
+                tournament.addTeam(team);
+
+            }
+
+            Element gamesList = (Element) document.getElementsByTagName("games").item(0);
+            NodeList gameNodeList = gamesList.getElementsByTagName("game");
+
+            for(int i = 0; i < gameNodeList.getLength(); i++) {
+                Element gameElement = (Element) gameNodeList.item(i);
+
+                String gameDate = gameElement.getElementsByTagName("date").item(0).getTextContent();
+                String gameTime = gameElement.getElementsByTagName("time").item(0).getTextContent();
+
+                Element homeTeamElement = (Element) gameElement.getElementsByTagName("hometeam").item(0);
+
+                String homeTeamName = homeTeamElement.getElementsByTagName("name").item(0).getTextContent();
+                int homeTeamGoals = Integer.parseInt(homeTeamElement.getElementsByTagName("goals").item(0).getTextContent());
+
+                Element homeTeamPlayersElement = (Element) gameElement.getElementsByTagName("players").item(0);
+                NodeList homeTeamPlayersNodeList = homeTeamPlayersElement.getElementsByTagName("player");
+
+                ArrayList<String[]> homePlayerData = new ArrayList<String[]>();
+
+                for(int j = 0; j < homeTeamPlayersNodeList.getLength(); j++ ){
+                    Element playerElement = (Element) homeTeamPlayersNodeList.item(j);
+
+
+                    System.out.println(playerElement.getElementsByTagName("name").item(0).getTextContent());
+
+                    String[] playerData = new String[]{
+                            playerElement.getElementsByTagName("name").item(0).getTextContent(),
+                            playerElement.getElementsByTagName("goals").item(0).getTextContent()
+                    };
+
+                    homePlayerData.add(playerData);
+                }
+
+                Element awayTeamElement = (Element) gameElement.getElementsByTagName("awayteam").item(0);
+
+                String awayTeamName = awayTeamElement.getElementsByTagName("name").item(0).getTextContent();
+                int awayTeamGoals = Integer.parseInt(awayTeamElement.getElementsByTagName("goals").item(0).getTextContent());
+
+                Element awayTeamPlayersElement = (Element) gameElement.getElementsByTagName("players").item(0);
+                NodeList awayTeamPlayersNodeList = awayTeamPlayersElement.getElementsByTagName("player");
+
+                ArrayList<String[]> awayPlayerData = new ArrayList<String[]>();
+
+                for(int j = 0; j < awayTeamPlayersNodeList.getLength(); j++ ){
+                    Element playerElement = (Element) awayTeamPlayersNodeList.item(j);
+
+                    String[] playerData = new String[]{
+                            playerElement.getElementsByTagName("name").item(0).getTextContent(),
+                            playerElement.getElementsByTagName("goals").item(0).getTextContent()
+                    };
+
+                    awayPlayerData.add(playerData);
+                }
+
+                StaticGame game = new StaticGame(homeTeamName,awayTeamName,homeTeamGoals,awayTeamGoals,gameDate,gameTime,homePlayerData,awayPlayerData);
+
+                tournament.addGame(game);
+
+            }
+
+            Tournament.addTournament(tournament);
+
+
+
+//            NodeList nodeTeamsList = nodeTeams.item(0).getElementsByTagName("team");
+
+//            for (int i = 0; i < nodeTeamsList.getLength(); i++){
+//                Element nodeTeam = (Element) nodeTeamsList.item(i);
+//                Team team = new Team(nodeTeam.getElementsByTagName("name").item(0).getTextContent());
+//                System.out.println(team.getName());
+//
+//                if (nodeTeam.getNodeType() == Node.ELEMENT_NODE){
+//
+//                }
+//            }
+
+
+
+        } catch (ParserConfigurationException e) {
+            e.printStackTrace();
+
+        } catch (SAXException e) {
+            e.printStackTrace();
+            // Cannot parse file
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
     public static void exportTournament(Tournament tournament){
         String path = xmlFilePath + tournament.getTournamentName() + ".xml";
         try {
@@ -247,6 +397,7 @@ public class Tournament extends csv {
 
 
             Element teams = document.createElement("teams");
+            teams.setAttribute("id","teams");
             root.appendChild(teams);
 
             Element team;
@@ -294,31 +445,31 @@ public class Tournament extends csv {
                 Element player;
 
                 // Constructs XML format for each player within a team with corresponding data
-                for (Player currPlayer : currTeam.getActivePlayers()){
+                for (Player currPlayer : currTeam.getTeamPlayers()){
                     player = document.createElement("player");
                     teamPlayers.appendChild(player);
 
                     player.setAttribute("id",Integer.toString(playerID));
 
                     name = document.createElement("name");
-                    name.appendChild(document.createTextNode(currTeam.getName()));
-                    team.appendChild(name);
+                    name.appendChild(document.createTextNode(currPlayer.getName()));
+                    player.appendChild(name);
 
                     gamesWon = document.createElement("gameswon");
-                    gamesWon.appendChild(document.createTextNode(Integer.toString(currTeam.getGamesWon())));
-                    team.appendChild(gamesWon);
+                    gamesWon.appendChild(document.createTextNode(Integer.toString(currPlayer.getGamesWon())));
+                    player.appendChild(gamesWon);
 
                     gamesLost = document.createElement("gameslost");
-                    gamesLost.appendChild(document.createTextNode(Integer.toString(currTeam.getGamesLost())));
-                    team.appendChild(gamesLost);
+                    gamesLost.appendChild(document.createTextNode(Integer.toString(currPlayer.getGamesLost())));
+                    player.appendChild(gamesLost);
 
                     gamesDrawn = document.createElement("gamesdrawn");
-                    gamesDrawn.appendChild(document.createTextNode(Integer.toString(currTeam.getGamesLost())));
-                    team.appendChild(gamesDrawn);
+                    gamesDrawn.appendChild(document.createTextNode(Integer.toString(currPlayer.getGamesLost())));
+                    player.appendChild(gamesDrawn);
 
                     goalsFor = document.createElement("goalsfor");
-                    goalsFor.appendChild(document.createTextNode(Integer.toString(currTeam.getGoalsFor())));
-                    team.appendChild(goalsFor);
+                    goalsFor.appendChild(document.createTextNode(Integer.toString(currPlayer.getGoalsFor())));
+                    player.appendChild(goalsFor);
 
                     playerID++;
                 }
@@ -329,11 +480,100 @@ public class Tournament extends csv {
             Element games = document.createElement("games");
             root.appendChild(games);
 
+            Element game;
+            int gameID = 0;
+
+            for (StaticGame currGame : tournament.getTournamentGameList()){
+                game = document.createElement("game");
+                games.appendChild(game);
+
+                game.setAttribute("id",Integer.toString(gameID));
+
+                Element name = document.createElement("title");
+                name.appendChild(document.createTextNode(currGame.getTitle()));
+                game.appendChild(name);
+
+                Element gameDate = document.createElement("date");
+                gameDate.appendChild(document.createTextNode(currGame.getGameDate()));
+                game.appendChild(gameDate);
+
+                Element gameTime = document.createElement("time");
+                gameTime.appendChild(document.createTextNode(currGame.getGameTime()));
+                game.appendChild(gameTime);
+
+                Element homeTeam = document.createElement("hometeam");
+                game.appendChild(homeTeam);
+
+                Element homeTeamName = document.createElement("name");
+                homeTeamName.appendChild(document.createTextNode(currGame.getHomeTeam()));
+                homeTeam.appendChild(homeTeamName);
+
+                Element awayTeam = document.createElement("awayteam");
+                game.appendChild(awayTeam);
+
+                Element awayTeamName = document.createElement("name");
+                awayTeamName.appendChild(document.createTextNode(currGame.getAwayTeam()));
+                awayTeam.appendChild(awayTeamName);
+
+                Element homeTeamGoals = document.createElement("goals");
+                homeTeamGoals.appendChild(document.createTextNode(Integer.toString(currGame.getHomeTeamGoals())));
+                homeTeam.appendChild(homeTeamGoals);
+
+                Element awayTeamGoals = document.createElement("goals");
+                awayTeamGoals.appendChild(document.createTextNode(Integer.toString(currGame.getAwayTeamGoals())));
+                awayTeam.appendChild(awayTeamGoals);
+
+                Element homeTeamPlayers = document.createElement("players");
+                homeTeam.appendChild(homeTeamPlayers);
+
+                Element awayTeamPlayers = document.createElement("players");
+                awayTeam.appendChild(awayTeamPlayers);
+
+
+                int playerID = 0;
+
+                for (String[] playerTuple : currGame.getHomePlayerData()){
+                    System.out.println("I exported here");
+                    Element player = document.createElement("player");
+                    player.setAttribute("id",Integer.toString(playerID));
+                    homeTeamPlayers.appendChild(player);
+
+                    Element playerName = document.createElement("name");
+                    playerName.appendChild(document.createTextNode(playerTuple[0]));
+                    player.appendChild(playerName);
+
+                    Element playerGoals = document.createElement("goals");
+                    playerGoals.appendChild(document.createTextNode(playerTuple[1]));
+                    player.appendChild(playerGoals);
+                    playerID++;
+                }
+
+                playerID = 0;
+
+                for (String[] playerTuple : currGame.getAwayPlayerData()){
+                    Element player = document.createElement("player");
+                    player.setAttribute("id",Integer.toString(playerID));
+                    awayTeamPlayers.appendChild(player);
+
+                    Element playerName = document.createElement("name");
+                    playerName.appendChild(document.createTextNode(playerTuple[0]));
+                    player.appendChild(playerName);
+
+                    Element playerGoals = document.createElement("goals");
+                    playerName.appendChild(document.createTextNode(playerTuple[1]));
+                    player.appendChild(playerGoals);
+                    playerID++;
+                }
+
+
+
+            }
+
 
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
             Transformer transformer = transformerFactory.newTransformer();
             DOMSource domSource = new DOMSource(document);
-            StreamResult streamResult = new StreamResult(new File(xmlFilePath));
+            StreamResult streamResult = new StreamResult(new File(path));
 
             transformer.transform(domSource,streamResult);
 
