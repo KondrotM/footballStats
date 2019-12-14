@@ -68,8 +68,7 @@ public class CreateTeamWindow extends MyWindow implements ActionListener {
                 System.out.println(textFieldTeam.getText());
                 Team team = Team.createTeam(textFieldTeam.getText());
                 textFieldTeam.setText(null);
-                DefaultListModel model = Tournament.activeTournament.getTournamentTeamsModel();
-                model.add(model.getSize(),team.getName());
+
 //                System.out.println(Tournament.activeTournament.getTournamentName());
 //                textFieldTournament.setText(null);
 

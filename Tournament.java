@@ -47,6 +47,8 @@ public class Tournament extends csv {
 
     public void addTeam(Team team){
         tournamentTeams.add(team);
+        DefaultListModel model = Tournament.activeTournament.getTournamentTeamsModel();
+        model.add(model.getSize(),team.getName());
     }
 
     public void addGame(StaticGame game) { tournamentGameList.add(game);}
@@ -259,6 +261,8 @@ public class Tournament extends csv {
 
             Tournament tournament = new Tournament(document.getDocumentElement().getAttribute("name"));
 
+            Tournament.addTournament(tournament);
+
             System.out.println("Root element: " + document.getDocumentElement().getNodeName());
             Element teamsList = (Element) document.getElementsByTagName("teams").item(0);
             NodeList teamsNodeList = teamsList.getElementsByTagName("team");
@@ -353,7 +357,6 @@ public class Tournament extends csv {
 
             }
 
-            Tournament.addTournament(tournament);
 
 
 

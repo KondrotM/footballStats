@@ -1,0 +1,155 @@
+@startuml
+'|Create Data|
+'|#AntiqueWhite|View Data|
+'|#AliceBlue|Store Data|
+|View Data|
+|Store Data|
+start
+:Main menu;
+split
+'Browse Window
+    |View Data|
+-> User can browse saved data;
+    :Browse;
+    split
+        partition "Browse Tournament"{
+        :Select Browse Tournament;
+        -> Menu appears in
+        new window;
+        fork
+        :View Active Tournament;
+        fork again
+        (A)
+        detach
+        end fork
+        }
+    split again
+        partition "Browse Teams"{
+        :Select Browse Teams;
+        :Select Team;
+        -> Menu appears in
+        new window;
+        fork
+        :View Selected Team;
+        fork again
+        (A)
+        detach
+        end fork
+        }
+    split again
+        partition "Browse Games"{
+        :Select Browse Games;
+        :Select Game;
+        -> Menu appears in
+        new window;
+        fork
+        :View Selected Game;
+        fork again
+        (A)
+        detach
+        end fork;
+        }
+    split again
+        partition "Browse Players"{
+        :Select Browse Players;
+        :Select Team;
+        :Select Player;
+        -> Menu appears in
+        new window;
+        fork
+        :View Selected Player;
+        fork again;
+        (A)
+        detach
+        end fork;
+        }
+    end split
+split again
+    |Store Data|
+    :Select Tournament;
+    split
+    -> User clicks on
+    desired tournament
+    and selects it;
+        :Select Active Tournament;
+        split again
+            :Select Import Tournament;
+            :Select File;
+            :Import;
+        split again
+        -> User clicks on
+        desired tournament
+        and exports it;
+            :Select Export Tournament;
+    end split
+split again
+|Create Data|
+'Create Window
+    :Create;
+    split
+        partition "Create Tournament" {
+            :Enter Tournament Menu;
+            :Submit Tournament Details;
+        }
+    split again
+        partition "Create Team" {
+            :Enter Create Team Menu;
+            :Submit Team Details;
+        }
+    split again
+        partition "Create Player" {
+            :Select Team;
+            :Enter Create Player Menu;
+            :Submit Player Details;
+        }
+    end split
+
+'Start Game window
+split again
+    :Start Game;
+    partition "Play Game"{
+    repeat
+    :Select Home Team;
+    :Select Home Players;
+    :Select Away Team;
+    :Select Away Players;
+    repeat while (homeTeam != awayTime?) is (no)
+    -> Menu appears in
+    new window;
+    fork
+    :
+    Begin Game;
+    fork again
+    (A)
+    detach
+    end fork
+    }
+end split
+|Store Data|
+split
+(A)
+split again
+end split
+
+stop
+
+
+'(*)  --> "Main Menu"
+'if "" then
+'--> "Create"
+'if "" then
+'--> "Create Tournament"
+'else
+'--> "Create Team"
+'else
+'--> "Create Player"
+'endif
+'else
+'--> "Browse"
+'else
+'--> "Select Tournament"
+'else
+'--> "Start Game"
+
+
+@enduml

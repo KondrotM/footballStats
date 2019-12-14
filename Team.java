@@ -143,6 +143,8 @@ public class Team extends Item {
         Team team = new Team(teamName);
         try {
             Tournament.activeTournament.addTeam(team);
+            DefaultListModel model = Tournament.activeTournament.getTournamentTeamsModel();
+            model.add(model.getSize(),team.getName());
             return team;
         } catch (NullPointerException ex) {
             JLabel msg = CreateTeamWindow.getErrorMessage();
@@ -152,8 +154,8 @@ public class Team extends Item {
     }
 
     public void addPlayer(Player player) {
-        //Grabs the player's name from the Player class, and adds it to the team's players.
         teamPlayers.add(player);
+        teamPlayersModel.add(teamPlayersModel.getSize(),player.getName());
     }
 
 

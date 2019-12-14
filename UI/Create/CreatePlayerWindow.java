@@ -73,8 +73,6 @@ public class CreatePlayerWindow extends MyWindow implements ActionListener {
                 Player player = new Player(textFieldPlayerName.getText(),"",currTeam);
                 player.addToTeam();
                 textFieldPlayerName.setText(null);
-                DefaultListModel model = currTeam.getTeamPlayersModel();
-                model.add(model.getSize(),player.getName());
 //                System.out.println(Tournament.activeTournament.getTournamentName());
 //                textFieldTournament.setText(null);
 

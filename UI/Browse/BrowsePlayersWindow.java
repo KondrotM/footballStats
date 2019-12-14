@@ -105,8 +105,12 @@ public class BrowsePlayersWindow extends MyWindow implements ActionListener, Lis
 
 
         if (command.equals("NAV_CLOSE")){
+            if (mode.equals("AWAY")){
+                homeTeam.resetActivePlayers();
+            }
             contentPane.remove(contentPane.getComponents().length-1);
             cardLayout.show(contentPane,"MKE_TEAMS_SELECT");
+
 
         } else if (command.equals("ACT_SELECT_PLAYER")){
             if(mode.equals("BROWSE")){
@@ -131,6 +135,8 @@ public class BrowsePlayersWindow extends MyWindow implements ActionListener, Lis
                 game.initialiseGame();
                 PlayGameWindow playGameWindow = new PlayGameWindow(contentPane,CardLayoutWindow.cardLayoutWindow,BrowsePlayersWindow.getHomeTeam(),currTeam,game);
                 playGameWindow.displayGameWindow();
+                contentPane.remove(contentPane.getComponents().length-1);
+                cardLayout.show(contentPane,"NAV_MAIN");
             }
 
 //            // Calls static function to set the selected tournament as active
