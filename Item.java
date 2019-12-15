@@ -89,20 +89,4 @@ public class Item {
         goals = 0;
     }
 
-    public Item getElement(ArrayList elementList){
-        System.out.println(".. Back");
-        Item currItem;
-        for (int i = 0; i < elementList.size(); i++) {
-            currItem = (Item) elementList.get(i);
-            System.out.println(i+1 + ". " + currItem.getName());
-        }
-        String choice = main.getInput(null);
-        if (choice.equals("..")){
-            return null;
-        } else {
-            int elementNo = Integer.parseInt(choice);
-            currItem = (Item) elementList.get(elementNo-1);
-            return currItem;
-        }
-    }
 }

@@ -26,6 +26,12 @@ public class Tournament extends csv {
     // Holds all teams within the tournament
     private DefaultListModel tournamentTeamsModel = new DefaultListModel();
 
+    private DefaultListModel tournamentGamesModel = new DefaultListModel();
+
+    public DefaultListModel getTournamentGamesModel(){
+        return tournamentGamesModel;
+    }
+
     public DefaultListModel getTournamentTeamsModel(){
         return tournamentTeamsModel;
     }
@@ -51,7 +57,16 @@ public class Tournament extends csv {
         model.add(model.getSize(),team.getName());
     }
 
-    public void addGame(StaticGame game) { tournamentGameList.add(game);}
+    public void addGame(StaticGame game) {
+        tournamentGameList.add(game);
+        DefaultListModel model = Tournament.activeTournament.getTournamentGamesModel();
+        model.add(model.getSize(), game.getTitle());
+    }
+
+    public StaticGame getGame(int i) {
+        StaticGame game = tournamentGameList.get(i);
+        return game;
+    }
 
     public String getTournamentName(){
         try{
@@ -108,21 +123,6 @@ public class Tournament extends csv {
 
     // selects active tournament
     public static void selectTournament(int tournamentNumber){
-//        System.out.println("Current active tournament: " + activeTournament.getTournamentName());
-//        // lists all available tournaments
-//        System.out.println(".. Back");
-//        for (int i = 0; i < tournamentList.size(); i++) {
-//            Tournament currTournament = tournamentList.get(i);
-//            System.out.println(i+1 + ". " + currTournament.getTournamentName());
-//        }
-//        // gets user input and sets it as active tournament
-//        String currTournament = main.getInput("Select team number");
-//        if (currTournament.equals("..")){
-//            return;
-//        } else {
-//            int tournamentNumber = Integer.parseInt(currTournament);
-//            activeTournament = tournamentList.get(tournamentNumber - 1);
-//        }
         activeTournament = tournamentList.get(tournamentNumber);
         SelectTournamentWindow.getCurrTournament().setText("ACTIVE TOURNAMENT: " + activeTournament.getTournamentName());
         SelectTournamentWindow.getCurrTournament().repaint();
@@ -142,86 +142,86 @@ public class Tournament extends csv {
         }
     }
 
-    private void browseTeams(){
-        while (true) {
-            // gets active team to browse
-            Team activeTeam = selectTeam();
-            // if activeTeam is null, it means the user wants to exit the menu
-            // hence, players are only selected if activeTeam is not null
-            if (activeTeam != null) {
-                activeTeam.selectPlayers();
-            } else {
-                return;
-            }
-        }
-    }
-
-    public void browse(){
-        String choice;
-        while (true){
-            System.out.println("Browse");
-            System.out.println(".. Back");
-            System.out.println("1. Games");
-            System.out.println("2. Teams");
-            System.out.println("3. Tournament");
-            choice = main.getInput(null);
-
-            if ("..".equals(choice)) {
-                return;
-            } else if ("1".equals(choice)) {
-                browseGames();
-            } else if ("2".equals(choice)) {
-                browseTeams();
-            } else if ("3".equals(choice)) {
-                browseTournament();
-            }
-        }
-    }
-
-    private void browseTournament(){
-        System.out.println("Tournament " + activeTournament.getTournamentName());
-        System.out.println("Name, GP W D L GF GA GD Pts");
-        Team currTeam;
-        for (int i = 0; i < activeTournament.getTournamentTeams().size(); i++){
-            currTeam = (Team) activeTournament.getTournamentTeams().get(i);
-            System.out.println(currTeam.getName() + " "
-                    + currTeam.getGamesPlayed() + " "
-                    + currTeam.getGamesWon() + " "
-                    + currTeam.getGamesLost() + " "
-                    + currTeam.getGamesDrawn() + " "
-                    + currTeam.getGoalsFor() + " "
-                    + currTeam.getGoalsAgainst() + " "
-                    + currTeam.getGoalsDifference() + " "
-                    + currTeam.getPoints());
-        }
-        main.getInput("Press enter to continue");
-    }
-    // lists all available teams in tournament
-    public Team selectTeam() {
-        System.out.println(".. Back");
-        viewTeams();
-        String currTeam = main.getInput(null);
-        if (currTeam.equals("..")){
-            return null;
-        } else {
-            int teamNo = Integer.parseInt(currTeam);
-            Team activeTeam = getTeam(teamNo -1);
-            return activeTeam;
-        }
-
-
-    }
-
-    private void browseGames() {
-        System.out.println("..Back");
-//        try {
-        viewGames();
-        String currGame = main.getInput(null);
-        if (currGame.equals("..")){
-            return;
-        }
+//    private void browseTeams(){
+//        while (true) {
+//            // gets active team to browse
+//            Team activeTeam = selectTeam();
+//            // if activeTeam is null, it means the user wants to exit the menu
+//            // hence, players are only selected if activeTeam is not null
+//            if (activeTeam != null) {
+//                activeTeam.selectPlayers();
+//            } else {
+//                return;
+//            }
 //        }
-    }
+//    }
+
+//    public void browse(){
+//        String choice;
+//        while (true){
+//            System.out.println("Browse");
+//            System.out.println(".. Back");
+//            System.out.println("1. Games");
+//            System.out.println("2. Teams");
+//            System.out.println("3. Tournament");
+//            choice = main.getInput(null);
+//
+//            if ("..".equals(choice)) {
+//                return;
+//            } else if ("1".equals(choice)) {
+//                browseGames();
+//            } else if ("2".equals(choice)) {
+//                browseTeams();
+//            } else if ("3".equals(choice)) {
+//                browseTournament();
+//            }
+//        }
+//    }
+
+//    private void browseTournament(){
+//        System.out.println("Tournament " + activeTournament.getTournamentName());
+//        System.out.println("Name, GP W D L GF GA GD Pts");
+//        Team currTeam;
+//        for (int i = 0; i < activeTournament.getTournamentTeams().size(); i++){
+//            currTeam = (Team) activeTournament.getTournamentTeams().get(i);
+//            System.out.println(currTeam.getName() + " "
+//                    + currTeam.getGamesPlayed() + " "
+//                    + currTeam.getGamesWon() + " "
+//                    + currTeam.getGamesLost() + " "
+//                    + currTeam.getGamesDrawn() + " "
+//                    + currTeam.getGoalsFor() + " "
+//                    + currTeam.getGoalsAgainst() + " "
+//                    + currTeam.getGoalsDifference() + " "
+//                    + currTeam.getPoints());
+//        }
+//        main.getInput("Press enter to continue");
+//    }
+    // lists all available teams in tournament
+//    public Team selectTeam() {
+//        System.out.println(".. Back");
+//        viewTeams();
+//        String currTeam = main.getInput(null);
+//        if (currTeam.equals("..")){
+//            return null;
+//        } else {
+//            int teamNo = Integer.parseInt(currTeam);
+//            Team activeTeam = getTeam(teamNo -1);
+//            return activeTeam;
+//        }
+//
+//
+//    }
+
+//    private void browseGames() {
+//        System.out.println("..Back");
+////        try {
+//        viewGames();
+//        String currGame = main.getInput(null);
+//        if (currGame.equals("..")){
+//            return;
+//        }
+////        }
+//    }
 
 // https://www.mkyong.com/java/java-how-to-list-all-files-in-a-directory/
     private void viewGames() throws NullPointerException {
@@ -237,17 +237,6 @@ public class Tournament extends csv {
 
             System.out.println(fileNames);
         }
-
-//        try (Stream<Path> walk = Files.walk(Paths.get(Game.getFilePath()))) {
-//            ArrayList<String> results = (ArrayList<String>) walk.filter(Files::isDirectory)
-//                    .map(x -> x.toString()).collect(Collectors.toList());
-//
-//            results.forEach(System.out::println);
-//
-//         } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-
     }
 
     public static void importTournament(File file){
@@ -335,7 +324,7 @@ public class Tournament extends csv {
                 String awayTeamName = awayTeamElement.getElementsByTagName("name").item(0).getTextContent();
                 int awayTeamGoals = Integer.parseInt(awayTeamElement.getElementsByTagName("goals").item(0).getTextContent());
 
-                Element awayTeamPlayersElement = (Element) gameElement.getElementsByTagName("players").item(0);
+                Element awayTeamPlayersElement = (Element) awayTeamElement.getElementsByTagName("players").item(0);
                 NodeList awayTeamPlayersNodeList = awayTeamPlayersElement.getElementsByTagName("player");
 
                 ArrayList<String[]> awayPlayerData = new ArrayList<String[]>();
@@ -356,21 +345,6 @@ public class Tournament extends csv {
                 tournament.addGame(game);
 
             }
-
-
-
-
-//            NodeList nodeTeamsList = nodeTeams.item(0).getElementsByTagName("team");
-
-//            for (int i = 0; i < nodeTeamsList.getLength(); i++){
-//                Element nodeTeam = (Element) nodeTeamsList.item(i);
-//                Team team = new Team(nodeTeam.getElementsByTagName("name").item(0).getTextContent());
-//                System.out.println(team.getName());
-//
-//                if (nodeTeam.getNodeType() == Node.ELEMENT_NODE){
-//
-//                }
-//            }
 
 
 
@@ -563,7 +537,7 @@ public class Tournament extends csv {
                     player.appendChild(playerName);
 
                     Element playerGoals = document.createElement("goals");
-                    playerName.appendChild(document.createTextNode(playerTuple[1]));
+                    playerGoals.appendChild(document.createTextNode(playerTuple[1]));
                     player.appendChild(playerGoals);
                     playerID++;
                 }

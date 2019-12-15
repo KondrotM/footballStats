@@ -51,13 +51,6 @@ public class PlayGameWindow extends MyWindow {
     private Team homeTeam = new Team("Hull");
     private Team awayTeam = new Team("Chelsea");
 
-//    private Player player1 = new Player("Harry","",homeTeam);
-//    private Player player2 = new Player("Steve","",homeTeam);
-//    private Player player3 = new Player("Jones","",homeTeam);
-//    private Player player4 = new Player("Nick","",awayTeam);
-//    private Player player5 = new Player("Sebastian","",awayTeam);
-//    private Player player6 = new Player("Earl","",awayTeam);
-
 
     public PlayGameWindow(JPanel panel, CardLayoutWindow clw, Team homeTeamTemp, Team awayTeamTemp, Game tempGame) {
         super(panel, clw);
@@ -72,9 +65,6 @@ public class PlayGameWindow extends MyWindow {
 
         new Timer(1000,changeTime).start();
 
-//        homeTeam.addActivePlayers(new ArrayList(Arrays.asList(player1,player2,player3)));
-//        awayTeam.addActivePlayers(new ArrayList(Arrays.asList(player4,player5,player6)));
-//
 
 
         Player currPlayer;
@@ -89,15 +79,6 @@ public class PlayGameWindow extends MyWindow {
         homeModel.add(0,"N/A");
         awayModel.add(0,"N/A");
 
-
-//        homeModel.add(0,player1.getName());
-//        homeModel.add(1,player2.getName());
-//        homeModel.add(2,player3.getName());
-//
-//        DefaultListModel awayModel = awayTeam.getTeamActivePlayersModel();
-//        awayModel.add(0,player4.getName());
-//        awayModel.add(1,player5.getName());
-//        awayModel.add(2,player6.getName());
 
         homePlayersList = new JList(homeTeam.teamActivePlayersModel);
         awayPlayersList = new JList(awayTeam.teamActivePlayersModel);
@@ -120,9 +101,6 @@ public class PlayGameWindow extends MyWindow {
             lastLocation = frame.getLocation();
         }
 
-//        JLabel scoreLabel = new JLabel(homeTeam.getName() + " " + homeTeam.getGoals()
-//                + " "+ "--" + " "
-//                + awayTeam.getGoals() + " " + awayTeam.getName());
 
         JLabel homeTeamName = new JLabel(homeTeam.getName());
         JLabel awayTeamName = new JLabel(awayTeam.getName());
@@ -197,9 +175,6 @@ public class PlayGameWindow extends MyWindow {
 
     }
 
-    // User can end game
-    // if endgamebutton.pressed || time = 90 mins
-
 
 
     @Override
@@ -209,28 +184,34 @@ public class PlayGameWindow extends MyWindow {
             try {
                 Player currPlayer;
                 if (command.contains("HOME")) {
+                    // checks if no player was selected
                     if (homePlayersList.getSelectedIndex() == 0) {
+                        // scores goal and updates timeline and text
                         homeTeam.scoreGoal();
-                        Timeline.addToTimeline(game.getGameTimer().getWatchTime(), homeTeam.getName());
+                        game.getTimeLine().writeGoal(game.getGameTimer().getWatchTime(),0,-1);
                         scoreLabel.setText(homeTeam.getGoals() + " - " + awayTeam.getGoals());
+                        // clears potential error messages
                         errorMsg.setText("");
                         return;
                     }
+                    // logs action to timeline
+                    game.getTimeLine().writeGoal(game.getGameTimer().getWatchTime(),0,homePlayersList.getSelectedIndex() - 1);
+                    // sets who the current player is for later in the code
                     currPlayer = homeTeam.getActivePlayer(homePlayersList.getSelectedIndex() - 1);
                 } else { // if (command.contains("AWAY")){
                     if (awayPlayersList.getSelectedIndex() == 0) {
                         awayTeam.scoreGoal();
-                        Timeline.addToTimeline(game.getGameTimer().getWatchTime(), awayTeam.getName());
+                        game.getTimeLine().writeGoal(game.getGameTimer().getWatchTime(),1,-1);
                         scoreLabel.setText(homeTeam.getGoals() + " - " + awayTeam.getGoals());
                         errorMsg.setText("");
                         return;
                     }
+                    game.getTimeLine().writeGoal(game.getGameTimer().getWatchTime(),1,awayPlayersList.getSelectedIndex() - 1);
                     currPlayer = awayTeam.getActivePlayer(awayPlayersList.getSelectedIndex() - 1);
                 }
                 currPlayer.scoreGoal();
-                Timeline.addToTimeline(game.getGameTimer().getWatchTime(), currPlayer.getName());
                 scoreLabel.setText(homeTeam.getGoals() + " - " + awayTeam.getGoals());
-                Timeline.printTimeline();
+                game.getTimeLine().printTimeline();
                 errorMsg.setText("");
             } catch (NullPointerException ex) {
                 errorMsg.setText("Select player");

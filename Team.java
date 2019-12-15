@@ -107,15 +107,6 @@ public class Team extends Item {
         goalsAgainst += ga;
     }
 
-//    public void gameWon() {
-//        gamesWon++;
-//        points += 3;
-//    }
-
-//    public void gameDrawn(){
-//        gamesDrawn++;
-//        points ++;
-//    }
 
     public ArrayList<Player> getTeamPlayers() {
         //Returns array of team player names
@@ -176,18 +167,4 @@ public class Team extends Item {
         return currPlayer;
     }
 
-    public void selectPlayers(){
-        //lists all available players in team
-        System.out.println("Players for "+ getName());
-        System.out.println(".. Back");
-        viewPlayers();
-        String currPlayer = main.getInput(null);
-        if (currPlayer.equals("..")){
-            return;
-        } else {
-            Player player = getPlayer(Integer.parseInt(currPlayer)-1);
-            System.out.println("Name: " + player.getName());
-            System.out.println("Date of Birth: " +player.getPlayerDoB());
-        }
-    }
 }

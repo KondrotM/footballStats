@@ -5,6 +5,7 @@ import uk.ac.glos.ct5025.s1804317.footballStats.UI.GameTimer;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.sql.Time;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -26,10 +27,18 @@ public class Game extends csv {
         return gt;
     }
 
+    private Timeline timeLine;
+
+    public Timeline getTimeLine(){
+        return timeLine;
+    }
 
     public Game (Team tempHomeTeam, Team tempAwayTeam){
         homeTeam = tempHomeTeam;
         awayTeam = tempAwayTeam;
+
+        // initialises a new timeline and passes this game as a parameter
+        timeLine = new Timeline(this);
 
         // sets gameDate to be current date.
         // written as a string but ordered as Y/M/D H:M:S so that it can still be ordered
@@ -48,70 +57,13 @@ public class Game extends csv {
 
     public String getGameTitle(){ return gameTitle; }
 
-    public static void getGame(){
-        Team homeTeam = null;
-        Team awayTeam = null;
-
-        while (homeTeam == awayTeam) {
-            System.out.println("Choose Home Team");
-            homeTeam = Tournament.activeTournament.selectTeam();
-            if (homeTeam == null){ return; }
-            System.out.println("Choose Away Team");
-            awayTeam = Tournament.activeTournament.selectTeam();
-            if (awayTeam == null){ return; }
-            if (homeTeam == awayTeam) {
-                System.out.println("Teams selected cannot be the same");
-            }
-        }
-
-        // creates unique set so players can't be added twice
-        ArrayList tempHomeTeamPlayers = new ArrayList();
-        ArrayList tempAwayTeamPlayers = new ArrayList();
-
-
-        if (homeTeam.getTeamPlayers().size() > 11) {
-            while(homeTeam.getActivePlayers().size() < 11) {
-                System.out.println("Choose which players will play");
-                homeTeam.viewPlayers();
-                String currPlayer = main.getInput(null);
-                if (currPlayer.equals("..")){
-                    return;
-                }
-                int playerNumber = Integer.parseInt(currPlayer);
-                homeTeam.addActivePlayer(playerNumber);
-            }
-        } else {
-            homeTeam.addActivePlayers(homeTeam.getTeamPlayers());
-        }
-        if (awayTeam.getTeamPlayers().size() > 11) {
-            // creates unique set so players can't be added twice
-            while(homeTeam.getActivePlayers().size() < 11) {
-                System.out.println("Choose which players will play");
-                awayTeam.viewPlayers();
-                String currPlayer = main.getInput(null);
-                if (currPlayer.equals(".")){
-                    return;
-                }
-                int playerNumber = Integer.parseInt(currPlayer);
-                awayTeam.addActivePlayer(playerNumber);
-            }
-        } else {
-            awayTeam.addActivePlayers(awayTeam.getTeamPlayers());
-        }
-
-        // declares new game
-        Game currGame = new Game(homeTeam,awayTeam);
-        // sets the currGame variable to be the completed game
-        currGame = currGame.startGame();
-        // appends to tournamentGameList
-    }
 
     private Game startGame() {
 
         initialiseGame();
 
         while (!gameFinished){
-            getGameMenu();
+//            getGameMenu();
         }
 
         Game gameResult =  this;
@@ -139,42 +91,6 @@ public class Game extends csv {
 
         homeTeam.resetActivePlayers();
         awayTeam.resetActivePlayers();
-    }
-
-    private void getGameMenu() {
-        System.out.println(homeTeam.getName() + " - "
-                + homeTeam.getGoals() + " -- "
-                + awayTeam.getGoals() + " - "
-                + awayTeam.getName());
-        System.out.println("1. Score Goal");
-        System.out.println("2. End Game");
-        String choice = main.getInput(null);
-        if (choice.equals("1")){
-            System.out.println(".. Back");
-            System.out.println("1. Home Team");
-            System.out.println("2. Away Team");
-            choice = main.getInput(null);
-            if (choice.equals("1")){
-                homeTeam.scoreGoal();
-                choosePlayer(homeTeam);
-            }
-            if (choice.equals("2")){
-                awayTeam.scoreGoal();
-                choosePlayer(awayTeam);
-            }
-        } else if (choice.equals("2")){
-            gameFinished = true;
-        }
-
-    }
-
-    private void choosePlayer(Team team) {
-        Player player = (Player) team.getElement(team.getActivePlayers());
-        if (player == null) {
-            return;
-        } else {
-            player.scoreGoal();
-        }
     }
 
     private void writeGame() {
