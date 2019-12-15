@@ -29,6 +29,8 @@ public class Game extends csv {
 
     private Timeline timeLine;
 
+    private boolean possession;
+
     public Timeline getTimeLine(){
         return timeLine;
     }
@@ -36,6 +38,7 @@ public class Game extends csv {
     public Game (Team tempHomeTeam, Team tempAwayTeam){
         homeTeam = tempHomeTeam;
         awayTeam = tempAwayTeam;
+        possession = true;
 
         // initialises a new timeline and passes this game as a parameter
         timeLine = new Timeline(this);
@@ -57,6 +60,14 @@ public class Game extends csv {
 
     public String getGameTitle(){ return gameTitle; }
 
+    public boolean getPossession(){
+        return possession;
+    }
+
+    public void changePossession(){
+        possession = !possession;
+        System.out.println(possession);
+    }
 
     private Game startGame() {
 

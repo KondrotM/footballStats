@@ -12,7 +12,8 @@ public class StaticGame {
     private String gameTime;
     private ArrayList<String[]> homePlayerData;
     private ArrayList<String[]> awayPlayerData;
-    private long possession;
+    private float possession;
+    private ArrayList<Entry> timeline;
 
 
     public StaticGame(Game game){
@@ -32,9 +33,11 @@ public class StaticGame {
             String[] playerTuple = new String[]{player.getName(),Integer.toString(player.getGoals())};
             awayPlayerData.add(playerTuple);
         }
+        possession = game.getTimeLine().getPossession();
+//        timeline = game.getTimeLine().getTimeline();
     }
 
-    public StaticGame(String tempHomeTeam, String tempAwayTeam, int tempHomeTeamGoals, int tempAwayTeamGoals, String tempGameDate, String tempGameTime, ArrayList<String[]> tempHomePlayerData, ArrayList<String[]> tempAwayPlayerData){
+    public StaticGame(String tempHomeTeam, String tempAwayTeam, int tempHomeTeamGoals, int tempAwayTeamGoals, String tempGameDate, String tempGameTime, ArrayList<String[]> tempHomePlayerData, ArrayList<String[]> tempAwayPlayerData, float tempPossession){
         homeTeam = tempHomeTeam;
         awayTeam = tempAwayTeam;
         homeTeamGoals = tempHomeTeamGoals;
@@ -43,8 +46,14 @@ public class StaticGame {
         gameTime = tempGameTime;
         homePlayerData = tempHomePlayerData;
         awayPlayerData =  tempAwayPlayerData;
+        possession = tempPossession;
     }
 
+
+
+    public float getPossession(){
+        return possession;
+    }
 
     public String getTitle(){
         return gameDate + " - " + homeTeam + " vs " + awayTeam;

@@ -294,6 +294,7 @@ public class Tournament extends csv {
 
                 String gameDate = gameElement.getElementsByTagName("date").item(0).getTextContent();
                 String gameTime = gameElement.getElementsByTagName("time").item(0).getTextContent();
+                float gamePossession = Float.parseFloat(gameElement.getElementsByTagName("possession").item(0).getTextContent());
 
                 Element homeTeamElement = (Element) gameElement.getElementsByTagName("hometeam").item(0);
 
@@ -340,7 +341,7 @@ public class Tournament extends csv {
                     awayPlayerData.add(playerData);
                 }
 
-                StaticGame game = new StaticGame(homeTeamName,awayTeamName,homeTeamGoals,awayTeamGoals,gameDate,gameTime,homePlayerData,awayPlayerData);
+                StaticGame game = new StaticGame(homeTeamName,awayTeamName,homeTeamGoals,awayTeamGoals,gameDate,gameTime,homePlayerData,awayPlayerData,gamePossession);
 
                 tournament.addGame(game);
 
@@ -477,6 +478,10 @@ public class Tournament extends csv {
                 Element gameTime = document.createElement("time");
                 gameTime.appendChild(document.createTextNode(currGame.getGameTime()));
                 game.appendChild(gameTime);
+
+                Element gamePossession = document.createElement("possession");
+                gamePossession.appendChild(document.createTextNode(Float.toString(currGame.getPossession())));
+                game.appendChild(gamePossession);
 
                 Element homeTeam = document.createElement("hometeam");
                 game.appendChild(homeTeam);

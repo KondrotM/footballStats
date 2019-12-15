@@ -28,7 +28,7 @@ public class CreatePlayerWindow extends MyWindow implements ActionListener {
     }
 
     public JComponent factoryPlayerCreateWindow(){
-        JLabel menuLabel = new JLabel("CREATE TEAM");
+        JLabel menuLabel = new JLabel("CREATE PLAYER");
 
         JComponent buttonBack = factoryButtonPane("..", "NAV_CREATE");
         JComponent buttonCreate = factoryButtonPane("Create", "ACT_CREATE_TEAM");

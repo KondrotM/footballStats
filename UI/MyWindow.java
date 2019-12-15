@@ -96,7 +96,7 @@ public class MyWindow extends JPanel implements ActionListener {
         gbc.anchor = GridBagConstraints.FIRST_LINE_START;
 
         gbc.gridx = 2; gbc.gridy = 0;
-        panel.add(new JLabel(game.getHomeTeam() + " vs " +  game.getAwayTeam()),gbc);
+        panel.add(new JLabel(game.getHomeTeamGoals() + "  " + game.getHomeTeam() + " vs " + game.getAwayTeam() + "  " + game.getAwayTeamGoals()),gbc);
         gbc.gridx = 0;
 
         ////////// Add Home Players
@@ -111,7 +111,7 @@ public class MyWindow extends JPanel implements ActionListener {
         panel.add(new JLabel("Goals"),gbc);
 
         gbc.gridy--;
-        panel.add(new JLabel(Integer.toString(game.getHomeTeamGoals())),gbc);
+        panel.add(new JLabel(String.valueOf(Math.round(game.getPossession()*100))+ "%"),gbc);
         gbc.gridy++;
 
         gbc.gridx--;
@@ -142,7 +142,7 @@ public class MyWindow extends JPanel implements ActionListener {
         panel.add(new JLabel("Goals"),gbc);
 
         gbc.gridy--;
-        panel.add(new JLabel(Integer.toString(game.getAwayTeamGoals())),gbc);
+        panel.add(new JLabel(String.valueOf(Math.round((1 - game.getPossession())*100)) + "%"),gbc);
         gbc.gridy++;
 
         gbc.gridy++;

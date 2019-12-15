@@ -67,7 +67,7 @@ public class TextPrompt extends JLabel
      *
      *  @param alpha value in the range of 0 - 1.0.
      */
-    public void changeAlpha(float alpha)
+    public void changeAlpha(long alpha)
     {
         changeAlpha( (int)(alpha * 255) );
     }

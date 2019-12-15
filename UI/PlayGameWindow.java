@@ -34,15 +34,17 @@ public class PlayGameWindow extends MyWindow {
 
     public void finishGame(){
         game.getGameTimer().getStopWatch().stop();
+        game.getTimeLine().writeEndGame(game.getGameTimer().getWatchTime(),game.getPossession());
+        game.getTimeLine().getPossession();
         StaticGame currGame = new StaticGame(game);
         Tournament.activeTournament.addGame(currGame);
         game.finishGame();
         homeModel.clear();
         awayModel.clear();
         frame.dispose();
-
     }
 
+    private JLabel possessionLabel;
     private JList homePlayersList;
     private JList awayPlayersList;
     private DefaultListModel homeModel;
@@ -109,9 +111,9 @@ public class PlayGameWindow extends MyWindow {
 
         timeLabel = new JLabel("00:00");
 
-        JLabel possessionLabel = new JLabel("Possession: "+homeTeam.getName());
+        possessionLabel = new JLabel("Possession: "+homeTeam.getName());
 
-        JComponent possessionButton = factoryButtonPane("Change Possession","ACT_POSSESSION");
+        JComponent possessionButton = factoryButtonPane("Change Possession","ACT_CHANGE_POSSESSION");
         JComponent scoreButtonHome = factoryButtonPane("Goal","SCR_GOAL_HOME");
         JComponent scoreButtonAway = factoryButtonPane("Goal","SCR_GOAL_AWAY");
         JComponent endGameButton = factoryButtonPane("End Game","ACT_END_GAME");
@@ -218,6 +220,14 @@ public class PlayGameWindow extends MyWindow {
             }
         } if( command.contains("ACT_END_GAME") ){
             finishGame();
+        } if (command.equals("ACT_CHANGE_POSSESSION")){
+            game.changePossession();
+            game.getTimeLine().writePossession(game.getGameTimer().getWatchTime(),game.getPossession());
+            if (game.getPossession()) {
+                possessionLabel.setText("POSSESSION: " + homeTeam.getName());
+            } else {
+                possessionLabel.setText("POSSESSION: " + awayTeam.getName());
+            }
         }
     }
 

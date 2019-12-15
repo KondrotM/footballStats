@@ -8,7 +8,7 @@ public class Player extends Item {
 
 
 
-    // shows which team player belongs to
+    // shows which team player befloats to
     private Team playerTeam;
 
     //Creates a Player object which can then be used to assign new players
