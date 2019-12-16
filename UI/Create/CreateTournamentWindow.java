@@ -65,7 +65,7 @@ public class CreateTournamentWindow extends MyWindow implements ActionListener {
             if(!textFieldTournament.getText().equals("")) {
                 System.out.println(textFieldTournament.getText());
                 Tournament.factoryTournament(textFieldTournament.getText().toUpperCase());
-                System.out.println(Tournament.activeTournament.getTournamentName());
+                System.out.println(Tournament.getActiveTournament().getTournamentName());
                 textFieldTournament.setText(null);
             }
         }

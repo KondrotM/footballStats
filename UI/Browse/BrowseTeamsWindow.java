@@ -29,7 +29,7 @@ public class BrowseTeamsWindow extends MyWindow implements ActionListener, ListS
     public JComponent factoryBrowseTeamsWindow(){
         JLabel menuLabel = new JLabel("SELECT TEAM");
 
-        teamsList = new JList(Tournament.activeTournament.getTournamentTeamsModel());
+        teamsList = new JList(Tournament.getActiveTournament().getTournamentTeamsModel());
 
         JComponent teamsScrollList = factoryList(teamsList);
 
@@ -82,7 +82,7 @@ public class BrowseTeamsWindow extends MyWindow implements ActionListener, ListS
             cardLayout.show(contentPane, command);
         } else if (command.equals("MKE_SELECT")){
 //            CardLayout cardLayout = (CardLayout) contentPane.getLayout();
-            Team team = Tournament.activeTournament.getTeam(teamsList.getSelectedIndex());
+            Team team = Tournament.getActiveTournament().getTeam(teamsList.getSelectedIndex());
             displayFrame(team);
 //            BrowsePlayersWindow browsePlayersWindow = new BrowsePlayersWindow(contentPane,CardLayoutWindow.cardLayoutWindow,team);
 //            contentPane.add(browsePlayersWindow,"MKE_BROWSE_PLAYERS");

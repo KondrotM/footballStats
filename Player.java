@@ -6,14 +6,12 @@ public class Player extends Item {
 
     private String playerDoB;
 
-
-
-    // shows which team player befloats to
+    // shows which team player belongs to
     private Team playerTeam;
 
     //Creates a Player object which can then be used to assign new players
-    public Player(String tempFName, String tempDoB, Team team){
-        super(tempFName);
+    public Player(String name, String tempDoB, Team team){
+        super(name);
         playerDoB = tempDoB;
         playerTeam = team;
     }
@@ -26,6 +24,7 @@ public class Player extends Item {
         return playerDoB;
     }
 
+    // Overrides item method to also score for the player's team
     @Override
     public void scoreGoal(){
         playerTeam.scoreGoal();

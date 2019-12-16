@@ -36,14 +36,14 @@ public class BrowseTournamentWindow extends MyWindow implements ActionListener {
             lastLocation = frame.getLocation();
         }
 
-        JLabel menuLabel = new JLabel(Tournament.activeTournament.getTournamentName());
+        JLabel menuLabel = new JLabel(Tournament.getActiveTournament().getTournamentName());
 
         JComponent buttonBack = factoryButtonPane("..", "NAV_CLOSE");
 
         JTable tournamentTable = new JTable(new MyTableModel());
         tournamentTable.setAutoCreateRowSorter(true);
 
-        ArrayList<Team> teamList = Tournament.activeTournament.getTournamentTeams();
+        ArrayList<Team> teamList = Tournament.getActiveTournament().getTournamentTeams();
         Object rowData[] = new Object[9];
 
         tournamentTable.setPreferredScrollableViewportSize(new Dimension(700, 150));

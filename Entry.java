@@ -4,9 +4,9 @@ public class Entry {
 
     private String time;
     private String action;
+    // String[] as multiple data needs to be sent sometimes
     private String[] data;
     private String output;
-
 
     public Entry(String time, String action, String[] data, String output) {
         this.time = time;

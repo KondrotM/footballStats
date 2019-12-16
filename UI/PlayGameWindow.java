@@ -80,7 +80,7 @@ public class PlayGameWindow extends MyWindow {
         game.getTimeLine().writeEndGame(game.getGameTimer().getWatchTime(),game.getPossession());
         game.getTimeLine().getPossession();
         StaticGame currGame = new StaticGame(game);
-        Tournament.activeTournament.addGame(currGame);
+        Tournament.getActiveTournament().addGame(currGame);
         game.finishGame();
         homeModel.clear();
         awayModel.clear();

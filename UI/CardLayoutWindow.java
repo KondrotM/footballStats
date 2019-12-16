@@ -37,7 +37,6 @@ public class CardLayoutWindow {
         createTournamentWindow = new CreateTournamentWindow(contentPane,cardLayoutWindow);
         selectTournamentWindow = new SelectTournamentWindow(contentPane,cardLayoutWindow);
         createTeamWindow = new CreateTeamWindow(contentPane, cardLayoutWindow);
-//        browseTeamsWindow = new BrowseTeamsWindow(contentPane,cardLayoutWindow);
 
         contentPane.add(mainWindow,"NAV_MAIN");
         contentPane.add(browseWindow,"NAV_BROWSE");
@@ -45,10 +44,8 @@ public class CardLayoutWindow {
         contentPane.add(createTournamentWindow,"NAV_CREATE_TOURNAMENT");
         contentPane.add(selectTournamentWindow,"NAV_SELECT_TOURNAMENT");
         contentPane.add(createTeamWindow,"NAV_CREATE_TEAM");
-//        contentPane.add(browseTeamsWindow,"NAV_BROWSE_TEAMS");
 
         frame.getContentPane().add(contentPane);
-//        frame.pack();
         frame.setSize(MyWindow.getSizeX(),MyWindow.getSizeY());
         frame.setLocationByPlatform(true);
         frame.setVisible(true);

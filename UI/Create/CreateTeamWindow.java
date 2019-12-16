@@ -66,7 +66,7 @@ public class CreateTeamWindow extends MyWindow implements ActionListener {
         } else if (command.equals("ACT_CREATE_TEAM")){
             if(!textFieldTeam.getText().equals("")) {
                 System.out.println(textFieldTeam.getText());
-                Tournament.activeTournament.addTeam(new Team(textFieldTeam.getText().toUpperCase()));
+                Tournament.getActiveTournament().addTeam(new Team(textFieldTeam.getText().toUpperCase()));
                 textFieldTeam.setText(null);
 
 //                System.out.println(Tournament.activeTournament.getTournamentName());

@@ -1,14 +1,13 @@
 @startuml
 
 class Game {
-- String gameTitle
 - Team homeTeam
 - Team awayTeam
-- DateFormat dateFormat =
-{field}new SimpleDateFormat
-("yyyy/MM/DD HH:mm:ss")
 - String gameDate
-- boolean gameFinished = false
+- boolean possession
+- DateFormat dateFormat
+- GameTimer gt
+
 --
 + {static} void getGame()
 - Game startGame()

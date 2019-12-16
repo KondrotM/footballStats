@@ -13,24 +13,16 @@ public class Timeline {
         game = tempGame;
     }
 
-//    public void addToTimeline(String time, String command){
-//        String[] event = new String[]{time,command};
-//        System.out.println(event[0]);
-//        timeline.add(event);
-//    }
-
-    /// TIMELINE
-    // time/action/data/output
-    // 00:20/SCR_GOAL/int[]{0,5}/homeTeam.getActivePlayer[5].getName() scored a goal!
-
+    // method for when the user wants to write their own comment
     public void writeComment(String time, String comment){
         String output = comment.toUpperCase();
         String action = "COMMENT";
+        // creates new entry with no data, only player input as output
         Entry entry = new Entry(time,action,new String[]{""},output);
         timeline.add(entry);
     }
 
-
+    // method for when a goal is scored
     public void writeGoal(String time, int teamNo, int playerNo){
         int[] data = new int[]{teamNo,playerNo};
         String action = "SCR_GOAL";
@@ -59,6 +51,7 @@ public class Timeline {
 
         Integer.toString(data[0]);
 
+        // saves team number (0 home / 1 away) and player index
         String[] sData = new String[]{Integer.toString(data[0]),Integer.toString(data[1])};
 
         Entry entry = new Entry(time,action,sData,output);
@@ -66,6 +59,7 @@ public class Timeline {
         timeline.add(entry);
     }
 
+    // method for when the possession is changed
     public void writePossession(String time, boolean possession){
         String action = "CGE_POSSESSION";
         String output;
@@ -75,6 +69,7 @@ public class Timeline {
             output = game.getAwayTeam().getName() + " HAS POSSESSION";
         }
 
+        // saves boolean possession
         String[] strPossession = new String[]{Boolean.toString(possession)};
 
         Entry entry = new Entry(time,action,strPossession,output);
@@ -82,13 +77,7 @@ public class Timeline {
         timeline.add(entry);
     }
 
-    public int getTimeFromTimer(String timer){
-        int minutes = Integer.parseInt(timer.substring(0,2));
-        int seconds = Integer.parseInt(timer.substring(3,5));
-        int time = (minutes*60)+seconds;
-        return time;
-    }
-
+    // method for when the game ends
     public void writeEndGame(String time, boolean possession){
         String action = "END_GAME";
         String output = "GAME OVER";
@@ -98,11 +87,19 @@ public class Timeline {
         timeline.add(entry);
     }
 
+    // gets second value from string timer 00:00
+    public int getTimeFromTimer(String timer){
+        int minutes = Integer.parseInt(timer.substring(0,2));
+        int seconds = Integer.parseInt(timer.substring(3,5));
+        int time = (minutes*60)+seconds;
+        return time;
+    }
+
+    // calculates possession
     public float getPossession(){
         float homeTeamTimePossession = 0;
         float awayTeamLastTimePossession = 0;
         float homeTeamPossession = 4f;
-        boolean lastPossession = true;
         float currTime = 0;
 
         for (int i = 0; i < timeline.size(); i++) {
@@ -113,12 +110,10 @@ public class Timeline {
                     // the current time and last time the enemy team had possession
                     currTime = getTimeFromTimer(entry.getTime());
                     homeTeamTimePossession += currTime - awayTeamLastTimePossession;
-                    lastPossession = false;
                 } else {
                     // saves the last time the away team had the ball
                     currTime = getTimeFromTimer(entry.getTime());
                     awayTeamLastTimePossession = currTime;
-                    lastPossession = true;
                 }
             } if(entry.getAction().equals("END_GAME")) {
                 if(!Boolean.valueOf(entry.getData()[0])){
@@ -131,6 +126,7 @@ public class Timeline {
                     currTime = getTimeFromTimer(entry.getTime());
                 }
                 if (currTime != 0) {
+                    // divides time home team has had the ball over the total time
                     homeTeamPossession = (homeTeamTimePossession / currTime);
                 }
             }
@@ -139,15 +135,9 @@ public class Timeline {
     }
 
 
+    // returns timeline
     public ArrayList getTimeline(){
         return timeline;
     }
 
-    public void printTimeline(){
-//        for(Object data : timeline){
-//            data = (ArrayList) data;
-//            for (int i = 0;)
-//
-//        }
-    }
 }

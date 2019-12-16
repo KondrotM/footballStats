@@ -16,8 +16,8 @@ public class MyTableModel extends AbstractTableModel {
     // Creates a multidimensional array, each containing a team's data.
     private ArrayList<ArrayList> data(){
         ArrayList<ArrayList> data = new ArrayList<ArrayList>();
-        for (int i = 0; i < Tournament.activeTournament.getTournamentTeams().size(); i++){
-            Team currTeam = Tournament.activeTournament.getTeam(i);
+        for (int i = 0; i < Tournament.getActiveTournament().getTournamentTeams().size(); i++){
+            Team currTeam = Tournament.getActiveTournament().getTeam(i);
             ArrayList teamData = new ArrayList();
             teamData.add(currTeam.getName());
             teamData.add(currTeam.getGamesPlayed());

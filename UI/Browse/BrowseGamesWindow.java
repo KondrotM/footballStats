@@ -29,7 +29,7 @@ public class BrowseGamesWindow extends MyWindow implements ActionListener, ListS
     public JComponent factoryBrowseGamesWindow() {
         JLabel menuLabel = new JLabel("SELECT GAME");
 
-        gamesList = new JList(Tournament.activeTournament.getTournamentGamesModel());
+        gamesList = new JList(Tournament.getActiveTournament().getTournamentGamesModel());
 
         JComponent gamesScrollList = factoryList(gamesList);
 
@@ -79,10 +79,10 @@ public class BrowseGamesWindow extends MyWindow implements ActionListener, ListS
             contentPane.remove(contentPane.getComponents().length-1);
             cardLayout.show(contentPane, "NAV_BROWSE");
         } else if (command.equals("ACT_SELECT_GAME")) {
-            StaticGame game = Tournament.activeTournament.getGame(gamesList.getSelectedIndex());
+            StaticGame game = Tournament.getActiveTournament().getGame(gamesList.getSelectedIndex());
             displayGameFrame(game);
         } else if (command.equals("MKE_PLAY_GAME")){
-            StaticGame game = Tournament.activeTournament.getGame(gamesList.getSelectedIndex());
+            StaticGame game = Tournament.getActiveTournament().getGame(gamesList.getSelectedIndex());
             PlayGameWindow playGameWindow = new PlayGameWindow(contentPane,CardLayoutWindow.cardLayoutWindow,game,"PLAYBACK");
             playGameWindow.displayGameWindow();
         }

@@ -37,7 +37,7 @@ public class BrowseTeamsSelectWindow extends BrowseTeamsWindow implements Action
         } else if (command.equals("MKE_SELECT")){
             CardLayout cardLayout = (CardLayout) contentPane.getLayout();
             int teamIndex = teamsList.getSelectedIndex();
-            Team team = Tournament.activeTournament.getTeam(teamIndex);
+            Team team = Tournament.getActiveTournament().getTeam(teamIndex);
             if (mode.equals("BROWSE")) {
                 BrowsePlayersWindow browsePlayersWindow = new BrowsePlayersWindow(contentPane, CardLayoutWindow.cardLayoutWindow, team,"BROWSE");
                 contentPane.add(browsePlayersWindow, "MKE_BROWSE_PLAYERS");
