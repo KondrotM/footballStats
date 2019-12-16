@@ -12,15 +12,58 @@ import java.util.Arrays;
 public class PlayGameWindow extends MyWindow {
 
 
-    private JLabel timeLabel;
+    private JLabel timeLabel = new JLabel("00:00");
 
     private JFrame frame;
 
     private Game game;
 
-    ActionListener changeTime = new ActionListener() {
+    private void playEntry(){
+        String s;
+        if (timeline.size()!=0) {
+            if (timeline.get(0).getTime().equals(game.getGameTimer().getWatchTime())) {
+                System.out.println(timeline.get(0).getTime());
+                System.out.println(timeline.get(0).getAction());
+                if (timeline.get(0).getAction().equals("SCR_GOAL")) {
+                    if (timeline.get(0).getData()[0].equals("0")) {
+                        staticHomeGoals++;
+                    } else {
+                        staticAwayGoals++;
+                    }
+                    scoreLabel.setText(staticHomeGoals + " -- " + staticAwayGoals);
+                    s = " (SYS): ";
+                } else if (timeline.get(0).getAction().equals("CGE_POSSESSION")) {
+                    String s1;
+                    if (timeline.get(0).getData()[0].equals("true")) {
+                        s1 = ("POSSESSION: " + homeTeam.getName());
+                    } else {
+                        s1 = ("POSSESSION: " + awayTeam.getName());
+                    }
+                    possessionLabel.setText(s1);
+                    s = " (SYS): ";
+                } else if (timeline.get(0).getAction().equals("COMMENT")) {
+                    s = " (USR): ";
+
+
+                } else { // timeline.get(0).getAction().equals("END_GAME")
+                    s = " (SYS): ";
+                    timer.stop();
+                    frame.dispose();
+
+                }
+                textArea.append("(" + game.getGameTimer().getWatchTime() + ")" + s + timeline.get(0).getOutput() + "\n");
+                timeline.remove(0);
+                playEntry();
+            }
+        }
+    }
+
+    private ActionListener changeTime = new ActionListener() {
         public void actionPerformed(ActionEvent env) {
             timeLabel.setText(game.getGameTimer().getWatchTime());
+            if (mode.equals("PLAYBACK")){
+                playEntry();
+            }
             if( game.getGameTimer().getStopWatchTime() > 5400 ){
                 finishGame();
             }
@@ -44,46 +87,112 @@ public class PlayGameWindow extends MyWindow {
         frame.dispose();
     }
 
+
+    private int staticHomeGoals = 0;
+    private int staticAwayGoals = 0;
     private JLabel possessionLabel;
     private JList homePlayersList;
     private JList awayPlayersList;
     private DefaultListModel homeModel;
     private DefaultListModel awayModel;
     private Point lastLocation = null;
+    private JScrollPane scrollTextArea;
+    private JTextField textField;
     private Team homeTeam = new Team("Hull");
     private Team awayTeam = new Team("Chelsea");
+    private JTextArea textArea;
+    private String mode;
+    private StaticGame staticGame = null;
+    private ArrayList<Entry> timeline;
+    private Timer timer;
 
-
-    public PlayGameWindow(JPanel panel, CardLayoutWindow clw, Team homeTeamTemp, Team awayTeamTemp, Game tempGame) {
+    public PlayGameWindow(JPanel panel, CardLayoutWindow clw, Team homeTeamTemp, Team awayTeamTemp, Game tempGame, String tempMode) {
         super(panel, clw);
         homeTeam = homeTeamTemp;
         awayTeam = awayTeamTemp;
         homeModel = homeTeam.getTeamActivePlayersModel();
         awayModel = awayTeam.getTeamActivePlayersModel();
         game = tempGame;
+        mode = tempMode;
+    }
+
+    public PlayGameWindow(JPanel panel, CardLayoutWindow clw, StaticGame tempStaticGame, String tempMode){
+        super(panel,clw);
+        staticGame = tempStaticGame;
+        homeTeam = staticGame.getHomeTeamObject();
+        awayTeam = staticGame.getAwayTeamObject();
+        game = new Game(homeTeam,awayTeam);
+        homeModel = new DefaultListModel();
+        awayModel = new DefaultListModel();
+        mode = tempMode;
+        timeline = (ArrayList<Entry>) staticGame.getTimeline().clone();
     }
 
     public void displayGameWindow(){
 
-        new Timer(1000,changeTime).start();
+        timer = new Timer(1000,changeTime);
+        timer.start();
 
+        JComponent endGameButton;
+        JComponent scoreButtonAway;
+        JComponent scoreButtonHome;
+        JComponent possessionButton;
+        JButton submitButton;
 
+        if (mode.equals("RECORD")) {
+            Player currPlayer;
+            for (int i = 0; i < homeTeam.getActivePlayers().size(); i++) {
+                currPlayer = homeTeam.getActivePlayer(i);
+                homeModel.add(homeModel.size(), currPlayer.getName());
+            }
+            for (int i = 0; i < awayTeam.getActivePlayers().size(); i++) {
+                currPlayer = awayTeam.getActivePlayer(i);
+                awayModel.add(awayModel.size(), currPlayer.getName());
+            }
 
-        Player currPlayer;
-        for(int i = 0; i < homeTeam.getActivePlayers().size(); i++){
-            currPlayer = homeTeam.getActivePlayer(i);
-            homeModel.add(homeModel.size(),currPlayer.getName());
+            homeModel.add(0, "N/A");
+            awayModel.add(0, "N/A");
+
+            homePlayersList = new JList(homeTeam.teamActivePlayersModel);
+            awayPlayersList = new JList(awayTeam.teamActivePlayersModel);
+
+            textField = new JTextField();
+
+            submitButton = new JButton("Submit");
+            submitButton.setActionCommand("ACT_SUBMIT");
+            submitButton.addActionListener(this);
+
+            possessionButton = factoryButtonPane("Change Possession","ACT_CHANGE_POSSESSION");
+            scoreButtonHome = factoryButtonPane("Goal","SCR_GOAL_HOME");
+            scoreButtonAway = factoryButtonPane("Goal","SCR_GOAL_AWAY");
+            endGameButton = factoryButtonPane("End Game","ACT_END_GAME");
+
+        } else { // if mode.equals("PLAYBACK") {
+            String[] currPlayer;
+            for (int i = 0; i < staticGame.getHomePlayerData().size(); i++){
+                currPlayer = staticGame.getHomePlayerData().get(i);
+                homeModel.add(homeModel.size(),currPlayer[0]);
+            }
+            for (int i = 0; i < staticGame.getAwayPlayerData().size(); i++){
+                currPlayer = staticGame.getAwayPlayerData().get(i);
+                awayModel.add(awayModel.size(),currPlayer[0]);
+            }
+
+            homeModel.add(0, "N/A");
+            awayModel.add(0, "N/A");
+
+            homePlayersList = new JList(homeModel);
+            awayPlayersList = new JList(awayModel);
+
+            textField = new JTextField();
+
+            submitButton = new JButton("Submit");
+
+            possessionButton = factoryButtonPane("Change Possession","..");
+            scoreButtonHome = factoryButtonPane("Goal","..");
+            scoreButtonAway = factoryButtonPane("Goal","..");
+            endGameButton = factoryButtonPane("End Game","ACT_END_STATIC_GAME");
         }
-        for(int i = 0; i < awayTeam.getActivePlayers().size(); i++){
-            currPlayer = awayTeam.getActivePlayer(i);
-            awayModel.add(awayModel.size(),currPlayer.getName());
-        }
-        homeModel.add(0,"N/A");
-        awayModel.add(0,"N/A");
-
-
-        homePlayersList = new JList(homeTeam.teamActivePlayersModel);
-        awayPlayersList = new JList(awayTeam.teamActivePlayersModel);
 
         JComponent homeTeamScrollList = factoryList(homePlayersList);
         JComponent awayTeamScrollList = factoryList(awayPlayersList);
@@ -109,14 +218,17 @@ public class PlayGameWindow extends MyWindow {
 
         scoreLabel = new JLabel(homeTeam.getGoals() + " - " + awayTeam.getGoals());
 
-        timeLabel = new JLabel("00:00");
-
         possessionLabel = new JLabel("Possession: "+homeTeam.getName());
 
-        JComponent possessionButton = factoryButtonPane("Change Possession","ACT_CHANGE_POSSESSION");
-        JComponent scoreButtonHome = factoryButtonPane("Goal","SCR_GOAL_HOME");
-        JComponent scoreButtonAway = factoryButtonPane("Goal","SCR_GOAL_AWAY");
-        JComponent endGameButton = factoryButtonPane("End Game","ACT_END_GAME");
+        textArea = new JTextArea();
+        // makes user unable to edit area
+        textArea.setEditable(false);
+        // makes text wrap around instead of going in an infinite line
+        textArea.setLineWrap(true);
+        scrollTextArea = new JScrollPane(textArea);
+        scrollTextArea.setPreferredSize(new Dimension(100,100));
+
+
 
         JPanel panel = new JPanel();
         panel.setLayout(new GridBagLayout());
@@ -165,8 +277,18 @@ public class PlayGameWindow extends MyWindow {
 
         panel.add(endGameButton,gbc);
 
-        gbc.gridy++;
-        panel.add(errorMsg,gbc);
+        gbc.insets = new Insets(0,0,0,0);
+
+        gbc.gridy++; gbc.gridx = 0;
+        gbc.gridwidth=3;
+        gbc.fill = GridBagConstraints.BOTH;
+        panel.add(scrollTextArea,gbc);
+
+        gbc.gridy++; gbc.gridwidth = 1;
+        panel.add(submitButton,gbc);
+
+        gbc.gridx++; gbc.gridwidth = 2;
+        panel.add(textField,gbc);
 
         frame.add(panel);
 
@@ -183,52 +305,74 @@ public class PlayGameWindow extends MyWindow {
     public void actionPerformed(ActionEvent e) {
         String command = e.getActionCommand();
         if (command.contains("SCR_GOAL")) {
+            boolean isPlayer = false;
+            String s;
             try {
-                Player currPlayer;
+                Player currPlayer = null;
                 if (command.contains("HOME")) {
                     // checks if no player was selected
                     if (homePlayersList.getSelectedIndex() == 0) {
+                        s = homeTeam.getName() + " HAS SCORED A GOAL!";
                         // scores goal and updates timeline and text
                         homeTeam.scoreGoal();
                         game.getTimeLine().writeGoal(game.getGameTimer().getWatchTime(),0,-1);
-                        scoreLabel.setText(homeTeam.getGoals() + " - " + awayTeam.getGoals());
-                        // clears potential error messages
-                        errorMsg.setText("");
-                        return;
+                    } else {
+                        isPlayer = true;
+                        s = homePlayersList.getSelectedValue().toString() + " HAS SCORED A GOAL";
+                        game.getTimeLine().writeGoal(game.getGameTimer().getWatchTime(),0,homePlayersList.getSelectedIndex() - 1);
+                        currPlayer = homeTeam.getActivePlayer(homePlayersList.getSelectedIndex() - 1);
                     }
                     // logs action to timeline
-                    game.getTimeLine().writeGoal(game.getGameTimer().getWatchTime(),0,homePlayersList.getSelectedIndex() - 1);
                     // sets who the current player is for later in the code
-                    currPlayer = homeTeam.getActivePlayer(homePlayersList.getSelectedIndex() - 1);
                 } else { // if (command.contains("AWAY")){
                     if (awayPlayersList.getSelectedIndex() == 0) {
+                        s = awayTeam.getName() + " HAS SCORED A GOAL!";
                         awayTeam.scoreGoal();
                         game.getTimeLine().writeGoal(game.getGameTimer().getWatchTime(),1,-1);
-                        scoreLabel.setText(homeTeam.getGoals() + " - " + awayTeam.getGoals());
                         errorMsg.setText("");
-                        return;
+                    } else {
+                        isPlayer = true;
+                        s = awayPlayersList.getSelectedValue().toString() + " HAS SCORED A GOAL";
+                        game.getTimeLine().writeGoal(game.getGameTimer().getWatchTime(),1,awayPlayersList.getSelectedIndex() - 1);
+                        currPlayer = awayTeam.getActivePlayer(awayPlayersList.getSelectedIndex() - 1);
                     }
-                    game.getTimeLine().writeGoal(game.getGameTimer().getWatchTime(),1,awayPlayersList.getSelectedIndex() - 1);
-                    currPlayer = awayTeam.getActivePlayer(awayPlayersList.getSelectedIndex() - 1);
                 }
-                currPlayer.scoreGoal();
+                if (isPlayer){
+                    currPlayer.scoreGoal();
+                }
                 scoreLabel.setText(homeTeam.getGoals() + " - " + awayTeam.getGoals());
-                game.getTimeLine().printTimeline();
+                textArea.append("(" + game.getGameTimer().getWatchTime() + ")" + " (SYS): " + s+"\n");
+                // clears potential error messages
                 errorMsg.setText("");
             } catch (NullPointerException ex) {
                 errorMsg.setText("Select player");
             }
-        } if( command.contains("ACT_END_GAME") ){
+        }
+        if( command.contains("ACT_END_GAME") ){
             finishGame();
-        } if (command.equals("ACT_CHANGE_POSSESSION")){
+        }
+        if (command.equals("ACT_CHANGE_POSSESSION")){
             game.changePossession();
             game.getTimeLine().writePossession(game.getGameTimer().getWatchTime(),game.getPossession());
+            String s;
             if (game.getPossession()) {
-                possessionLabel.setText("POSSESSION: " + homeTeam.getName());
+                s = ("POSSESSION: " + homeTeam.getName());
             } else {
-                possessionLabel.setText("POSSESSION: " + awayTeam.getName());
+                s = ("POSSESSION: " + awayTeam.getName());
             }
+            possessionLabel.setText(s);
+            textArea.append("(" + game.getGameTimer().getWatchTime() + ")" + " (SYS): " + s+"\n");
         }
+        if (command.equals("ACT_SUBMIT")){
+            game.getTimeLine().writeComment(game.getGameTimer().getWatchTime(),textField.getText());
+            textArea.append("(" + game.getGameTimer().getWatchTime() + ")" + " (USR): " + textField.getText().toUpperCase()+"\n");
+            textField.setText("");
+        } if (command.equals("ACT_END_STATIC_GAME")){
+            frame.dispose();
+        }
+        textArea.validate();
+        JScrollBar vertical = scrollTextArea.getVerticalScrollBar();
+        vertical.setValue( vertical.getMaximum() );
     }
 
 //    public static void main(String[] args) {

@@ -17,7 +17,7 @@ public class Game extends csv {
     private Team awayTeam;
     private DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 
-    private GameTimer gt = new GameTimer();
+    private GameTimer gt;
 
     private String gameDate;
 
@@ -39,6 +39,7 @@ public class Game extends csv {
         homeTeam = tempHomeTeam;
         awayTeam = tempAwayTeam;
         possession = true;
+        gt = new GameTimer();
 
         // initialises a new timeline and passes this game as a parameter
         timeLine = new Timeline(this);

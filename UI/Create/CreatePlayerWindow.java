@@ -70,7 +70,7 @@ public class CreatePlayerWindow extends MyWindow implements ActionListener {
         } else if (command.equals("ACT_CREATE_TEAM")){
             if(!textFieldPlayerName.getText().equals("")) {
                 System.out.println(textFieldPlayerName.getText());
-                Player player = new Player(textFieldPlayerName.getText(),"",currTeam);
+                Player player = new Player(textFieldPlayerName.getText().toUpperCase(),"",currTeam);
                 player.addToTeam();
                 textFieldPlayerName.setText(null);
 //                System.out.println(Tournament.activeTournament.getTournamentName());

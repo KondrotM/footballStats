@@ -16,6 +16,7 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class Tournament extends csv {
@@ -239,6 +240,12 @@ public class Tournament extends csv {
         }
     }
 
+    public int getTeamIndex(Team team){
+        ArrayList<Team> teamsList = Tournament.activeTournament.getTournamentTeams();
+        int index = teamsList.indexOf(team);
+        return index;
+    }
+
     public static void importTournament(File file){
         try {
             DocumentBuilderFactory documentFactory = DocumentBuilderFactory.newInstance();
@@ -296,9 +303,33 @@ public class Tournament extends csv {
                 String gameTime = gameElement.getElementsByTagName("time").item(0).getTextContent();
                 float gamePossession = Float.parseFloat(gameElement.getElementsByTagName("possession").item(0).getTextContent());
 
+
+                Element timeLineElement = (Element) gameElement.getElementsByTagName("timeline").item(0);
+
+                NodeList entryNodeList = timeLineElement.getElementsByTagName("entry");
+
+                ArrayList<Entry> timeline = new ArrayList<Entry>();
+
+                for(int j = 0; j < entryNodeList.getLength(); j++){
+                    Element entryElement = (Element) entryNodeList.item(j);
+
+                    String entryTime = entryElement.getElementsByTagName("time").item(0).getTextContent();
+                    String entryAction = entryElement.getElementsByTagName("action").item(0).getTextContent();
+                    String entryOutput = entryElement.getElementsByTagName("output").item(0).getTextContent();
+                    String[] entryData = new String[]{
+                            entryElement.getElementsByTagName("data").item(0).getTextContent(),"0"
+                    };
+
+
+                    Entry entry = new Entry(entryTime,entryAction,entryData,entryOutput);
+
+                    timeline.add(entry);
+                }
+
                 Element homeTeamElement = (Element) gameElement.getElementsByTagName("hometeam").item(0);
 
                 String homeTeamName = homeTeamElement.getElementsByTagName("name").item(0).getTextContent();
+                int homeTeamIndex = Integer.parseInt(homeTeamElement.getAttribute("id"));
                 int homeTeamGoals = Integer.parseInt(homeTeamElement.getElementsByTagName("goals").item(0).getTextContent());
 
                 Element homeTeamPlayersElement = (Element) gameElement.getElementsByTagName("players").item(0);
@@ -322,8 +353,10 @@ public class Tournament extends csv {
 
                 Element awayTeamElement = (Element) gameElement.getElementsByTagName("awayteam").item(0);
 
+                int awayTeamIndex = Integer.parseInt(awayTeamElement.getAttribute("id"));
                 String awayTeamName = awayTeamElement.getElementsByTagName("name").item(0).getTextContent();
                 int awayTeamGoals = Integer.parseInt(awayTeamElement.getElementsByTagName("goals").item(0).getTextContent());
+
 
                 Element awayTeamPlayersElement = (Element) awayTeamElement.getElementsByTagName("players").item(0);
                 NodeList awayTeamPlayersNodeList = awayTeamPlayersElement.getElementsByTagName("player");
@@ -341,7 +374,8 @@ public class Tournament extends csv {
                     awayPlayerData.add(playerData);
                 }
 
-                StaticGame game = new StaticGame(homeTeamName,awayTeamName,homeTeamGoals,awayTeamGoals,gameDate,gameTime,homePlayerData,awayPlayerData,gamePossession);
+                StaticGame game = new StaticGame(homeTeamName,awayTeamName,homeTeamGoals,awayTeamGoals,gameDate,
+                        gameTime,homePlayerData,awayPlayerData,gamePossession,homeTeamIndex,awayTeamIndex,timeline);
 
                 tournament.addGame(game);
 
@@ -484,6 +518,7 @@ public class Tournament extends csv {
                 game.appendChild(gamePossession);
 
                 Element homeTeam = document.createElement("hometeam");
+                homeTeam.setAttribute("id",Integer.toString(tournament.getTeamIndex(currGame.getHomeTeamObject())));
                 game.appendChild(homeTeam);
 
                 Element homeTeamName = document.createElement("name");
@@ -491,7 +526,9 @@ public class Tournament extends csv {
                 homeTeam.appendChild(homeTeamName);
 
                 Element awayTeam = document.createElement("awayteam");
+                awayTeam.setAttribute("id",Integer.toString(tournament.getTeamIndex(currGame.getAwayTeamObject())));
                 game.appendChild(awayTeam);
+
 
                 Element awayTeamName = document.createElement("name");
                 awayTeamName.appendChild(document.createTextNode(currGame.getAwayTeam()));
@@ -510,6 +547,41 @@ public class Tournament extends csv {
 
                 Element awayTeamPlayers = document.createElement("players");
                 awayTeam.appendChild(awayTeamPlayers);
+
+                Element timeline = document.createElement("timeline");
+                game.appendChild(timeline);
+
+                int entryID = 0;
+                for (Entry arrayEntry : currGame.getTimeline()) {
+                    Element entry = document.createElement("entry");
+                    entry.setAttribute("id",Integer.toString(entryID));
+                    timeline.appendChild(entry);
+
+                    Element entryTime = document.createElement("time");
+                    entryTime.appendChild(document.createTextNode(arrayEntry.getTime()));
+                    entry.appendChild(entryTime);
+
+                    Element entryAction = document.createElement("action");
+                    entryAction.appendChild(document.createTextNode(arrayEntry.getAction()));
+                    entry.appendChild(entryAction);
+
+                    if(arrayEntry.getData().equals("SCR_GOAL")){
+                        String[] data = arrayEntry.getData();
+
+                        Element entryData = document.createElement("data");
+                        entryData.appendChild(document.createTextNode(data[0]+data[1]));
+                        entry.appendChild(entryData);
+                    } else {
+                        Element entryData = document.createElement("data");
+                        entryData.appendChild(document.createTextNode(arrayEntry.getData()[0]));
+                        entry.appendChild(entryData);
+                    }
+                    Element entryOutput = document.createElement("output");
+                    entryOutput.appendChild(document.createTextNode(arrayEntry.getOutput()));
+                    entry.appendChild(entryOutput);
+
+                    entryID++;
+                }
 
 
                 int playerID = 0;
@@ -548,7 +620,7 @@ public class Tournament extends csv {
                 }
 
 
-
+                gameID++;
             }
 
 

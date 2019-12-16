@@ -4,6 +4,7 @@ import uk.ac.glos.ct5025.s1804317.footballStats.StaticGame;
 import uk.ac.glos.ct5025.s1804317.footballStats.Tournament;
 import uk.ac.glos.ct5025.s1804317.footballStats.UI.CardLayoutWindow;
 import uk.ac.glos.ct5025.s1804317.footballStats.UI.MyWindow;
+import uk.ac.glos.ct5025.s1804317.footballStats.UI.PlayGameWindow;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -34,6 +35,7 @@ public class BrowseGamesWindow extends MyWindow implements ActionListener, ListS
 
         JComponent buttonBack = factoryButtonPane("..", "NAV_BACK");
         JComponent buttonSelectGame = factoryButtonPane("Select", "ACT_SELECT_GAME");
+        JComponent buttonPlayGame = factoryButtonPane("PLAY GAME","MKE_PLAY_GAME");
 
         // Creates GridBagLayout panel
         JPanel panel = new JPanel();
@@ -58,6 +60,9 @@ public class BrowseGamesWindow extends MyWindow implements ActionListener, ListS
         gbc.gridy++;
         panel.add(buttonSelectGame, gbc);
 
+        gbc.gridy++;
+        panel.add(buttonPlayGame,gbc);
+
         return panel;
     }
 
@@ -70,15 +75,16 @@ public class BrowseGamesWindow extends MyWindow implements ActionListener, ListS
     public void actionPerformed(ActionEvent e) {
         String command = e.getActionCommand();
         CardLayout cardLayout = (CardLayout) contentPane.getLayout();
-
-
         if (command.equals("NAV_BACK")) {
             contentPane.remove(contentPane.getComponents().length-1);
             cardLayout.show(contentPane, "NAV_BROWSE");
         } else if (command.equals("ACT_SELECT_GAME")) {
             StaticGame game = Tournament.activeTournament.getGame(gamesList.getSelectedIndex());
             displayGameFrame(game);
-
+        } else if (command.equals("MKE_PLAY_GAME")){
+            StaticGame game = Tournament.activeTournament.getGame(gamesList.getSelectedIndex());
+            PlayGameWindow playGameWindow = new PlayGameWindow(contentPane,CardLayoutWindow.cardLayoutWindow,game,"PLAYBACK");
+            playGameWindow.displayGameWindow();
         }
     }
 }

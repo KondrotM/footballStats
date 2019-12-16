@@ -133,7 +133,7 @@ public class BrowsePlayersWindow extends MyWindow implements ActionListener, Lis
                 }
                 Game game = new Game(BrowsePlayersWindow.getHomeTeam(),currTeam);
                 game.initialiseGame();
-                PlayGameWindow playGameWindow = new PlayGameWindow(contentPane,CardLayoutWindow.cardLayoutWindow,BrowsePlayersWindow.getHomeTeam(),currTeam,game);
+                PlayGameWindow playGameWindow = new PlayGameWindow(contentPane,CardLayoutWindow.cardLayoutWindow,BrowsePlayersWindow.getHomeTeam(),currTeam,game,"RECORD");
                 playGameWindow.displayGameWindow();
                 contentPane.remove(contentPane.getComponents().length-1);
                 cardLayout.show(contentPane,"NAV_MAIN");

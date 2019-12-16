@@ -15,8 +15,14 @@ public class StaticGame {
     private float possession;
     private ArrayList<Entry> timeline;
 
+    private Team homeTeamObject;
+    private Team awayTeamObject;
 
     public StaticGame(Game game){
+
+        homeTeamObject = game.getHomeTeam();
+        awayTeamObject = game.getAwayTeam();
+
         homeTeam = game.getHomeTeam().getName();
         awayTeam = game.getAwayTeam().getName();
         homeTeamGoals = game.getHomeTeam().getGoals();
@@ -34,12 +40,29 @@ public class StaticGame {
             awayPlayerData.add(playerTuple);
         }
         possession = game.getTimeLine().getPossession();
-//        timeline = game.getTimeLine().getTimeline();
+        timeline = game.getTimeLine().getTimeline();
     }
 
-    public StaticGame(String tempHomeTeam, String tempAwayTeam, int tempHomeTeamGoals, int tempAwayTeamGoals, String tempGameDate, String tempGameTime, ArrayList<String[]> tempHomePlayerData, ArrayList<String[]> tempAwayPlayerData, float tempPossession){
+    public ArrayList<Entry> getTimeline(){
+        return timeline;
+    }
+
+    public Team getHomeTeamObject(){
+        return homeTeamObject;
+    }
+
+    public Team getAwayTeamObject(){
+        return awayTeamObject;
+    }
+
+    public StaticGame(String tempHomeTeam, String tempAwayTeam, int tempHomeTeamGoals, int tempAwayTeamGoals,
+                      String tempGameDate, String tempGameTime, ArrayList<String[]> tempHomePlayerData,
+                      ArrayList<String[]> tempAwayPlayerData, float tempPossession, int tempHomeTeamIndex,
+                      int tempAwayTeamIndex, ArrayList<Entry> tempTimeline){
         homeTeam = tempHomeTeam;
         awayTeam = tempAwayTeam;
+        homeTeamObject = Tournament.activeTournament.getTournamentTeams().get(tempHomeTeamIndex);
+        awayTeamObject = Tournament.activeTournament.getTournamentTeams().get(tempAwayTeamIndex);
         homeTeamGoals = tempHomeTeamGoals;
         awayTeamGoals = tempAwayTeamGoals;
         gameDate = tempGameDate;
@@ -47,6 +70,9 @@ public class StaticGame {
         homePlayerData = tempHomePlayerData;
         awayPlayerData =  tempAwayPlayerData;
         possession = tempPossession;
+        timeline = tempTimeline;
+
+//        homeTeamIndex =
     }
 
 

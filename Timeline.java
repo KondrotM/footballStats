@@ -1,5 +1,6 @@
 package uk.ac.glos.ct5025.s1804317.footballStats;
 
+
 import java.util.ArrayList;
 
 public class Timeline {
@@ -21,6 +22,14 @@ public class Timeline {
     /// TIMELINE
     // time/action/data/output
     // 00:20/SCR_GOAL/int[]{0,5}/homeTeam.getActivePlayer[5].getName() scored a goal!
+
+    public void writeComment(String time, String comment){
+        String output = comment.toUpperCase();
+        String action = "COMMENT";
+        Entry entry = new Entry(time,action,new String[]{""},output);
+        timeline.add(entry);
+    }
+
 
     public void writeGoal(String time, int teamNo, int playerNo){
         int[] data = new int[]{teamNo,playerNo};
@@ -48,7 +57,11 @@ public class Timeline {
             output = "INCORRECT TIMELINE PARSE";
         }
 
-        Entry entry = new Entry(time,action,data,output);
+        Integer.toString(data[0]);
+
+        String[] sData = new String[]{Integer.toString(data[0]),Integer.toString(data[1])};
+
+        Entry entry = new Entry(time,action,sData,output);
 
         timeline.add(entry);
     }
@@ -62,7 +75,9 @@ public class Timeline {
             output = game.getAwayTeam().getName() + " HAS POSSESSION";
         }
 
-        Entry entry = new Entry(time,action,possession,output);
+        String[] strPossession = new String[]{Boolean.toString(possession)};
+
+        Entry entry = new Entry(time,action,strPossession,output);
 
         timeline.add(entry);
     }
@@ -78,7 +93,7 @@ public class Timeline {
         String action = "END_GAME";
         String output = "GAME OVER";
 
-        Entry entry = new Entry(time,action,possession,output);
+        Entry entry = new Entry(time,action,new String[]{Boolean.toString(possession)},output);
 
         timeline.add(entry);
     }
@@ -93,7 +108,7 @@ public class Timeline {
         for (int i = 0; i < timeline.size(); i++) {
             Entry entry = timeline.get(i);
             if (entry.getAction().equals("CGE_POSSESSION")){
-                if(!(Boolean) entry.getData()){
+                if(!Boolean.valueOf(entry.getData()[0])){
                     // calculates time the home team has had the ball based from
                     // the current time and last time the enemy team had possession
                     currTime = getTimeFromTimer(entry.getTime());
@@ -106,10 +121,10 @@ public class Timeline {
                     lastPossession = true;
                 }
             } if(entry.getAction().equals("END_GAME")) {
-                if(!(Boolean) entry.getData()){
+                if(!Boolean.valueOf(entry.getData()[0])){
                     // calculates time the home team has had the ball based from
                     // the current time and last time the enemy team had possession
-                    
+
                     homeTeamTimePossession += getTimeFromTimer(entry.getTime()) - currTime;
                 } else {
                     // saves the last time the away team had the ball

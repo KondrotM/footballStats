@@ -4,17 +4,32 @@ public class Entry {
 
     private String time;
     private String action;
-    private Object data;
+    private String[] data;
     private String output;
 
 
-    public Entry(String time, String action, Object data, String output) {
+    public Entry(String time, String action, String[] data, String output) {
         this.time = time;
         this.action = action;
         this.data = data;
         this.output = output;
     }
 
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public void setAction(String action) {
+        this.action = action;
+    }
+
+    public void setData(String[] data) {
+        this.data = data;
+    }
+
+    public void setOutput(String output) {
+        this.output = output;
+    }
 
     public String getTime() {
         return time;
@@ -24,7 +39,7 @@ public class Entry {
         return action;
     }
 
-    public Object getData() {
+    public String[] getData() {
         return data;
     }
 
