@@ -19,7 +19,7 @@ import java.util.ArrayList;
 public class Tournament {
 
     // list of tournaments declared and initialised. all tournaments, teams and players are declared in regards to the tournament list
-    private static ArrayList<Tournament> tournamentList = new ArrayList<Tournament>();
+    private final static ArrayList<Tournament> tournamentList = new ArrayList<Tournament>();
 
     // actively selected tournament
     private static Tournament activeTournament;
@@ -30,7 +30,7 @@ public class Tournament {
     // saves all games within tournament
     private ArrayList<StaticGame> tournamentGameList;
     // xml file path
-    private static String xmlFilePath = "./src/main/java/uk/ac/glos/ct5025/s1804317/footballStats/Tournaments/";
+    private final static String xmlFilePath = "./src/main/java/uk/ac/glos/ct5025/s1804317/footballStats/Tournaments/";
 
     // displays teams within tournament
     private DefaultListModel tournamentTeamsModel = new DefaultListModel();
@@ -51,7 +51,7 @@ public class Tournament {
         return activeTournament;
     }
 
-    public ArrayList<StaticGame> getTournamentGameList(){
+    private ArrayList<StaticGame> getTournamentGameList(){
         return tournamentGameList;
     }
 
@@ -91,7 +91,7 @@ public class Tournament {
     }
 
     // gets team index in regards to the teamList
-    public int getTeamIndex(Team team){
+    private int getTeamIndex(Team team){
         ArrayList<Team> teamsList = tournamentTeams;
         int index = teamsList.indexOf(team);
         return index;
@@ -109,11 +109,11 @@ public class Tournament {
         // adds game to tournament
         tournamentGameList.add(game);
         // adds game to display
-        tournamentGamesModel.add(tournamentGamesModel.getSize(), game.getTitle());
+        tournamentGamesModel.add(tournamentGamesModel.size(), game.getTitle());
     }
 
     // creates new tournament and appends it to tournament list
-    public static Tournament factoryTournament(String tournamentName){
+    public static void createTournament(String tournamentName){
         Tournament tournament = null;
         // checks if name is not empty
         if (tournamentName != ""){
@@ -122,10 +122,9 @@ public class Tournament {
             // appends
             addTournament(tournament);
         }
-        return tournament;
     }
 
-    public static void addTournament(Tournament tournament){
+    private static void addTournament(Tournament tournament){
         // gets tournament list model and appends new tournament to it
         DefaultListModel model = SelectTournamentWindow.getTournamentModel();
         model.add(model.getSize(), tournament.getTournamentName());

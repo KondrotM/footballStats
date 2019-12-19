@@ -3,17 +3,21 @@ package uk.ac.glos.ct5025.s1804317.footballStats;
 import java.util.ArrayList;
 
 // Item is used to extend team and player classes
-public class Item {
+public abstract class Item {
     private String name;
 
-    // protected so as they can be used with children classes
-    protected int goalsFor;
-    protected int gamesWon;
-    protected int gamesDrawn;
-    protected int gamesLost;
+    // item stats
+    private int goalsFor;
+    private int gamesWon;
+    private int gamesDrawn;
+    private int gamesLost;
     // goals refers to goals local to a game while goalsFor carries over for the whole tournament
-    protected int goals;
+    private int goals;
 
+    /**
+     * Item created for appending goals to
+     * @param tempName
+     */
 
     public Item(String tempName) {
         name = tempName;
@@ -23,6 +27,30 @@ public class Item {
         gamesLost = 0;
     }
 
+    /**
+     * Gets games played
+     * @return games played
+     */
+
+    public void incrementGoalsFor(){
+        goalsFor++;
+    }
+
+    public void incrementGamesWon(){
+        gamesWon++;
+    }
+
+    public void incrementGamesLost(){
+        gamesWon++;
+    }
+
+    public void incrementGamesDrawn(){
+        gamesWon++;
+    }
+
+    public void incrementGoals(){
+        goals++;
+    }
 
     public int getGamesPlayed(){
         // sums all games played
@@ -94,7 +122,7 @@ public class Item {
     }
 
     // clears local goals
-    public void init(){
+    void init(){
         goals = 0;
     }
 

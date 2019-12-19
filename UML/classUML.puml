@@ -1,93 +1,165 @@
 @startuml
 
+
+
 class Game {
 - Team homeTeam
 - Team awayTeam
+- DateFormat dateFormat
 - String gameDate
 - boolean possession
-- DateFormat dateFormat
 - GameTimer gt
-
+- Timeline timeline
 --
-+ {static} void getGame()
-- Game startGame()
-- void getGameMenu()
-- void choosePlayer(Team)
-- void writeGame()
++ GameTimer getGameTimer()
++ TimeLine getTimeLine()
++ Team getHomeTeam()
++ Team getAwayTeam()
++ String getGameDate()
++ boolean getPossession()
++ void changePossession()
++ void finishGame()
++ void initialiseGame()
+}
+
+class Entry {
+    - String time
+    - String action
+    - String[] data
+    - String output
+    --
+    + String getTime()
+    + String getAction()
+    + String[] getData()
+    + String getOutput()
 }
 
 class Item {
-- int goals
 - String name
+# int goalsFor
+# int gamesWon
+# int gamesDrawn
+# int gamesLost
+# int goals;
 --
++ int getGamesPlayed()
++ void setGoals(int)
++ void setGoalsFor(int)
++ void setGamesWon(int)
++ void setGamesDrawn(int)
++ void setGamesLost(int)
 + String getName()
++ int getGoalsFor()
 + int getGoals()
-+ void ScoreGoal()
++ int getGamesWon()
++ int getGamesDrawn()
++ int getGamesLost()
++ void gameWon()
++ void gameLost()
++ void gameDrawn()
++ void scoreGoal()
+ void init()
 }
-class main {
-+ {static} String getInput(String)
-+ {static} void getMainMenu()
-+ {static} void main()
-}
+
 class Player {
 - String playerDoB
+- Team playerTeam
 --
 + String getPlayerDoB()
-+ {static} void createPlayer()
++ void addToTeam()
++ void scoreGoal()
 }
+class StaticGame {
+    - String homeTeam
+    - String awayTeam
+    - int homeTeamGoals
+    - int awayTeamGoals
+    - String gameDate
+    - String gameTime
+    - ArrayList<String[]> homePlayerData
+    - ArrayList<String[]> awayPlayerData
+    - float possession
+    - ArrayList<Entry> timeline
+    - Team homeTeamObject
+    - Team awayTeamObject
+    --
+    + ArrayList<Entry> getTimeLine()
+    + Team getHomeTeamObject()
+    + Team getAwayTeamObject()
+    + float getPossession()
+    + String getTitle()
+     String getHomeTeam()
+     String getAwayTeam()
+    + int getHomeTeamGoals()
+    + int getAwayTeamGoals()
+     String getGameDate()
+    + String getGameTime()
+    + ArrayList<String[]> getHomePlayerData()
+    + ArrayList<String[]> getAwayPlayerData()
+}
+
 class Team {
-- ArrayList teamPlayers
-- ArrayList activePlayers
+    - ArrayList<Player> teamPlayers
+    - ArrayList<Player> teamActivePlayers
+    - DefaultListModel teamPlayersModel
+    - DefaultListModel teamActivePlayersModel
+    - int goalsAgainst
+    - int points
+    --
+    + DefaultListModel getTeamPlayersModel()
+    + DefaultListModel getTeamActivePlayersModel()
+    + int getGoalsFor()
+    + int getGoalsAgainst()
+    + int getGoalsDifference()
+    + int getPoints()
+    + Player getPlayer(int)
+    + Player getActivePlayer(int)
+     ArrayList<Player> getTeamPlayers()
+    + ArrayList<Player> getTeamActivePlayers()
+     void setGoalsAgainst(int)
+     void SetPoints(int)
+     void UpdateGoals(int,int)
+    + void resetActivePlayers()
+    + void addActivePlayer(int)
+     void addPlayer(Player)
+}
+
+class Timeline {
+    - ArrayList<Entry> timeline
+    - Game game
 --
-+ ArrayList getTeamPlayers()
-+ ArrayList getActivePlayers()
-+ {static} void createTeam()
-+ void resetActivePlayers()
-+ void addActivePlayer()
-+ void addActivePlayers()
-+ void addPlayer()
+    + void writeComment(String, String)
+    + void writeGoal(String, int, int)
+    + void writePossession(String, boolean)
+    + void writeEndGame(String, boolean)
+    - int getTimeFromTimer(String)
+    + float getPossession()
+     ArrayList getTimeLine
 }
 
 class Tournament {
+    - {static} ArrayList<Tournament> tournamentList
+    - {static} Tournament activeTournament
+    - {static} String xmlFilePath
     - String tournamentName
-    - ArrayList tournamentTeams
-    - ArrayList tournamentGameList
-    + {static} ArrayList<Tournament> tournamentList
-    + {static} Tournament activeTournament
+    - ArrayList<Team> tournamentTeams
+    - ArrayList<StaticGame> tournamentGameList
     --
-    + void addTeam(Team)
-    + void addGame(Game)
-    - String getTournamentName()
-    + {static} void factoryTournament()
-    + {static} void selectTournament()
+    + {static} Tournament getActiveTournament()
+    + {static} void createTournament(String)
+    + {static} void selectTournament(int)
+    + {static} void importTournament(file)
+    + {static} void exportTournament(Tournament)
+    - {static} void addTournament(Tournament)
+    + ArrayList<StaticGame> getTournamentGameList()
+    + StaticGame getGame(int)
+    + String getTournamentName()
+    + DefaultListModel getTournamentGamesModel()
+    + DefaultListModel getTournamentTeamsModel()
+    + ArrayList<Team> getTournamentTeams()
     + Team getTeam(int)
-    + Team selectTeam()
-    + void viewTeams()
-    - void browseTeams()
-    - void browseGames()
+    + void addTeam(Team)
+    + void addGame(StaticGame)
 }
-
-'abstract class AbstractList
-'abstract AbstractCollection
-'interface List
-'interface Collection
-'
-'List <|-- AbstractList
-'Collection <|-- AbstractCollection
-'
-'Collection <- List
-'AbstractCollection <|- AbstractList
-'AbstractList <|-- ArrayList
-'
-'class ArrayList {
-'Object[] elementData
-'size()
-'}
-'
-'enum TimeUnit {
-'DAYS
-'HOURS
-'MINUTES
-'}
 
 @enduml

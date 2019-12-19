@@ -1,31 +1,35 @@
 @startuml
-class tournamentList {
-tournamentList: ArrayList
-}
+hide members
+hide methods
+class Game
 
-class Tournament {
-tournamentName: string
-tournamentTeams: new ArrayList
-getTournamentName(): string
-getTournamentTeams(): ArrayList
-getTeam(int): Team
-}
+class Entry
 
-class Player {
-playerForename: string
-playerDoB: string
-getPlayerName(): string
-getPlayerDoB(): string
-}
+class Item
 
-class Team {
-teamName: string
-teamPlayers: new ArrayList
-getTeamName(): string
-getTeamPlayers(): ArrayList
-addPlayer(string)
-}
+class Player
 
-Player -> Team
+class StaticGame
+
+class Team
+
+class Timeline
+
+class Tournament
+
+Tournament "1" --- "*" Team : Contains >
+Tournament "1" --- "*" StaticGame : Tracks >
+
+StaticGame "1" o.. "1" Game : Influenced by >
+Team "2" - "*" Game : Plays in >
+
+Game "1" o--o "1" Timeline : writes to >
+
+Timeline "1" -- "*" Entry : Contains >
+
+Team "1" - "*" Player : Owns >
+
+Player ---|> Item
+Team ---|> Item
 
 @enduml

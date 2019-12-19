@@ -43,13 +43,13 @@ public class Game {
         return timeLine;
     }
 
-    public Team getHomeTeam(){ return homeTeam; }
+    Team getHomeTeam(){ return homeTeam; }
 
-    public Team getAwayTeam(){
+    Team getAwayTeam(){
         return awayTeam;
     }
 
-    public String getGameDate(){
+    String getGameDate(){
         return gameDate;
     }
 

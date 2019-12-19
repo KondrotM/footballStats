@@ -15,22 +15,6 @@ public class Entry {
         this.output = output;
     }
 
-    public void setTime(String time) {
-        this.time = time;
-    }
-
-    public void setAction(String action) {
-        this.action = action;
-    }
-
-    public void setData(String[] data) {
-        this.data = data;
-    }
-
-    public void setOutput(String output) {
-        this.output = output;
-    }
-
     public String getTime() {
         return time;
     }

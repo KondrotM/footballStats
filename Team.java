@@ -15,7 +15,7 @@ public class Team extends Item {
 
     // Holds all players to show within UI
     private DefaultListModel teamPlayersModel;
-    public DefaultListModel teamActivePlayersModel;
+    private DefaultListModel teamActivePlayersModel;
 
     // goals against and points are stored separate from Item, as they are team-specific and not player
     private int goalsAgainst;
@@ -35,7 +35,7 @@ public class Team extends Item {
         // declares an Array to store active players for future games
         activePlayers = new ArrayList();
 
-        goalsFor = 0;
+        setGoalsFor(0);
         goalsAgainst = 0;
         points = 0;
     }
@@ -50,16 +50,12 @@ public class Team extends Item {
 
     // getters
 
-    public int getGoalsFor() {
-        return goalsFor;
-    }
-
     public int getGoalsAgainst() {
         return goalsAgainst;
     }
 
     public int getGoalsDifference() {
-        int goalsDifference = goalsFor - goalsAgainst;
+        int goalsDifference = getGoalsFor() - goalsAgainst;
         return goalsDifference;
     }
 
@@ -79,7 +75,7 @@ public class Team extends Item {
     }
 
     // Returns array of team player names
-    public ArrayList<Player> getTeamPlayers() {
+    ArrayList<Player> getTeamPlayers() {
         return teamPlayers;
     }
 
@@ -90,18 +86,18 @@ public class Team extends Item {
 
     // setters
 
-    public void setGoalsAgainst(int goalsAgainst) {
+    void setGoalsAgainst(int goalsAgainst) {
         this.goalsAgainst = goalsAgainst;
     }
 
-    public void setPoints(int points) {
+    void setPoints(int points) {
         this.points = points;
     }
 
 
     // Increments goals for and goals against
-    public void updateGoals(int gf, int ga){
-        goalsFor += gf;
+    void updateGoals(int gf, int ga){
+        setGoalsFor(getGoalsFor()+gf);
         goalsAgainst += ga;
     }
 
@@ -117,7 +113,7 @@ public class Team extends Item {
     }
 
     // adds player to team
-    public void addPlayer(Player player) {
+    void addPlayer(Player player) {
         teamPlayers.add(player);
         // updates teamplayersmodel
         teamPlayersModel.add(teamPlayersModel.getSize(),player.getName());
@@ -126,7 +122,7 @@ public class Team extends Item {
     // Override functions as team wins need to refer increment points also
     @Override
     public void gameWon(){
-        gamesWon++;
+        incrementGamesWon();
         points += 3;
         Player currPlayer;
         for (int i = 0; i < getActivePlayers().size(); i++){
@@ -138,7 +134,7 @@ public class Team extends Item {
 
     @Override
     public void gameDrawn(){
-        gamesDrawn++;
+        incrementGamesDrawn();
         points ++;
         Player currPlayer;
         for (int i = 0; i < getActivePlayers().size(); i++){
@@ -149,7 +145,7 @@ public class Team extends Item {
 
     @Override
     public void gameLost(){
-        gamesLost++;
+        incrementGamesLost();
         Player currPlayer;
         for (int i = 0; i < getActivePlayers().size(); i++){
             currPlayer = (Player) getActivePlayers().get(i);

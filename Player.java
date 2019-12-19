@@ -5,7 +5,6 @@ import java.util.ArrayList;
 public class Player extends Item {
 
     private String playerDoB;
-
     // shows which team player belongs to
     private Team playerTeam;
 
@@ -28,8 +27,8 @@ public class Player extends Item {
     @Override
     public void scoreGoal(){
         playerTeam.scoreGoal();
-        goals++;
-        goalsFor++;
+        incrementGoals();
+        incrementGoalsFor();
     }
 
     }

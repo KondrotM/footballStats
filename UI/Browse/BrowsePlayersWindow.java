@@ -56,6 +56,14 @@ public class BrowsePlayersWindow extends MyWindow implements ActionListener, Lis
         activePlayersList = new JList(currTeam.getTeamActivePlayersModel());
 
 
+        JButton button1 = new JButton("neat");
+        button1.setActionCommand("....");
+        button1.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+
         // Makes playerList scrollable
         JComponent playerScrollList = factoryList(playersList);
 

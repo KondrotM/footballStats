@@ -1,6 +1,5 @@
 package uk.ac.glos.ct5025.s1804317.footballStats;
 
-
 import java.util.ArrayList;
 
 public class Timeline {
@@ -88,7 +87,7 @@ public class Timeline {
     }
 
     // gets second value from string timer 00:00
-    public int getTimeFromTimer(String timer){
+    private int getTimeFromTimer(String timer){
         int minutes = Integer.parseInt(timer.substring(0,2));
         int seconds = Integer.parseInt(timer.substring(3,5));
         int time = (minutes*60)+seconds;
@@ -134,9 +133,8 @@ public class Timeline {
         return homeTeamPossession;
     }
 
-
     // returns timeline
-    public ArrayList getTimeline(){
+    ArrayList getTimeline(){
         return timeline;
     }
 

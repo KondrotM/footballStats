@@ -5,8 +5,6 @@ import org.apache.commons.lang3.time.StopWatch;
 import java.util.concurrent.TimeUnit;
 
 public class GameTimer {
-    long timeStart = System.nanoTime();
-    long timeFinish;
     StopWatch stopWatch = new StopWatch();
 
     public GameTimer(){
@@ -39,12 +37,4 @@ public class GameTimer {
 
         return outputTime;
     }
-
-    public long getTimeElapsed(){
-        timeFinish = System.nanoTime();
-        long timeElapsed = timeFinish - timeStart;
-
-        return timeElapsed;
-    }
-
 }

@@ -76,12 +76,15 @@ public class BrowseGamesWindow extends MyWindow implements ActionListener, ListS
         String command = e.getActionCommand();
         CardLayout cardLayout = (CardLayout) contentPane.getLayout();
         if (command.equals("NAV_BACK")) {
+            // removes this panel
             contentPane.remove(contentPane.getComponents().length-1);
             cardLayout.show(contentPane, "NAV_BROWSE");
         } else if (command.equals("ACT_SELECT_GAME")) {
+            // displays new JFrame with game information
             StaticGame game = Tournament.getActiveTournament().getGame(gamesList.getSelectedIndex());
             displayGameFrame(game);
         } else if (command.equals("MKE_PLAY_GAME")){
+
             StaticGame game = Tournament.getActiveTournament().getGame(gamesList.getSelectedIndex());
             PlayGameWindow playGameWindow = new PlayGameWindow(contentPane,CardLayoutWindow.cardLayoutWindow,game,"PLAYBACK");
             playGameWindow.displayGameWindow();

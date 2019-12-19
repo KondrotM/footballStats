@@ -153,8 +153,8 @@ public class PlayGameWindow extends MyWindow {
             homeModel.add(0, "N/A");
             awayModel.add(0, "N/A");
 
-            homePlayersList = new JList(homeTeam.teamActivePlayersModel);
-            awayPlayersList = new JList(awayTeam.teamActivePlayersModel);
+            homePlayersList = new JList(homeTeam.getTeamActivePlayersModel());
+            awayPlayersList = new JList(awayTeam.getTeamActivePlayersModel());
 
             textField = new JTextField();
 
