@@ -1,0 +1,24 @@
+-classpath
+'C:/Users/kondr/.m2/repository/org/apache/commons/commons-lang3/3.9/commons-lang3-3.9.jar;C:/Users/kondr/.m2/repository/junit/junit/4.12/junit-4.12.jar;C:/Users/kondr/.m2/repository/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar;C:/Users/kondr/.m2/repository/org/junit/jupiter/junit-jupiter/5.4.2/junit-jupiter-5.4.2.jar;C:/Users/kondr/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.4.2/junit-jupiter-api-5.4.2.jar;C:/Users/kondr/.m2/repository/org/apiguardian/apiguardian-api/1.0.0/apiguardian-api-1.0.0.jar;C:/Users/kondr/.m2/repository/org/opentest4j/opentest4j/1.1.1/opentest4j-1.1.1.jar;C:/Users/kondr/.m2/repository/org/junit/platform/junit-platform-commons/1.4.2/junit-platform-commons-1.4.2.jar;C:/Users/kondr/.m2/repository/org/junit/jupiter/junit-jupiter-params/5.4.2/junit-jupiter-params-5.4.2.jar'
+-encoding
+'Cp1252'
+-protected
+-sourcepath
+'C:/Users/kondr/IdeaProjects/footballstats/src/main/java'
+-author
+-bottom
+'Copyright &#169; 2019. All rights reserved.'
+-charset
+'UTF-8'
+-d
+'C:/Users/kondr/IdeaProjects/footballstats/target/apidocs'
+-docencoding
+'UTF-8'
+-doctitle
+'mavenfootballstats 1.0-SNAPSHOT API'
+-linkoffline
+'https://docs.oracle.com/javase/7/docs/api' 'C:/Users/kondr/IdeaProjects/footballstats/target/javadoc-bundle-options'
+-use
+-version
+-windowtitle
+'mavenfootballstats 1.0-SNAPSHOT API'

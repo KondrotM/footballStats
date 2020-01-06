@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","url":"allpackages-index.html"},{"l":"uk.ac.glos.ct5025.s1804317.footballStats"},{"l":"uk.ac.glos.ct5025.s1804317.footballStats.UI"},{"l":"uk.ac.glos.ct5025.s1804317.footballStats.UI.Browse"},{"l":"uk.ac.glos.ct5025.s1804317.footballStats.UI.Create"},{"l":"uk.ac.glos.ct5025.s1804317.footballStats.UI.Menu"}]
